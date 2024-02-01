@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1271108611
+  m_SortingLayerID: 150247463
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: -443866893, guid: 056a3618451d9f1499e986c3337f1b6b, type: 3}
@@ -154,7 +154,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1271108611
+  m_SortingLayerID: 150247463
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c6b9f3a4fba9b3348b16aa438d720105, type: 3}
@@ -285,7 +285,7 @@ MonoBehaviour:
   turretRotationPoint: {fileID: 1007733279384400019}
   enemyMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8
   bulletPrefab: {fileID: 4654663841031497673, guid: ae37c2e996001b949ac296aaaf280bb7, type: 3}
   firingPoint: {fileID: 1110092911039803287}
   targetingRange: 3
