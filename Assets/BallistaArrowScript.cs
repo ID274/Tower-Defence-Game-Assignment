@@ -37,7 +37,16 @@ public class BallistaArrowScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        other.gameObject.GetComponent<EnemyHealthScript>().TakeDamage(bulletDamage);
+        if (other.gameObject.layer == 3)
+        {
+            if (other.gameObject.GetComponent<EnemyHealth>().isDestroyed == false)
+            {
+                other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
+            }
+        }
+        {
+
+        }
         Debug.Log("Collision");
         //Take health from an enemy
         Destroy(gameObject);

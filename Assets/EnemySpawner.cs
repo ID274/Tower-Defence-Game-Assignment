@@ -76,6 +76,7 @@ public class EnemySpawner : MonoBehaviour
     {
         isSpawning = false;
         timeSinceLastSpawn = 0f;
+        LevelManager.main.currency += currentWave * 100 / 2;
         StartCoroutine(StartWave());
 
     }
