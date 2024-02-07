@@ -55,8 +55,18 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        GameObject prefabToSpawn = enemyPrefabs[0];
-        Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+        if (currentWave < 2)
+        {
+            GameObject prefabToSpawn = enemyPrefabs[0];
+            Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+        }
+        else
+        {
+            int rnd = Random.Range(0, 2);
+            GameObject prefabToSpawn = enemyPrefabs[rnd];
+            Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+        }
+        
     }
 
     private void EnemyDestroyed()

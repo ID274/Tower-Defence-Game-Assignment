@@ -10,7 +10,7 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Attributes")]
     [SerializeField] private float moveSpeed = 2f;
-
+    [SerializeField] private bool flyingEnemy;
     private Transform target;
     private int pathIndex = 0;
 

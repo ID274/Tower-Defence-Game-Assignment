@@ -10,6 +10,7 @@ public class BallistaArrowScript : MonoBehaviour
     [Header("Attributes")]
     [SerializeField] private float bulletSpeed = 20f;
     [SerializeField] private int bulletDamage = 1;
+    [SerializeField] private bool aerialBullet;
 
     public Transform target;
     public Vector3 target2D;
@@ -44,8 +45,12 @@ public class BallistaArrowScript : MonoBehaviour
                 other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
             }
         }
+        if (other.gameObject.layer == 6 && aerialBullet)
         {
-
+            if (other.gameObject.GetComponent<EnemyHealth>().isDestroyed == false)
+            {
+                other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
+            }
         }
         Debug.Log("Collision");
         //Take health from an enemy

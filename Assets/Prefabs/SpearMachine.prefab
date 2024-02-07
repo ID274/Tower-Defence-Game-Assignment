@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6513498394338944240}
   - component: {fileID: 3424988101720238974}
   m_Layer: 0
-  m_Name: BallistaBody
+  m_Name: SpearMachineBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1483232856694350349}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.023429595}
+  m_LocalPosition: {x: 0, y: 0.447, z: 0.023429595}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73,12 +73,12 @@ SpriteRenderer:
   m_SortingLayerID: 150247463
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: -443866893, guid: 056a3618451d9f1499e986c3337f1b6b, type: 3}
-  m_Color: {r: 0.25943398, g: 0.7471869, b: 1, a: 1}
+  m_Sprite: {fileID: -874572787, guid: c297546708c5d5a489fe73ea7fa459ad, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.65, y: 1.3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -168,37 +168,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &4945351266084853574
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1110092911039803287}
-  m_Layer: 0
-  m_Name: FiringPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1110092911039803287
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4945351266084853574}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.105, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1007733279384400019}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6109777570920211280
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +198,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6513498394338944240}
-  - {fileID: 1110092911039803287}
   m_Father: {fileID: 1971059319853088703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6837014949145639773
@@ -241,9 +209,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1971059319853088703}
-  - component: {fileID: 5658411804131605392}
+  - component: {fileID: 8871442546453403828}
   m_Layer: 0
-  m_Name: SniperBallista
+  m_Name: SpearMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,7 +226,7 @@ Transform:
   m_GameObject: {fileID: 6837014949145639773}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.73, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -266,7 +234,7 @@ Transform:
   - {fileID: 1007733279384400019}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5658411804131605392
+--- !u!114 &8871442546453403828
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,22 +243,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 6837014949145639773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef5cce2d6e4acfd4e8eeb2665ff1c00f, type: 3}
+  m_Script: {fileID: 11500000, guid: 57d7787b9055014418771ba7ba5870b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 3424988101720238974}
-  LoadedSprite: {fileID: -443866893, guid: 056a3618451d9f1499e986c3337f1b6b, type: 3}
-  UnloadedSprite: {fileID: 319491861, guid: 056a3618451d9f1499e986c3337f1b6b, type: 3}
+  sprite1: {fileID: -874572787, guid: c297546708c5d5a489fe73ea7fa459ad, type: 3}
+  sprite2: {fileID: 977732905, guid: c297546708c5d5a489fe73ea7fa459ad, type: 3}
+  sprite3: {fileID: 733601357, guid: c297546708c5d5a489fe73ea7fa459ad, type: 3}
+  sprite4: {fileID: -1389620078, guid: c297546708c5d5a489fe73ea7fa459ad, type: 3}
   shotFinished: 1
   turretRotationPoint: {fileID: 1007733279384400019}
   enemyMask:
     serializedVersion: 2
     m_Bits: 8
-  flyingEnemyMask:
-    serializedVersion: 2
-    m_Bits: 64
-  bulletPrefab: {fileID: 4654663841031497673, guid: 0b82e6f46266630468e53d2232b5e0ca, type: 3}
-  firingPoint: {fileID: 1110092911039803287}
-  targetingRange: 100
-  rotationSpeed: 500
-  attackSpeed: 0.3
+  damage: 3
+  targetingRange: 2.5
+  rotationSpeed: 400
+  attackSpeed: 2

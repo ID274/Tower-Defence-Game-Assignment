@@ -14,6 +14,7 @@ public class BallistaScript : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform turretRotationPoint;
     [SerializeField] private LayerMask enemyMask;
+    [SerializeField] private LayerMask flyingEnemyMask;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firingPoint;
 
@@ -34,7 +35,11 @@ public class BallistaScript : MonoBehaviour
     {
         if (target == null)
         {
-            FindTarget();
+            FindTargetAerial();
+            if (target == null)
+            {
+                FindTarget();
+            }
             return;
         }
         RotateTowardsTarget();
@@ -85,6 +90,14 @@ public class BallistaScript : MonoBehaviour
     private void FindTarget()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
+        if (hits.Length > 0)
+        {
+            target = hits[0].transform;
+        }
+    }
+    private void FindTargetAerial()
+    {
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, flyingEnemyMask);
         if (hits.Length > 0)
         {
             target = hits[0].transform;
