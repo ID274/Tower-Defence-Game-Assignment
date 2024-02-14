@@ -11,12 +11,19 @@ public class LevelManager : MonoBehaviour
 
     public int currency;
     public int startCurrency = 450;
+    public int health;
+    public int startHealth = 100;
+
+    [Header("Game Over")]
+    public bool gameOver = false;
+
     private void Awake()
     {
         main = this;
     }
     private void Start()
     {
+        health = startHealth;
         currency = startCurrency;
     }
 
@@ -37,6 +44,14 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Not enough money");
             return false;
+        }
+    }
+
+    private void Update()
+    {
+        if (health <= 0)
+        {
+            gameOver = true;
         }
     }
 }

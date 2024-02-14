@@ -33,29 +33,33 @@ public class BallistaScript : MonoBehaviour
 
     private void Update()
     {
-        if (target == null)
+        if (!LevelManager.main.gameOver)
         {
-            FindTargetAerial();
             if (target == null)
             {
-                FindTarget();
+                FindTargetAerial();
+                if (target == null)
+                {
+                    FindTarget();
+                }
+                return;
             }
-            return;
-        }
-        RotateTowardsTarget();
+            RotateTowardsTarget();
 
-        if (!CheckTargetIsInRange())
-        {
-            target = null;
-        }
-        else
-        {
-            timeUntilFire += Time.deltaTime;
-            if (timeUntilFire >= 1f / attackSpeed)
+            if (!CheckTargetIsInRange())
             {
-                Shoot();
+                target = null;
+            }
+            else
+            {
+                timeUntilFire += Time.deltaTime;
+                if (timeUntilFire >= 1f / attackSpeed)
+                {
+                    Shoot();
+                }
             }
         }
+        
     }
 
     private void Shoot()

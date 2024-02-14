@@ -289,8 +289,10 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 1243293048509511409, guid: c3eba7d82a0de5d4f9c710b1b70658d0, type: 3}
   - {fileID: 1243293048509511409, guid: 083ea9d2e91b8f841880cd5bb157a079, type: 3}
-  baseEnemies: 8
-  enemiesPerSecond: 0.5
+  bossPrefabs:
+  - {fileID: 1243293048509511409, guid: da296f9cc7b9f88428639b15ca1a6ca5, type: 3}
+  baseEnemies: 10
+  enemiesPerSecond: 2
   timeBetweenWaves: 5
   difficultyScalingFactor: 0.75
 --- !u!114 &82285964
@@ -345,12 +347,12 @@ MonoBehaviour:
   - name: Ballista
     cost: 350
     prefab: {fileID: 6837014949145639773, guid: 2742652415ef9cb4ab752cc4601389f4, type: 3}
-  - name: SniperBallista
-    cost: 500
-    prefab: {fileID: 6837014949145639773, guid: e2eaaeecaf7c58240a5fb4b3c4b422bd, type: 3}
   - name: SpearMachine
     cost: 150
     prefab: {fileID: 6837014949145639773, guid: e14e27cf53032084982d1c35fe2c28a4, type: 3}
+  - name: SniperBallista
+    cost: 500
+    prefab: {fileID: 6837014949145639773, guid: e2eaaeecaf7c58240a5fb4b3c4b422bd, type: 3}
 --- !u!1001 &195386734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1643,7 +1645,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2741,7 +2743,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2872,6 +2874,7 @@ GameObject:
   - component: {fileID: 1010382071}
   - component: {fileID: 1010382070}
   - component: {fileID: 1010382074}
+  - component: {fileID: 1010382075}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2976,6 +2979,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currencyUI: {fileID: 1537355247}
+--- !u!114 &1010382075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010382069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45d594b9f140f2499f275ee1742ef98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonTexts:
+  - {fileID: 1425702808}
+  - {fileID: 1454658354}
+  - {fileID: 2016107055}
+  buildManager: {fileID: 82285966}
 --- !u!1001 &1073223261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4192,7 +4212,7 @@ GameObject:
   - component: {fileID: 1425702809}
   - component: {fileID: 1425702808}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Ballista Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4326,7 +4346,7 @@ GameObject:
   - component: {fileID: 1454658355}
   - component: {fileID: 1454658354}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Spear Machine Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5969,7 +5989,7 @@ GameObject:
   - component: {fileID: 2016107056}
   - component: {fileID: 2016107055}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Sniper Ballista Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
