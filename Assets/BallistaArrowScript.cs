@@ -12,13 +12,29 @@ public class BallistaArrowScript : MonoBehaviour
     [SerializeField] private int bulletDamage = 1;
     [SerializeField] private bool aerialBullet;
 
+    private int preModDamage;
+
     public Transform target;
     public Vector3 target2D;
 
 
     public void Start()
     {
+        preModDamage = bulletDamage;
         Destroy(gameObject, 5f);
+    }
+
+    public void Update()
+    {
+        if (preModDamage * ModifierScript.Instance.attackSpeedMult != bulletDamage)
+        {
+            ModDamage();
+        }
+    }
+
+    private void ModDamage()
+    {
+        bulletDamage = Mathf.RoundToInt(preModDamage * ModifierScript.Instance.damageMult);
     }
 
     public void SetTarget(Transform _target)
