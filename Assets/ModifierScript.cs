@@ -25,13 +25,26 @@ public class ModifierScript : MonoBehaviour
 
     private void Update()
     {
-        if (goldGainMult < 1 || attackSpeedMult < 1 || rangeMult < 1 || damageMult < 1)
+        if (goldGainMult < 1)
         {
-            Debug.LogError($"Error: A multiplier in ModifierScript.cs is below 1. Setting values to 1.\nClick to expand the error message.\nAttack Speed Multiplier: {attackSpeedMult}\nGold Gain Multiplier: {goldGainMult}\nRange Multiplier: {rangeMult}\nDamage Multiplier: {damageMult}");
+            Debug.LogError($"Error: A multiplier in ModifierScript.cs is below 1. Setting value to 1.\nClick to expand the error message.\nAttack Speed Multiplier: {attackSpeedMult}\nGold Gain Multiplier: {goldGainMult}\nRange Multiplier: {rangeMult}\nDamage Multiplier: {damageMult}");
             goldGainMult = 1;
+            
+        }
+        if (attackSpeedMult < 1)
+        {
+            Debug.LogError($"Error: A multiplier in ModifierScript.cs is below 1. Setting value to 1.\nClick to expand the error message.\nAttack Speed Multiplier: {attackSpeedMult}\nGold Gain Multiplier: {goldGainMult}\nRange Multiplier: {rangeMult}\nDamage Multiplier: {damageMult}");
             attackSpeedMult = 1;
+        }
+        if (rangeMult < 1)
+        {
+            Debug.LogError($"Error: A multiplier in ModifierScript.cs is below 1. Setting value to 1.\nClick to expand the error message.\nAttack Speed Multiplier: {attackSpeedMult}\nGold Gain Multiplier: {goldGainMult}\nRange Multiplier: {rangeMult}\nDamage Multiplier: {damageMult}");
             rangeMult = 1;
+        }
+        if (damageMult < 1)
+        {
+            Debug.LogError($"Error: A multiplier in ModifierScript.cs is below 1. Setting value to 1.\nClick to expand the error message.\nAttack Speed Multiplier: {attackSpeedMult}\nGold Gain Multiplier: {goldGainMult}\nRange Multiplier: {rangeMult}\nDamage Multiplier: {damageMult}");
             damageMult = 1;
-}
+        }
     }
 }
