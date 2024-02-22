@@ -23,39 +23,58 @@ public class BallistaScript : MonoBehaviour
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float attackSpeed = 1f; //bullets per second
 
+    private float preModAttackSpeed;
+    private float preModRange;
+
     private Transform target;
     private float timeUntilFire;
     private float timeUntilFireHalf;
 
 
-
+    private void Start()
+    {
+        preModAttackSpeed = attackSpeed;
+        preModRange = targetingRange;
+    }
 
 
     private void Update()
     {
-        if (target == null)
+        if (preModAttackSpeed * ModifierScript.Instance.attackSpeedMult != attackSpeed)
         {
-            FindTargetAerial();
+            ModAttackSpeed();
+        }
+        if (preModRange * ModifierScript.Instance.rangeMult != targetingRange)
+        {
+            ModRange();
+        }
+        if (!LevelManager.main.gameOver)
+        {
             if (target == null)
             {
-                FindTarget();
+                FindTargetAerial();
+                if (target == null)
+                {
+                    FindTarget();
+                }
+                return;
             }
-            return;
-        }
-        RotateTowardsTarget();
+            RotateTowardsTarget();
 
-        if (!CheckTargetIsInRange())
-        {
-            target = null;
-        }
-        else
-        {
-            timeUntilFire += Time.deltaTime;
-            if (timeUntilFire >= 1f / attackSpeed)
+            if (!CheckTargetIsInRange())
             {
-                Shoot();
+                target = null;
+            }
+            else
+            {
+                timeUntilFire += Time.deltaTime;
+                if (timeUntilFire >= 1f / attackSpeed)
+                {
+                    Shoot();
+                }
             }
         }
+        
     }
 
     private void Shoot()
@@ -123,5 +142,14 @@ public class BallistaScript : MonoBehaviour
         Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
     }
 
+    void ModAttackSpeed()
+    {
+        attackSpeed = preModAttackSpeed * ModifierScript.Instance.attackSpeedMult;
+    }
+
+    void ModRange()
+    {
+        targetingRange = preModRange * ModifierScript.Instance.rangeMult;
+    }
 }
 

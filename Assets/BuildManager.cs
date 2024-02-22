@@ -7,7 +7,7 @@ public class BuildManager : MonoBehaviour
     public static BuildManager main;
 
     [Header("References")]
-    [SerializeField] private Tower[] towers;
+    [SerializeField] public Tower[] towers;
 
     private int selectedTower = 0;
 
@@ -23,7 +23,10 @@ public class BuildManager : MonoBehaviour
 
     public void SetSelectedTower(int _selectedTower)
     {
-        selectedTower = _selectedTower;
+        if (!LevelManager.main.gameOver)
+        {
+            selectedTower = _selectedTower;
+        }
     }
 
 }
