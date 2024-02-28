@@ -370,7 +370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldGainMult: 1
   attackSpeedMult: 1
-  damageMult: 0
+  damageMult: 1
   rangeMult: 1
 --- !u!1001 &119948696
 PrefabInstance:
