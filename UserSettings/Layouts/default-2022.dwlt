@@ -19,7 +19,15 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
+<<<<<<< HEAD
   m_Title: Project
+=======
+<<<<<<< HEAD
+  m_Title: Game
+=======
+  m_Title: Scene
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
+>>>>>>> 812358c2ce07ccf1a7b3b9857c4be752c855589b
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +56,11 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
+<<<<<<< HEAD
+  controlID: 114
+=======
   controlID: 115
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +235,11 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
+<<<<<<< HEAD
+  controlID: 59
+=======
   controlID: 60
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +264,11 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
+<<<<<<< HEAD
+  controlID: 60
+=======
   controlID: 61
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -321,7 +341,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Prefabs
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -329,16 +349,28 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Prefabs
   m_LastFoldersGridSize: -1
   m_LastProjectPath: K:\LV4\ID274\Tower-Defence-Game-Assignment
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
+<<<<<<< HEAD
     m_SelectedIDs: b6610000
     m_LastClickedID: 25014
     m_ExpandedIDs: 00000000b661000000ca9a3bffffff7f
+=======
+<<<<<<< HEAD
+    m_SelectedIDs: d6630000
+    m_LastClickedID: 25558
+    m_ExpandedIDs: 00000000c063000000ca9a3b
+=======
+    m_SelectedIDs: 72610000
+    m_LastClickedID: 24946
+    m_ExpandedIDs: 000000007261000000ca9a3bffffff7f
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
+>>>>>>> 812358c2ce07ccf1a7b3b9857c4be752c855589b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -366,7 +398,15 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
     m_ExpandedIDs: 00000000b6610000
+=======
+<<<<<<< HEAD
+    m_ExpandedIDs: 00000000c0630000
+=======
+    m_ExpandedIDs: 0000000072610000
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
+>>>>>>> 812358c2ce07ccf1a7b3b9857c4be752c855589b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -393,8 +433,13 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
+<<<<<<< HEAD
+    m_HadKeyboardFocusLastEvent: 0
+    m_ExpandedInstanceIDs: c6230000f8620000729800007a63000032630000d2660000
+=======
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000f862000072980000
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -508,7 +553,15 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 3e430000
       m_LastClickedID: 0
+<<<<<<< HEAD
       m_ExpandedIDs: 16fbffff
+=======
+<<<<<<< HEAD
+      m_ExpandedIDs: 1afbffff
+=======
+      m_ExpandedIDs: 4ea5ffff50a5ffffd8a5ffffdca5ffff16fbffff705f0000a05f00002c600000
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
+>>>>>>> 812358c2ce07ccf1a7b3b9857c4be752c855589b
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -910,13 +963,19 @@ MonoBehaviour:
   m_SceneIsLit: 1
   m_SceneLighting: 1
   m_2DMode: 1
-  m_isRotationLocked: 0
+  m_isRotationLocked: 1
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
+<<<<<<< HEAD
+    m_Target: {x: -1.1860712, y: 0.2069908, z: 1146.3451}
+    speed: 2
+    m_Value: {x: -1.1860712, y: 0.2069908, z: 1146.3451}
+=======
     m_Target: {x: -0.22209907, y: 0.08589918, z: -0.09849114}
     speed: 2
     m_Value: {x: -0.22209907, y: 0.08589918, z: -0.09849114}
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -941,7 +1000,7 @@ MonoBehaviour:
         m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
-      m_Size: {x: 0, y: 0}
+      m_Size: {x: 1, y: 1}
     yGrid:
       m_Fade:
         m_Target: 0
@@ -966,9 +1025,15 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
+<<<<<<< HEAD
+    m_Target: 6.3702435
+    speed: 2
+    m_Value: 6.3702435
+=======
     m_Target: 5.6264286
     speed: 2
     m_Value: 5.6264286
+>>>>>>> 48e4438da9c216c0b2721db9168a50332b869c17
   m_Ortho:
     m_Target: 1
     speed: 2
