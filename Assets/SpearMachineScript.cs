@@ -27,12 +27,34 @@ public class SpearMachineScript : MonoBehaviour
     private float timeUntilFire;
     private float timeUntilFireQuarter;
 
+    private float preModAttackSpeed;
+    private float preModRange;
+    private float preModDamage;
 
 
 
+    private void Start()
+    {
+        preModAttackSpeed = attackSpeed;
+        preModRange = targetingRange;
+        preModDamage = damage;
+    }
 
     private void Update()
     {
+        if (preModAttackSpeed * ModifierScript.Instance.attackSpeedMult != attackSpeed)
+        {
+            ModAttackSpeed();
+        }
+        if (preModRange * ModifierScript.Instance.rangeMult != targetingRange)
+        {
+            ModRange();
+        }
+        if (preModDamage * ModifierScript.Instance.damageMult != damage)
+        {
+            ModRange();
+        }
+
         if (target == null)
         {
             FindTarget();
@@ -125,13 +147,28 @@ public class SpearMachineScript : MonoBehaviour
         float angle = Mathf.Atan2(target.position.y - transform.position.y, target.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
 
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-        turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed);
     }
 
     private void OnDrawGizmosSelected()
     {
         Handles.color = Color.cyan;
         Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
+    }
+
+    void ModAttackSpeed()
+    {
+        attackSpeed = preModAttackSpeed * ModifierScript.Instance.attackSpeedMult;
+    }
+
+    void ModRange()
+    {
+        targetingRange = preModRange * ModifierScript.Instance.rangeMult;
+    }
+
+    void ModDamage()
+    {
+        damage = Mathf.RoundToInt(preModDamage * ModifierScript.Instance.damageMult);
     }
 
 }

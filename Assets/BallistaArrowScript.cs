@@ -26,7 +26,7 @@ public class BallistaArrowScript : MonoBehaviour
 
     public void Update()
     {
-        if (preModDamage * ModifierScript.Instance.attackSpeedMult != bulletDamage)
+        if (preModDamage * ModifierScript.Instance.damageMult != bulletDamage)
         {
             ModDamage();
         }

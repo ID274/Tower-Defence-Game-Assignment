@@ -9,23 +9,25 @@ public class EnemySpawner : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private GameObject[] bossPrefabs;
+    [SerializeField] private GameObject powerupScreen;
 
     [Header("Attributes")]
     [SerializeField] private int baseEnemies = 8;
     [SerializeField] private float enemiesPerSecond = 0.5f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
+    [SerializeField] private int currentWave = 0;
 
     [Header("Events")]
     public static UnityEvent onEnemyDestroy = new UnityEvent();
 
-    private int currentWave = 0;
     private float timeSinceLastSpawn;
     private int enemiesAlive;
     private int enemiesLeftToSpawn;
     private bool isSpawning = false;
     private int bossIndex = 0;
     private bool bossSpawned = false;
+    private bool waveEnded = false;
     
 
 
@@ -59,8 +61,13 @@ public class EnemySpawner : MonoBehaviour
                 timeSinceLastSpawn = 0f;
                 ;
             }
+            if (enemiesAlive == 0 && enemiesLeftToSpawn == 0 && !powerupScreen.activeSelf && !waveEnded)
+            {
+                powerupScreen.SetActive(true);
+                waveEnded = true;
+            }
 
-            if (enemiesAlive == 0 && enemiesLeftToSpawn == 0)
+            if (waveEnded && !powerupScreen.activeSelf)
             {
                 EndWave();
             }
@@ -69,21 +76,29 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if ((currentWave / 2) % 1 != 0 || bossPrefabs[0] == null || bossSpawned == true)
+        if (bossPrefabs[0] == null || bossSpawned == true || currentWave % 10 != 0)
         {
-            if (currentWave < 2)
+            if (currentWave < 5)
             {
                 GameObject prefabToSpawn = enemyPrefabs[0];
                 Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
             }
             else
             {
-                int rnd = Random.Range(0, 2);
+                int rnd = Random.Range(0, 10);
+                if (rnd < 9)
+                {
+                    rnd = 0;
+                }
+                else
+                {
+                    rnd = 1;
+                }
                 GameObject prefabToSpawn = enemyPrefabs[rnd];
                 Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
             }
         }
-        else if (bossPrefabs[bossIndex] != null && bossSpawned == false)
+        else if (currentWave % 10 == 0 && bossPrefabs[bossIndex] != null && bossSpawned == false)
         {
             bossSpawned = true;
             SpawnBoss();
@@ -117,6 +132,7 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartWave()
     {
+        waveEnded = false;
         currentWave++;
         yield return new WaitForSeconds(timeBetweenWaves);
         isSpawning = true;
