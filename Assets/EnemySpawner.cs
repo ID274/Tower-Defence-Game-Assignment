@@ -28,7 +28,8 @@ public class EnemySpawner : MonoBehaviour
     private int bossIndex = 0;
     private bool bossSpawned = false;
     private bool waveEnded = false;
-    
+    private GameObject prefabToSpawn;
+
 
 
     private void Awake()
@@ -80,7 +81,7 @@ public class EnemySpawner : MonoBehaviour
         {
             if (currentWave < 5)
             {
-                GameObject prefabToSpawn = enemyPrefabs[0];
+                prefabToSpawn = enemyPrefabs[0];
                 Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
             }
             else
@@ -94,9 +95,10 @@ public class EnemySpawner : MonoBehaviour
                 {
                     rnd = 1;
                 }
-                GameObject prefabToSpawn = enemyPrefabs[rnd];
+                prefabToSpawn = enemyPrefabs[rnd];
                 Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
             }
+
         }
         else if (currentWave % 10 == 0 && bossPrefabs[bossIndex] != null && bossSpawned == false)
         {
@@ -137,6 +139,11 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(timeBetweenWaves);
         isSpawning = true;
         enemiesLeftToSpawn = EnemiesPerWave();
+        if (prefabToSpawn != null)
+        {
+            EnemyHealth enemyHealth = prefabToSpawn.GetComponent<EnemyHealth>();
+            enemyHealth.hitPoints = 2 * currentWave;
+        }
     }
 
     private void EndWave()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class BallistaArrowScript : MonoBehaviour
@@ -45,7 +46,11 @@ public class BallistaArrowScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!target) return;
+        if (!target) 
+        {
+            rb.velocity = rb.velocity;
+            return;
+        }
         Vector2 direction = (target.position - transform.position).normalized;
 
         rb.velocity = direction * bulletSpeed;

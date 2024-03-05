@@ -164,6 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 2
   currencyWorth: 50
+  isBoss: 0
+  damageToBase: 1
   isDestroyed: 0
 --- !u!114 &6357321868850446446
 MonoBehaviour:
