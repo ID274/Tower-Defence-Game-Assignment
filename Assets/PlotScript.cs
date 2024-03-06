@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class PlotScript : MonoBehaviour
+public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Color hoverColor;
-    [SerializeField] private Color sellColor;
+    [SerializeField] private Color menuColor;
 
     private GameObject tower;
     private Color startColor;
@@ -17,7 +19,7 @@ public class PlotScript : MonoBehaviour
         startColor = sr.color;
     }
 
-    private void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData pointerEventData)
     {
         if (tower == null)
         {
@@ -25,29 +27,49 @@ public class PlotScript : MonoBehaviour
         }
         else
         {
-            sr.color = sellColor;
+            sr.color = menuColor;
         }
     }
 
-    private void OnMouseExit()
+    public void OnPointerExit(PointerEventData pointerEventData)
     {
         sr.color = startColor;
     }
 
-    private void OnMouseDown()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if (tower != null) return;
-
-        Tower towerToBuild = BuildManager.main.GetSelectedTower();
-
-        if (towerToBuild.cost > LevelManager.main.currency)
+        if (tower != null)
         {
-            Debug.Log("You can't afford this tower");
-            return;
+            OpenTowerMenu();
+        }
+        else
+        {
+            Tower towerToBuild = BuildManager.main.GetSelectedTower();
+
+            if (towerToBuild.cost > LevelManager.main.currency)
+            {
+                Debug.Log("You can't afford this tower");
+                return;
+            }
+
+            LevelManager.main.SpendCurrency(towerToBuild.cost);
+            tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
         }
 
-        LevelManager.main.SpendCurrency(towerToBuild.cost);
-        tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
+        
 
+    }
+
+    private void OpenTowerMenu()
+    {
+        if (!UpgradeMenuScript.Instance.upgradeMenu.activeSelf)
+        {
+            UpgradeMenuScript.Instance.upgradeMenu.SetActive(true);
+            UpgradeMenuScript.Instance.selectedTower = tower;
+        }
+        else
+        {
+            UpgradeMenuScript.Instance.selectedTower = tower;
+        }
     }
 }

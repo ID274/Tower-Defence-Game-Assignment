@@ -22,6 +22,8 @@ public class BallistaScript : MonoBehaviour
     [SerializeField] private float targetingRange = 5f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float attackSpeed = 1f; //bullets per second
+    public int upgradePath = 0;
+    public int upgradeCount = 0;
 
     private float preModAttackSpeed;
     private float preModRange;

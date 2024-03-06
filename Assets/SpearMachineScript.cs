@@ -22,6 +22,8 @@ public class SpearMachineScript : MonoBehaviour
     [SerializeField] private float targetingRange = 2f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float attackSpeed = 1f; //hits per second
+    public int upgradePath = 0;
+    public int upgradeCount = 0;
 
     private Transform target;
     private float timeUntilFire;
@@ -113,21 +115,6 @@ public class SpearMachineScript : MonoBehaviour
     {
         target.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
     }
-    //public IEnumerator ShotAnimation()
-    //{
-    //    timeUntilFireHalf = timeUntilFire / 2;
-    //    GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
-    //    BallistaArrowScript bulletScript = bulletObj.GetComponent<BallistaArrowScript>();
-    //    bulletScript.SetTarget(target);
-    //    Debug.Log("Attack");
-    //    shotFinished = false;
-    //    spriteRenderer.sprite = UnloadedSprite;
-    //    yield return new WaitForSeconds(timeUntilFireHalf);
-    //    spriteRenderer.sprite = LoadedSprite;
-    //    yield return new WaitForSeconds(timeUntilFireHalf);
-    //    shotFinished = true;
-    //}
-
     private void FindTarget()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);

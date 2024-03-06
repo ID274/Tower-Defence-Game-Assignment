@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject[] enemyPrefabs;
+    [SerializeField] private EnemyHealth[] enemyPrefabs;
     [SerializeField] private GameObject[] bossPrefabs;
     [SerializeField] private GameObject powerupScreen;
 
@@ -28,7 +28,6 @@ public class EnemySpawner : MonoBehaviour
     private int bossIndex = 0;
     private bool bossSpawned = false;
     private bool waveEnded = false;
-    private GameObject prefabToSpawn;
 
 
 
@@ -81,8 +80,9 @@ public class EnemySpawner : MonoBehaviour
         {
             if (currentWave < 5)
             {
-                prefabToSpawn = enemyPrefabs[0];
-                Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+                EnemyHealth prefabToSpawn = enemyPrefabs[0];
+                EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+                prefabInstance.hitPoints = 2 * currentWave;
             }
             else
             {
@@ -95,8 +95,9 @@ public class EnemySpawner : MonoBehaviour
                 {
                     rnd = 1;
                 }
-                prefabToSpawn = enemyPrefabs[rnd];
-                Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+                EnemyHealth prefabToSpawn = enemyPrefabs[0];
+                EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+                prefabInstance.hitPoints = 2 * currentWave;
             }
 
         }
@@ -105,8 +106,8 @@ public class EnemySpawner : MonoBehaviour
             bossSpawned = true;
             SpawnBoss();
         }
-        
-        
+
+
     }
 
     private void SpawnBoss()
@@ -139,11 +140,6 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(timeBetweenWaves);
         isSpawning = true;
         enemiesLeftToSpawn = EnemiesPerWave();
-        if (prefabToSpawn != null)
-        {
-            EnemyHealth enemyHealth = prefabToSpawn.GetComponent<EnemyHealth>();
-            enemyHealth.hitPoints = 2 * currentWave;
-        }
     }
 
     private void EndWave()
