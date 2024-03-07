@@ -12,18 +12,27 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Attributes")]
     [SerializeField] public float moveSpeed = 2f;
-    [SerializeField] private bool flyingEnemy;
+    public bool flyingEnemy;
     private Transform target;
     private int pathIndex = 0;
+    private int pathIndexAerial = 0;
 
     private void Start()
     {
-        enemyHealthScript = this.GetComponent<EnemyHealth>();
-        target = LevelManager.main.path[pathIndex];
+        if (!flyingEnemy)
+        {
+            enemyHealthScript = this.GetComponent<EnemyHealth>();
+            target = LevelManager.main.path[pathIndex];
+        }
+        else
+        {
+            enemyHealthScript = this.GetComponent<EnemyHealth>();
+            target = LevelManager.main.pathAerial[pathIndexAerial];
+        }
     }
     private void Update()
     {
-        if (Vector2.Distance(target.position, transform.position) <= 0.1f && !LevelManager.main.gameOver)
+        if (Vector2.Distance(target.position, transform.position) <= 0.1f && !LevelManager.main.gameOver && !flyingEnemy)
         {
             pathIndex++;
 
@@ -37,6 +46,22 @@ public class EnemyMovement : MonoBehaviour
             else
             {
                 target = LevelManager.main.path[pathIndex];
+            }
+        }
+        else if (Vector2.Distance(target.position, transform.position) <= 0.1f && !LevelManager.main.gameOver && flyingEnemy)
+        {
+            pathIndexAerial++;
+
+            if (pathIndexAerial == LevelManager.main.pathAerial.Length)
+            {
+                EnemySpawner.onEnemyDestroy.Invoke();
+                Destroy(gameObject);
+                LevelManager.main.health -= enemyHealthScript.damageToBase;
+                return;
+            }
+            else
+            {
+                target = LevelManager.main.pathAerial[pathIndexAerial];
             }
         }
     }

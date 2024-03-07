@@ -9,19 +9,26 @@ public class SpearMachineScript : MonoBehaviour
     //Animation
     public SpriteRenderer spriteRenderer;
     public Sprite sprite1, sprite2, sprite3, sprite4;
+    public Sprite spriteCentered;
     [SerializeField] private bool shotFinished = true;
 
     [Header("References")]
     [SerializeField] private Transform turretRotationPoint;
     [SerializeField] private LayerMask enemyMask;
+    [SerializeField] private SpriteRenderer towerBase;
+    [SerializeField] private Sprite upgradedSprite;
     //[SerializeField] private GameObject bulletPrefab;
     //[SerializeField] private Transform firingPoint;
 
+    [Header("Attributes for stats window")]
+    public int attackCount;
+    public float damageDealt;
+
     [Header("Attributes")]
-    [SerializeField] private int damage = 3;
-    [SerializeField] private float targetingRange = 2f;
+    public float damage = 3;
+    public float targetingRange = 2f;
     [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float attackSpeed = 1f; //hits per second
+    public float attackSpeed = 1f; //hits per second
     public int upgradePath = 0;
     public int upgradeCount = 0;
 
@@ -29,9 +36,9 @@ public class SpearMachineScript : MonoBehaviour
     private float timeUntilFire;
     private float timeUntilFireQuarter;
 
-    private float preModAttackSpeed;
+    public float preModAttackSpeed;
     private float preModRange;
-    private float preModDamage;
+    public float preModDamage;
 
 
 
@@ -44,6 +51,10 @@ public class SpearMachineScript : MonoBehaviour
 
     private void Update()
     {
+        if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
+        {
+            towerBase.sprite = upgradedSprite;
+        }
         if (preModAttackSpeed * ModifierScript.Instance.attackSpeedMult != attackSpeed)
         {
             ModAttackSpeed();
@@ -54,7 +65,7 @@ public class SpearMachineScript : MonoBehaviour
         }
         if (preModDamage * ModifierScript.Instance.damageMult != damage)
         {
-            ModRange();
+            ModDamage();
         }
 
         if (target == null)
@@ -114,6 +125,8 @@ public class SpearMachineScript : MonoBehaviour
     public void Attack()
     {
         target.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+        attackCount++;
+        damageDealt += damage;
     }
     private void FindTarget()
     {
@@ -143,19 +156,19 @@ public class SpearMachineScript : MonoBehaviour
         Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
     }
 
-    void ModAttackSpeed()
+    public void ModAttackSpeed()
     {
         attackSpeed = preModAttackSpeed * ModifierScript.Instance.attackSpeedMult;
     }
 
-    void ModRange()
+    public void ModRange()
     {
         targetingRange = preModRange * ModifierScript.Instance.rangeMult;
     }
 
-    void ModDamage()
+    public void ModDamage()
     {
-        damage = Mathf.RoundToInt(preModDamage * ModifierScript.Instance.damageMult);
+        damage = preModDamage * ModifierScript.Instance.damageMult;
     }
 
 }

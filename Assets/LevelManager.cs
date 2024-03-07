@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour
 
     public Transform[] path;
     public Transform startPoint;
+    public Transform[] pathAerial;
+    public Transform startPointAerial;
 
     public int currency;
     public int startCurrency = 450;

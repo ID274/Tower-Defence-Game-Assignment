@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [Header("Attributes")]
-    public int hitPoints = 2;
+    public float hitPoints = 2f;
     public int currencyWorth = 50;
     public bool isBoss = false;
     public int damageToBase = 1;
@@ -19,7 +19,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
     public bool isDestroyed = false;
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         hitPoints -= damage;
 

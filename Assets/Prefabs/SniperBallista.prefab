@@ -291,6 +291,17 @@ MonoBehaviour:
     m_Bits: 64
   bulletPrefab: {fileID: 4654663841031497673, guid: 0b82e6f46266630468e53d2232b5e0ca, type: 3}
   firingPoint: {fileID: 1110092911039803287}
+  towerBase: {fileID: 2317327900927635841}
+  upgradedSprite: {fileID: 21300000, guid: 8941b4f0181ebd74795512228272bda8, type: 3}
+  attackCount: 0
+  damageDealt: 0
   targetingRange: 100
+  damage: 15
   rotationSpeed: 500
   attackSpeed: 0.3
+  upgradePath: 0
+  upgradeCount: 0
+  preModDamage: 0
+  preModAttackSpeed: 0
+  preModRange: 0
+  aerial: 1

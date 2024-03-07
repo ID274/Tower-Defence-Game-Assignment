@@ -251,12 +251,21 @@ MonoBehaviour:
   sprite2: {fileID: 977732905, guid: c297546708c5d5a489fe73ea7fa459ad, type: 3}
   sprite3: {fileID: 733601357, guid: c297546708c5d5a489fe73ea7fa459ad, type: 3}
   sprite4: {fileID: -1389620078, guid: c297546708c5d5a489fe73ea7fa459ad, type: 3}
+  spriteCentered: {fileID: 1956683083, guid: 7d732ba15ed500d4c8b5308702a22f35, type: 3}
   shotFinished: 1
   turretRotationPoint: {fileID: 1007733279384400019}
   enemyMask:
     serializedVersion: 2
     m_Bits: 8
+  towerBase: {fileID: 2317327900927635841}
+  upgradedSprite: {fileID: 21300000, guid: 8941b4f0181ebd74795512228272bda8, type: 3}
+  attackCount: 0
+  damageDealt: 0
   damage: 3
   targetingRange: 2.5
   rotationSpeed: 400
   attackSpeed: 2
+  upgradePath: 0
+  upgradeCount: 0
+  preModAttackSpeed: 0
+  preModDamage: 0

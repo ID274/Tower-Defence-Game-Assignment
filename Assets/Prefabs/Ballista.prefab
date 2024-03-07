@@ -286,8 +286,22 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 8
+  flyingEnemyMask:
+    serializedVersion: 2
+    m_Bits: 0
   bulletPrefab: {fileID: 4654663841031497673, guid: ae37c2e996001b949ac296aaaf280bb7, type: 3}
   firingPoint: {fileID: 1110092911039803287}
-  targetingRange: 3
+  towerBase: {fileID: 2317327900927635841}
+  upgradedSprite: {fileID: 21300000, guid: 8941b4f0181ebd74795512228272bda8, type: 3}
+  attackCount: 0
+  damageDealt: 0
+  targetingRange: 6
+  damage: 5
   rotationSpeed: 300
   attackSpeed: 1
+  upgradePath: 0
+  upgradeCount: 0
+  preModDamage: 0
+  preModAttackSpeed: 0
+  preModRange: 0
+  aerial: 0

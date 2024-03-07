@@ -10,10 +10,10 @@ public class BallistaArrowScript : MonoBehaviour
 
     [Header("Attributes")]
     [SerializeField] private float bulletSpeed = 20f;
-    [SerializeField] private int bulletDamage = 1;
+    [SerializeField] public float bulletDamage;
     [SerializeField] private bool aerialBullet;
 
-    private int preModDamage;
+    //public float preModDamage;
 
     public Transform target;
     public Vector3 target2D;
@@ -21,22 +21,22 @@ public class BallistaArrowScript : MonoBehaviour
 
     public void Start()
     {
-        preModDamage = bulletDamage;
+        //preModDamage = bulletDamage;
         Destroy(gameObject, 5f);
     }
 
     public void Update()
     {
-        if (preModDamage * ModifierScript.Instance.damageMult != bulletDamage)
-        {
-            ModDamage();
-        }
+        //if (preModDamage * ModifierScript.Instance.damageMult != bulletDamage)
+        //{
+        //    ModDamage();
+        //}
     }
 
-    private void ModDamage()
-    {
-        bulletDamage = Mathf.RoundToInt(preModDamage * ModifierScript.Instance.damageMult);
-    }
+    //private void ModDamage()
+    //{
+    //    bulletDamage = preModDamage * ModifierScript.Instance.damageMult;
+    //}
 
     public void SetTarget(Transform _target)
     {

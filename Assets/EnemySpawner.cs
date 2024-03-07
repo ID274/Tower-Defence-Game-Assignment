@@ -83,11 +83,13 @@ public class EnemySpawner : MonoBehaviour
                 EnemyHealth prefabToSpawn = enemyPrefabs[0];
                 EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
                 prefabInstance.hitPoints = 2 * currentWave;
+
+                
             }
             else
             {
                 int rnd = Random.Range(0, 10);
-                if (rnd < 9)
+                if (rnd < 7)
                 {
                     rnd = 0;
                 }
@@ -95,9 +97,17 @@ public class EnemySpawner : MonoBehaviour
                 {
                     rnd = 1;
                 }
-                EnemyHealth prefabToSpawn = enemyPrefabs[0];
-                EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
-                prefabInstance.hitPoints = 2 * currentWave;
+                EnemyHealth prefabToSpawn = enemyPrefabs[rnd];
+                if (prefabToSpawn.GetComponent<EnemyMovement>().flyingEnemy)
+                {
+                    EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPointAerial.position, Quaternion.identity);
+                    prefabInstance.hitPoints = 2 * currentWave;
+                }
+                else if (!prefabToSpawn.GetComponent<EnemyMovement>().flyingEnemy)
+                {
+                    EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+                    prefabInstance.hitPoints = 2 * currentWave;
+                }
             }
 
         }

@@ -184,5 +184,6 @@ MonoBehaviour:
   bulletSpeed: 30
   bulletDamage: 2
   aerialBullet: 1
+  preModDamage: 2
   target: {fileID: 0}
   target2D: {x: 0, y: 0, z: 0}

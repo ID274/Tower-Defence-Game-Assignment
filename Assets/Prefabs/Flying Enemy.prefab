@@ -74,9 +74,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -977765993
+  m_SortingLayer: 2
+  m_SortingOrder: 1000
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0, g: 0.7696705, b: 1, a: 1}
   m_FlipX: 0
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 2
-  currencyWorth: 50
+  currencyWorth: 20
   isBoss: 0
   damageToBase: 1
   isDestroyed: 0
@@ -181,4 +181,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7063625666299836647}
   moveSpeed: 2
-  flyingEnemy: 0
+  flyingEnemy: 1

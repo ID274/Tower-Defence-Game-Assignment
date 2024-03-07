@@ -17,12 +17,17 @@ public class UpgradeMenuScript : MonoBehaviour
     public GameObject upgradeButton1;
     public GameObject upgradeButton2;
     public TextMeshProUGUI sellButtonText;
+
+    [Header("References for stat window")]
+    [SerializeField] private Image towerIconSlot;
+    [SerializeField] TextMeshProUGUI attackSpeedText, rangeText, damageText, attackCountText, damageDealtText;
+
     
     [Header("Attributes")]
     public int towerGoldWorth;
-    public int upgrade1Cost;
-    public int upgrade2Cost;
+    public int upgradeCost;
     public GameObject selectedTower;
+    public int upgradeType; // 1 = attack speed, 2 = range, 3 = damage
 
     private void Awake()
     {
@@ -46,8 +51,28 @@ public class UpgradeMenuScript : MonoBehaviour
     {
         if (upgradeMenu.activeSelf)
         {
+            SetStatsWindow();
             if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
             {
+                upgradeCost = (ballistaTowerValues.upgradeCount + 1) * 300;
+                towerGoldWorth = ballistaTowerValues.upgradeCount * 150 + 150;
+                sellButtonText.text = $"Sell for {towerGoldWorth} gold";
+                Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
+                Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
+                upgradeButtonText1.text = $"Buy for {upgradeCost} gold";
+                upgradeButtonText2.text = $"Buy for {upgradeCost} gold";
+                upgradeText1.text = $"+{0.2f * (ballistaTowerValues.upgradeCount + 1)}x attack speed";
+                upgradeText2.text = $"+{0.4f * (ballistaTowerValues.upgradeCount + 1)}x damage";
+                if (LevelManager.main.currency < upgradeCost)
+                {
+                    buttonToggle1.interactable = false;
+                    buttonToggle2.interactable = false;
+                }
+                else
+                {
+                    buttonToggle1.interactable = true;
+                    buttonToggle2.interactable = true;
+                }
                 if (ballistaTowerValues.upgradePath == 0 && (!upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
                 {
                     upgradeButton1.SetActive(true);
@@ -66,10 +91,30 @@ public class UpgradeMenuScript : MonoBehaviour
             }
             else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
             {
+                upgradeCost = (spearTowerValues.upgradeCount + 1) * 300;
+                towerGoldWorth = spearTowerValues.upgradeCount * 150 + 100;
+                sellButtonText.text = $"Sell for {towerGoldWorth} gold";
+                Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
+                Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
+                upgradeButtonText1.text = $"Buy for {upgradeCost} gold";
+                upgradeButtonText2.text = $"Buy for {upgradeCost} gold";
+                upgradeText1.text = $"+{0.2f * (spearTowerValues.upgradeCount + 1)}x attack speed";
+                upgradeText2.text = $"+{0.4f * (spearTowerValues.upgradeCount + 1)}x damage";
+                if (LevelManager.main.currency < upgradeCost)
+                {
+                    buttonToggle1.interactable = false;
+                    buttonToggle2.interactable = false;
+                }
+                else
+                {
+                    buttonToggle1.interactable = true;
+                    buttonToggle2.interactable = true;
+                }
                 if (spearTowerValues.upgradePath == 0 && (!upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
                 {
                     upgradeButton1.SetActive(true);
                     upgradeButton2.SetActive(true);
+
                 }
                 else if (spearTowerValues.upgradePath == 1 && (!upgradeButton1.activeSelf || upgradeButton2.activeSelf))
                 {
@@ -92,7 +137,10 @@ public class UpgradeMenuScript : MonoBehaviour
     {
         if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
         {
-            //Ballista upgrades should include attack speed and range
+            upgradeType = 1;
+            SetTowerUpgrades();
+            LevelManager.main.currency -= upgradeCost;
+            //Ballista upgrades should include attack speed and damage
             ballistaTowerValues.upgradePath = 1;
             ballistaTowerValues.upgradeCount++;
             if (ballistaTowerValues.upgradeCount > 0)
@@ -109,6 +157,9 @@ public class UpgradeMenuScript : MonoBehaviour
         }
         else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
         {
+            upgradeType = 1;
+            SetTowerUpgrades();
+            LevelManager.main.currency -= upgradeCost;
             //Spear Machine upgrades should include attack speed and damage
             spearTowerValues.upgradePath = 1;
             spearTowerValues.upgradeCount++;
@@ -129,6 +180,9 @@ public class UpgradeMenuScript : MonoBehaviour
     {
         if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
         {
+            upgradeType = 3;
+            SetTowerUpgrades();
+            LevelManager.main.currency -= upgradeCost;
             ballistaTowerValues.upgradePath = 2;
             ballistaTowerValues.upgradeCount++;
             if (ballistaTowerValues.upgradeCount > 0)
@@ -145,6 +199,9 @@ public class UpgradeMenuScript : MonoBehaviour
         }
         else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
         {
+            upgradeType = 3;
+            SetTowerUpgrades();
+            LevelManager.main.currency -= upgradeCost;
             spearTowerValues.upgradePath = 2;
             spearTowerValues.upgradeCount++;
             if (spearTowerValues.upgradeCount > 0)
@@ -164,5 +221,78 @@ public class UpgradeMenuScript : MonoBehaviour
     public void OnCloseButtonPress()
     {
         upgradeMenu.SetActive(false);
+    }
+
+    public void SetTowerUpgrades()
+    {
+        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+        {
+            switch (upgradeType)
+            {
+                case 1:
+                    ballistaTowerValues.preModAttackSpeed += 0.2f * (ballistaTowerValues.upgradeCount + 1);
+                    ballistaTowerValues.ModAttackSpeed();
+                    break;
+                case 3:
+                    ballistaTowerValues.preModDamage += 0.4f * (ballistaTowerValues.upgradeCount + 1);
+                    ballistaTowerValues.ModDamage();
+                    break;
+            }
+        }
+        else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
+        {
+            switch (upgradeType)
+            {
+                case 1:
+                    spearTowerValues.preModAttackSpeed += 0.2f * (spearTowerValues.upgradeCount + 1);
+                    spearTowerValues.ModAttackSpeed();
+                    break;
+                case 3:
+                    spearTowerValues.preModDamage += 0.4f * (spearTowerValues.upgradeCount + 1);
+                    spearTowerValues.ModDamage();
+                    break;
+            }
+        }
+    }
+
+    public void SetStatsWindow()
+    {
+        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+        {
+            towerIconSlot.sprite = ballistaTowerValues.LoadedSprite;
+            if (ballistaTowerValues.aerial == true)
+            {
+                towerIconSlot.color = new Color32(66, 191, 255, 255);
+            }
+            else
+            {
+                towerIconSlot.color = Color.white;
+            }
+            attackCountText.text = $"Attacked: {ballistaTowerValues.attackCount} times";
+            attackSpeedText.text = $"Attack speed: {ballistaTowerValues.attackSpeed.ToString("F2")}/s";
+            rangeText.text = $"Range: {ballistaTowerValues.targetingRange.ToString("F2")} units";
+            damageText.text = $"Damage: {ballistaTowerValues.damage.ToString("F2")}";
+            damageDealtText.text = $"Damage dealt: {ballistaTowerValues.damageDealt.ToString("F2")}";
+
+        }
+        if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
+        {
+            towerIconSlot.color = Color.white;
+            towerIconSlot.sprite = spearTowerValues.spriteCentered;
+            attackCountText.text = $"Attacked: {spearTowerValues.attackCount} times";
+            attackSpeedText.text = $"Attack speed: {spearTowerValues.attackSpeed.ToString("F2")}/s";
+            rangeText.text = $"Range: {spearTowerValues.targetingRange.ToString("F2")} units";
+            damageText.text = $"Damage: {spearTowerValues.damage.ToString("F2")}";
+            damageDealtText.text = $"Damage dealt: {spearTowerValues.damageDealt.ToString("F2")}";
+        }
+    }
+
+
+    public void SellTower()
+    {
+        Destroy(selectedTower);
+        LevelManager.main.currency += towerGoldWorth;
+        upgradeMenu.SetActive(false);
+        
     }
 }

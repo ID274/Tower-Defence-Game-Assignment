@@ -17,24 +17,34 @@ public class BallistaScript : MonoBehaviour
     [SerializeField] private LayerMask flyingEnemyMask;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firingPoint;
+    [SerializeField] private SpriteRenderer towerBase;
+    [SerializeField] private Sprite upgradedSprite;
+
+    [Header("Attributes for stats window")]
+    public int attackCount;
+    public float damageDealt;
 
     [Header("Attributes")]
-    [SerializeField] private float targetingRange = 5f;
+    public float targetingRange = 5f;
+    public float damage = 3;
     [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float attackSpeed = 1f; //bullets per second
+    public float attackSpeed = 1f; //bullets per second
     public int upgradePath = 0;
     public int upgradeCount = 0;
 
-    private float preModAttackSpeed;
-    private float preModRange;
+    public float preModDamage;
+    public float preModAttackSpeed;
+    public float preModRange;
 
     private Transform target;
     private float timeUntilFire;
     private float timeUntilFireHalf;
+    public bool aerial;
 
 
     private void Start()
     {
+        preModDamage = damage;
         preModAttackSpeed = attackSpeed;
         preModRange = targetingRange;
     }
@@ -42,6 +52,10 @@ public class BallistaScript : MonoBehaviour
 
     private void Update()
     {
+        if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
+        {
+            towerBase.sprite = upgradedSprite;
+        }
         if (preModAttackSpeed * ModifierScript.Instance.attackSpeedMult != attackSpeed)
         {
             ModAttackSpeed();
@@ -49,6 +63,10 @@ public class BallistaScript : MonoBehaviour
         if (preModRange * ModifierScript.Instance.rangeMult != targetingRange)
         {
             ModRange();
+        }
+        if (preModDamage * ModifierScript.Instance.damageMult != damage)
+        {
+            ModDamage();
         }
         if (!LevelManager.main.gameOver)
         {
@@ -98,6 +116,10 @@ public class BallistaScript : MonoBehaviour
         timeUntilFireHalf = timeUntilFire / 2;
         GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
         BallistaArrowScript bulletScript = bulletObj.GetComponent<BallistaArrowScript>();
+        bulletScript.bulletDamage = preModDamage;
+        bulletScript.bulletDamage = damage;
+        attackCount++;
+        damageDealt += damage;
         bulletScript.SetTarget(target);
         Debug.Log("Shoot");
         shotFinished = false;
@@ -144,14 +166,18 @@ public class BallistaScript : MonoBehaviour
         Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
     }
 
-    void ModAttackSpeed()
+    public void ModAttackSpeed()
     {
         attackSpeed = preModAttackSpeed * ModifierScript.Instance.attackSpeedMult;
     }
 
-    void ModRange()
+    public void ModRange()
     {
         targetingRange = preModRange * ModifierScript.Instance.rangeMult;
+    }
+    public void ModDamage()
+    {
+        damage = preModDamage * ModifierScript.Instance.damageMult;
     }
 }
 
