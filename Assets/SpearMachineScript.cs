@@ -30,7 +30,9 @@ public class SpearMachineScript : MonoBehaviour
     [SerializeField] private float rotationSpeed = 10f;
     public float attackSpeed = 1f; //hits per second
     public int upgradePath = 0;
-    public int upgradeCount = 0;
+    public int upgrade1Count = 0;
+    public int upgrade2Count = 0;
+    public int upgradeCount;
 
     private Transform target;
     private float timeUntilFire;
@@ -51,6 +53,7 @@ public class SpearMachineScript : MonoBehaviour
 
     private void Update()
     {
+        upgradeCount = upgrade1Count + upgrade2Count;
         if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
         {
             towerBase.sprite = upgradedSprite;
@@ -131,6 +134,8 @@ public class SpearMachineScript : MonoBehaviour
     private void FindTarget()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
+        System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
+        System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.x));
         if (hits.Length > 0)
         {
             target = hits[0].transform;

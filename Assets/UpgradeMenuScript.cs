@@ -25,7 +25,8 @@ public class UpgradeMenuScript : MonoBehaviour
     
     [Header("Attributes")]
     public int towerGoldWorth;
-    public int upgradeCost;
+    public int upgrade1Cost;
+    public int upgrade2Cost;
     public GameObject selectedTower;
     public int upgradeType; // 1 = attack speed, 2 = range, 3 = damage
 
@@ -54,78 +55,96 @@ public class UpgradeMenuScript : MonoBehaviour
             SetStatsWindow();
             if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
             {
-                upgradeCost = (ballistaTowerValues.upgradeCount + 1) * 300;
+                upgrade1Cost = (ballistaTowerValues.upgrade1Count + 1) * 300;
+                upgrade2Cost = (ballistaTowerValues.upgrade2Count + 1) * 300;
                 towerGoldWorth = ballistaTowerValues.upgradeCount * 150 + 150;
                 sellButtonText.text = $"Sell for {towerGoldWorth} gold";
                 Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
                 Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
-                upgradeButtonText1.text = $"Buy for {upgradeCost} gold";
-                upgradeButtonText2.text = $"Buy for {upgradeCost} gold";
-                upgradeText1.text = $"+{0.05f * (ballistaTowerValues.upgradeCount + 1)} attack speed";
-                upgradeText2.text = $"+{2f * (ballistaTowerValues.upgradeCount + 1)} damage";
-                if (LevelManager.main.currency < upgradeCost)
+                upgradeButtonText1.text = $"Buy for {upgrade1Cost} gold";
+                upgradeButtonText2.text = $"Buy for {upgrade2Cost} gold";
+                upgradeText1.text = $"+{0.05f * (ballistaTowerValues.upgrade1Count + 1)} attack speed";
+                upgradeText2.text = $"+{2f * (ballistaTowerValues.upgrade2Count + 1)} damage";
+                if (LevelManager.main.currency < upgrade1Cost)
                 {
                     buttonToggle1.interactable = false;
+                }
+                if (LevelManager.main.currency < upgrade2Cost)
+                {
                     buttonToggle2.interactable = false;
                 }
-                else
+                if (LevelManager.main.currency >= upgrade1Cost)
                 {
                     buttonToggle1.interactable = true;
+                }
+                if (LevelManager.main.currency >= upgrade2Cost)
+                {
                     buttonToggle2.interactable = true;
                 }
-                if (ballistaTowerValues.upgradePath == 0 && (!upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
-                {
-                    upgradeButton1.SetActive(true);
-                    upgradeButton2.SetActive(true);
-                }
-                else if (ballistaTowerValues.upgradePath == 1 && (!upgradeButton1.activeSelf || upgradeButton2.activeSelf))
-                {
-                    upgradeButton1.SetActive(true);
-                    upgradeButton2.SetActive(false);
-                }
-                else if (ballistaTowerValues.upgradePath == 2 && (upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
-                {
-                    upgradeButton1.SetActive(false);
-                    upgradeButton2.SetActive(true);
-                }
+                upgradeButton1.SetActive(true);
+                upgradeButton2.SetActive(true);
+                //if (ballistaTowerValues.upgradePath == 0 && (!upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
+                //{
+                //    upgradeButton1.SetActive(true);
+                //    upgradeButton2.SetActive(true);
+                //}
+                //else if (ballistaTowerValues.upgradePath == 1 && (!upgradeButton1.activeSelf || upgradeButton2.activeSelf))
+                //{
+                //    upgradeButton1.SetActive(true);
+                //    upgradeButton2.SetActive(false);
+                //}
+                //else if (ballistaTowerValues.upgradePath == 2 && (upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
+                //{
+                //    upgradeButton1.SetActive(false);
+                //    upgradeButton2.SetActive(true);
+                //}
             }
             else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
             {
-                upgradeCost = (spearTowerValues.upgradeCount + 1) * 300;
+                upgrade1Cost = (spearTowerValues.upgrade1Count + 1) * 300;
+                upgrade2Cost = (spearTowerValues.upgrade2Count + 1) * 300;
                 towerGoldWorth = spearTowerValues.upgradeCount * 150 + 100;
                 sellButtonText.text = $"Sell for {towerGoldWorth} gold";
                 Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
                 Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
-                upgradeButtonText1.text = $"Buy for {upgradeCost} gold";
-                upgradeButtonText2.text = $"Buy for {upgradeCost} gold";
+                upgradeButtonText1.text = $"Buy for {upgrade1Cost} gold";
+                upgradeButtonText2.text = $"Buy for {upgrade2Cost} gold";
                 upgradeText1.text = $"+{0.15f * (spearTowerValues.upgradeCount + 1)} attack speed";
                 upgradeText2.text = $"+{0.5f * (spearTowerValues.upgradeCount + 1)} damage";
-                if (LevelManager.main.currency < upgradeCost)
+                if (LevelManager.main.currency < upgrade1Cost)
                 {
                     buttonToggle1.interactable = false;
+                }
+                if (LevelManager.main.currency < upgrade2Cost)
+                {
                     buttonToggle2.interactable = false;
                 }
-                else
+                if (LevelManager.main.currency >= upgrade1Cost)
                 {
                     buttonToggle1.interactable = true;
+                }
+                if (LevelManager.main.currency >= upgrade2Cost)
+                {
                     buttonToggle2.interactable = true;
                 }
-                if (spearTowerValues.upgradePath == 0 && (!upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
-                {
-                    upgradeButton1.SetActive(true);
-                    upgradeButton2.SetActive(true);
+                upgradeButton1.SetActive(true);
+                upgradeButton2.SetActive(true);
+                //if (spearTowerValues.upgradePath == 0 && (!upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
+                //{
+                //    upgradeButton1.SetActive(true);
+                //    upgradeButton2.SetActive(true);
 
-                }
-                else if (spearTowerValues.upgradePath == 1 && (!upgradeButton1.activeSelf || upgradeButton2.activeSelf))
-                {
-                    upgradeButton1.SetActive(true);
-                    upgradeButton2.SetActive(false);
-                }
-                else if (spearTowerValues.upgradePath == 2 && (upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
-                {
-                    upgradeButton1.SetActive(false);
-                    upgradeButton2.SetActive(true);
-                }
+                //}
+                //else if (spearTowerValues.upgradePath == 1 && (!upgradeButton1.activeSelf || upgradeButton2.activeSelf))
+                //{
+                //    upgradeButton1.SetActive(true);
+                //    upgradeButton2.SetActive(false);
+                //}
+                //else if (spearTowerValues.upgradePath == 2 && (upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
+                //{
+                //    upgradeButton1.SetActive(false);
+                //    upgradeButton2.SetActive(true);
+                //}
             }
         }
 
@@ -139,41 +158,41 @@ public class UpgradeMenuScript : MonoBehaviour
         {
             upgradeType = 1;
             SetTowerUpgrades();
-            LevelManager.main.currency -= upgradeCost;
+            LevelManager.main.currency -= upgrade1Cost;
             //Ballista upgrades should include attack speed and damage
-            ballistaTowerValues.upgradePath = 1;
-            ballistaTowerValues.upgradeCount++;
-            if (ballistaTowerValues.upgradeCount > 0)
-            {
-                if (ballistaTowerValues.upgradePath == 1 && upgradeButton2.activeSelf)
-                {
-                    upgradeButton2.SetActive(false);
-                }
-                if (ballistaTowerValues.upgradePath == 2 && upgradeButton2.activeSelf)
-                {
-                    upgradeButton1.SetActive(false);
-                }
-            }
+            //ballistaTowerValues.upgradePath = 1;
+            ballistaTowerValues.upgrade1Count++;
+            //if (ballistaTowerValues.upgradeCount > 0)
+            //{
+            //    if (ballistaTowerValues.upgradePath == 1 && upgradeButton2.activeSelf)
+            //    {
+            //        upgradeButton2.SetActive(false);
+            //    }
+            //    if (ballistaTowerValues.upgradePath == 2 && upgradeButton2.activeSelf)
+            //    {
+            //        upgradeButton1.SetActive(false);
+            //    }
+            //}
         }
         else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
         {
             upgradeType = 1;
             SetTowerUpgrades();
-            LevelManager.main.currency -= upgradeCost;
+            LevelManager.main.currency -= upgrade1Cost;
             //Spear Machine upgrades should include attack speed and damage
-            spearTowerValues.upgradePath = 1;
-            spearTowerValues.upgradeCount++;
-            if (spearTowerValues.upgradeCount > 0)
-            {
-                if (spearTowerValues.upgradePath == 1 && upgradeButton2.activeSelf)
-                {
-                    upgradeButton2.SetActive(false);
-                }
-                if (spearTowerValues.upgradePath == 2 && upgradeButton2.activeSelf)
-                {
-                    upgradeButton1.SetActive(false);
-                }
-            }
+            //spearTowerValues.upgradePath = 1;
+            spearTowerValues.upgrade1Count++;
+            //if (spearTowerValues.upgradeCount > 0)
+            //{
+            //    if (spearTowerValues.upgradePath == 1 && upgradeButton2.activeSelf)
+            //    {
+            //        upgradeButton2.SetActive(false);
+            //    }
+            //    if (spearTowerValues.upgradePath == 2 && upgradeButton2.activeSelf)
+            //    {
+            //        upgradeButton1.SetActive(false);
+            //    }
+            //}
         }
     }
     public void OnButton2Press()
@@ -182,39 +201,39 @@ public class UpgradeMenuScript : MonoBehaviour
         {
             upgradeType = 3;
             SetTowerUpgrades();
-            LevelManager.main.currency -= upgradeCost;
-            ballistaTowerValues.upgradePath = 2;
-            ballistaTowerValues.upgradeCount++;
-            if (ballistaTowerValues.upgradeCount > 0)
-            {
-                if (ballistaTowerValues.upgradePath == 1 && upgradeButton2.activeSelf)
-                {
-                    upgradeButton2.SetActive(false);
-                }
-                if (ballistaTowerValues.upgradePath == 2 && upgradeButton2.activeSelf)
-                {
-                    upgradeButton1.SetActive(false);
-                }
-            }
+            LevelManager.main.currency -= upgrade2Cost;
+            //ballistaTowerValues.upgradePath = 2;
+            ballistaTowerValues.upgrade2Count++;
+            //if (ballistaTowerValues.upgradeCount > 0)
+            //{
+            //    if (ballistaTowerValues.upgradePath == 1 && upgradeButton2.activeSelf)
+            //    {
+            //        upgradeButton2.SetActive(false);
+            //    }
+            //    if (ballistaTowerValues.upgradePath == 2 && upgradeButton2.activeSelf)
+            //    {
+            //        upgradeButton1.SetActive(false);
+            //    }
+            //}
         }
         else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
         {
             upgradeType = 3;
             SetTowerUpgrades();
-            LevelManager.main.currency -= upgradeCost;
-            spearTowerValues.upgradePath = 2;
-            spearTowerValues.upgradeCount++;
-            if (spearTowerValues.upgradeCount > 0)
-            {
-                if (spearTowerValues.upgradePath == 1 && upgradeButton2.activeSelf)
-                {
-                    upgradeButton2.SetActive(false);
-                }
-                if (spearTowerValues.upgradePath == 2 && upgradeButton2.activeSelf)
-                {
-                    upgradeButton1.SetActive(false);
-                }
-            }
+            LevelManager.main.currency -= upgrade2Cost;
+            //spearTowerValues.upgradePath = 2;
+            spearTowerValues.upgrade2Count++;
+            //if (spearTowerValues.upgradeCount > 0)
+            //{
+            //    if (spearTowerValues.upgradePath == 1 && upgradeButton2.activeSelf)
+            //    {
+            //        upgradeButton2.SetActive(false);
+            //    }
+            //    if (spearTowerValues.upgradePath == 2 && upgradeButton2.activeSelf)
+            //    {
+            //        upgradeButton1.SetActive(false);
+            //    }
+            //}
         }
     }
 

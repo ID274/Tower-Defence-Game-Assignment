@@ -606,7 +606,7 @@ MonoBehaviour:
   enemiesPerSecond: 2
   timeBetweenWaves: 5
   difficultyScalingFactor: 0.75
-  currentWave: 5
+  currentWave: 9
   flyingEnemyAmount: 0
   toSpawnCount: 0
   enemiesAlive: 0
@@ -719,7 +719,8 @@ MonoBehaviour:
   attackCountText: {fileID: 1459728012}
   damageDealtText: {fileID: 891324458}
   towerGoldWorth: 0
-  upgradeCost: 0
+  upgrade1Cost: 0
+  upgrade2Cost: 0
   selectedTower: {fileID: 0}
   upgradeType: 0
 --- !u!1001 &119948696

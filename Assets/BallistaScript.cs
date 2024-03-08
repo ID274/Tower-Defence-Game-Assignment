@@ -30,7 +30,9 @@ public class BallistaScript : MonoBehaviour
     [SerializeField] private float rotationSpeed = 10f;
     public float attackSpeed = 1f; //bullets per second
     public int upgradePath = 0;
-    public int upgradeCount = 0;
+    public int upgrade1Count = 0;
+    public int upgrade2Count = 0;
+    public int upgradeCount;
 
     public float preModDamage;
     public float preModAttackSpeed;
@@ -52,6 +54,7 @@ public class BallistaScript : MonoBehaviour
 
     private void Update()
     {
+        upgradeCount = upgrade1Count + upgrade2Count;
         if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
         {
             towerBase.sprite = upgradedSprite;
@@ -132,6 +135,8 @@ public class BallistaScript : MonoBehaviour
     private void FindTarget()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
+        System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
+        System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.x));
         if (hits.Length > 0)
         {
             target = hits[0].transform;
@@ -140,6 +145,7 @@ public class BallistaScript : MonoBehaviour
     private void FindTargetAerial()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, flyingEnemyMask);
+        System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
         if (hits.Length > 0)
         {
             target = hits[0].transform;
@@ -177,6 +183,17 @@ public class BallistaScript : MonoBehaviour
     public void ModDamage()
     {
         damage = preModDamage * ModifierScript.Instance.damageMult;
+    }
+
+    private int YPositionComparison(GameObject a, GameObject b)
+    {
+        //null check, I consider nulls to be less than non-null
+        if (a == null) return (b == null) ? 0 : -1;
+        if (b == null) return 1;
+
+        var ya = a.transform.position.y;
+        var yb = b.transform.position.y;
+        return ya.CompareTo(yb); //here I use the default comparison of floats
     }
 }
 

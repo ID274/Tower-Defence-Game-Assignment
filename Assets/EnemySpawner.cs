@@ -150,11 +150,14 @@ public class EnemySpawner : MonoBehaviour
         {
             groundBossWarning.SetActive(true);
         }
+        else
+        {
+            groundWarning.SetActive(true);
+        }
         if (currentWave >= 5)
         {
             flyingWarning.SetActive(true);
         }
-        groundWarning.SetActive(true);
         yield return new WaitForSeconds(timeBetweenWaves);
         groundBossWarning.SetActive(false);
         groundWarning.SetActive(false);
