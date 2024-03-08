@@ -47,3 +47,6 @@ TagManager:
   - name: Enemies
     uniqueID: 3317201303
     locked: 0
+  - name: WarningSigns
+    uniqueID: 3959008187
+    locked: 0

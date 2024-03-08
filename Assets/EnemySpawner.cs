@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private EnemyHealth[] enemyPrefabs;
     [SerializeField] private GameObject[] bossPrefabs;
     [SerializeField] private GameObject powerupScreen;
+    [SerializeField] private GameObject groundWarning, groundBossWarning, flyingWarning, flyingBossWarning;
 
     [Header("Attributes")]
     [SerializeField] private int baseEnemies = 8;
@@ -17,13 +18,17 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
     [SerializeField] private int currentWave = 0;
+    public int flyingEnemyAmount;
+    public int toSpawnCount;
+
+
 
     [Header("Events")]
     public static UnityEvent onEnemyDestroy = new UnityEvent();
 
     private float timeSinceLastSpawn;
-    private int enemiesAlive;
-    private int enemiesLeftToSpawn;
+    [SerializeField] private int enemiesAlive;
+    [SerializeField] private int enemiesLeftToSpawn;
     private bool isSpawning = false;
     private int bossIndex = 0;
     private bool bossSpawned = false;
@@ -57,7 +62,6 @@ public class EnemySpawner : MonoBehaviour
             {
                 SpawnEnemy();
                 enemiesLeftToSpawn--;
-                enemiesAlive++;
                 timeSinceLastSpawn = 0f;
                 ;
             }
@@ -76,45 +80,39 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (bossPrefabs[0] == null || bossSpawned == true || currentWave % 10 != 0)
+        if (currentWave % 10 == 0 && bossPrefabs[bossIndex] != null && bossSpawned == false && toSpawnCount / 2 >= enemiesLeftToSpawn)
+        {
+            bossSpawned = true;
+            SpawnBoss();
+        }
+        else if (bossPrefabs[0] == null || bossSpawned == true || currentWave % 10 != 0 || toSpawnCount / 2 < enemiesLeftToSpawn)
         {
             if (currentWave < 5)
             {
                 EnemyHealth prefabToSpawn = enemyPrefabs[0];
                 EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
                 prefabInstance.hitPoints = 2 * currentWave;
+                enemiesAlive++;
 
-                
+
             }
             else
             {
-                int rnd = Random.Range(0, 10);
-                if (rnd < 7)
+                if (flyingEnemyAmount > 0)
                 {
-                    rnd = 0;
+                    EnemyHealth flyingToSpawn = enemyPrefabs[1];
+                    EnemyHealth flyingInstance = Instantiate(flyingToSpawn, LevelManager.main.startPointAerial.position, Quaternion.identity);
+                    flyingInstance.hitPoints = 2 * currentWave;
+                    flyingEnemyAmount--;
+                    enemiesAlive++;
+
                 }
-                else
-                {
-                    rnd = 1;
-                }
-                EnemyHealth prefabToSpawn = enemyPrefabs[rnd];
-                if (prefabToSpawn.GetComponent<EnemyMovement>().flyingEnemy)
-                {
-                    EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPointAerial.position, Quaternion.identity);
-                    prefabInstance.hitPoints = 2 * currentWave;
-                }
-                else if (!prefabToSpawn.GetComponent<EnemyMovement>().flyingEnemy)
-                {
-                    EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
-                    prefabInstance.hitPoints = 2 * currentWave;
-                }
+                EnemyHealth prefabToSpawn = enemyPrefabs[0];
+                EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+                prefabInstance.hitPoints = 2 * currentWave;
+                enemiesAlive++;
             }
 
-        }
-        else if (currentWave % 10 == 0 && bossPrefabs[bossIndex] != null && bossSpawned == false)
-        {
-            bossSpawned = true;
-            SpawnBoss();
         }
 
 
@@ -134,6 +132,7 @@ public class EnemySpawner : MonoBehaviour
         bossHealth.hitPoints *= 20 * currentWave;
         bossHealth.isBoss = true;
         bossHealth.currencyWorth *= currentWave;
+        enemiesAlive++;
         bossIndex++;
 
     }
@@ -147,9 +146,23 @@ public class EnemySpawner : MonoBehaviour
     {
         waveEnded = false;
         currentWave++;
+        if (currentWave % 10 == 0 && bossPrefabs[bossIndex] != null)
+        {
+            groundBossWarning.SetActive(true);
+        }
+        if (currentWave >= 5)
+        {
+            flyingWarning.SetActive(true);
+        }
+        groundWarning.SetActive(true);
         yield return new WaitForSeconds(timeBetweenWaves);
+        groundBossWarning.SetActive(false);
+        groundWarning.SetActive(false);
+        flyingWarning.SetActive(false);
         isSpawning = true;
         enemiesLeftToSpawn = EnemiesPerWave();
+        toSpawnCount = enemiesLeftToSpawn;
+        flyingEnemyAmount = Mathf.RoundToInt(enemiesLeftToSpawn / 5);
     }
 
     private void EndWave()

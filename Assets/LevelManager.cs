@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
     public Transform[] pathAerial;
     public Transform startPointAerial;
 
+
     public int currency;
     public int startCurrency = 450;
     public int health;
@@ -19,12 +20,17 @@ public class LevelManager : MonoBehaviour
     [Header("Game Over")]
     public bool gameOver = false;
 
+    [Header("Timescale References")]
+    [SerializeField] private GameObject normalSpeedButton, doubleSpeedButton;
+
+
     private void Awake()
     {
         main = this;
     }
     private void Start()
     {
+        Time.timeScale = 1f;
         health = startHealth;
         currency = startCurrency;
     }
@@ -54,6 +60,38 @@ public class LevelManager : MonoBehaviour
         if (health <= 0)
         {
             gameOver = true;
+        }
+        if (Time.timeScale == 1f)
+        {
+            normalSpeedButton.SetActive(false);
+            doubleSpeedButton.SetActive(true);
+        }
+        else if (Time.timeScale == 2f || Time.timeScale == 0f)
+        {
+            normalSpeedButton.SetActive(true);
+            doubleSpeedButton.SetActive(false);
+        }
+    }
+
+
+    public void DoubleSpeed()
+    {
+        Time.timeScale = 2f;
+    }
+    public void NormalSpeed()
+    {
+        Time.timeScale = 1f;
+    }
+
+    public void Pause()
+    {
+        if (Time.timeScale == 0f)
+        {
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            Time.timeScale = 0f;
         }
     }
 }

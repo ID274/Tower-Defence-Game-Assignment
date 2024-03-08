@@ -79,14 +79,13 @@ public class BallistaScript : MonoBehaviour
                 }
                 return;
             }
-            RotateTowardsTarget();
-
             if (!CheckTargetIsInRange())
             {
                 target = null;
             }
             else
             {
+                RotateTowardsTarget();
                 timeUntilFire += Time.deltaTime;
                 if (timeUntilFire >= 1f / attackSpeed)
                 {

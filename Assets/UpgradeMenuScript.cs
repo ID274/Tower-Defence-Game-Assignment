@@ -61,8 +61,8 @@ public class UpgradeMenuScript : MonoBehaviour
                 Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
                 upgradeButtonText1.text = $"Buy for {upgradeCost} gold";
                 upgradeButtonText2.text = $"Buy for {upgradeCost} gold";
-                upgradeText1.text = $"+{0.2f * (ballistaTowerValues.upgradeCount + 1)}x attack speed";
-                upgradeText2.text = $"+{0.4f * (ballistaTowerValues.upgradeCount + 1)}x damage";
+                upgradeText1.text = $"+{0.05f * (ballistaTowerValues.upgradeCount + 1)} attack speed";
+                upgradeText2.text = $"+{2f * (ballistaTowerValues.upgradeCount + 1)} damage";
                 if (LevelManager.main.currency < upgradeCost)
                 {
                     buttonToggle1.interactable = false;
@@ -98,8 +98,8 @@ public class UpgradeMenuScript : MonoBehaviour
                 Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
                 upgradeButtonText1.text = $"Buy for {upgradeCost} gold";
                 upgradeButtonText2.text = $"Buy for {upgradeCost} gold";
-                upgradeText1.text = $"+{0.2f * (spearTowerValues.upgradeCount + 1)}x attack speed";
-                upgradeText2.text = $"+{0.4f * (spearTowerValues.upgradeCount + 1)}x damage";
+                upgradeText1.text = $"+{0.15f * (spearTowerValues.upgradeCount + 1)} attack speed";
+                upgradeText2.text = $"+{0.5f * (spearTowerValues.upgradeCount + 1)} damage";
                 if (LevelManager.main.currency < upgradeCost)
                 {
                     buttonToggle1.interactable = false;
@@ -230,11 +230,11 @@ public class UpgradeMenuScript : MonoBehaviour
             switch (upgradeType)
             {
                 case 1:
-                    ballistaTowerValues.preModAttackSpeed += 0.2f * (ballistaTowerValues.upgradeCount + 1);
+                    ballistaTowerValues.preModAttackSpeed += 0.05f * (ballistaTowerValues.upgradeCount + 1);
                     ballistaTowerValues.ModAttackSpeed();
                     break;
                 case 3:
-                    ballistaTowerValues.preModDamage += 0.4f * (ballistaTowerValues.upgradeCount + 1);
+                    ballistaTowerValues.preModDamage += 2f * (ballistaTowerValues.upgradeCount + 1);
                     ballistaTowerValues.ModDamage();
                     break;
             }
@@ -244,11 +244,11 @@ public class UpgradeMenuScript : MonoBehaviour
             switch (upgradeType)
             {
                 case 1:
-                    spearTowerValues.preModAttackSpeed += 0.2f * (spearTowerValues.upgradeCount + 1);
+                    spearTowerValues.preModAttackSpeed += 0.15f * (spearTowerValues.upgradeCount + 1);
                     spearTowerValues.ModAttackSpeed();
                     break;
                 case 3:
-                    spearTowerValues.preModDamage += 0.4f * (spearTowerValues.upgradeCount + 1);
+                    spearTowerValues.preModDamage += 0.5f * (spearTowerValues.upgradeCount + 1);
                     spearTowerValues.ModDamage();
                     break;
             }
