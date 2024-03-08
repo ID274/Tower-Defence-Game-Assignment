@@ -135,7 +135,7 @@ public class SpearMachineScript : MonoBehaviour
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
         System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
-        System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.x));
+        System.Array.Sort(hits, (a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
         if (hits.Length > 0)
         {
             target = hits[0].transform;
