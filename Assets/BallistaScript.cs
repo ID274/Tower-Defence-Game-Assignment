@@ -82,18 +82,22 @@ public class BallistaScript : MonoBehaviour
                 }
                 return;
             }
-            if (!CheckTargetIsInRange())
-            {
-                target = null;
-            }
-            else
+            if (CheckTargetIsInRange())
             {
                 RotateTowardsTarget();
                 timeUntilFire += Time.deltaTime;
-                if (timeUntilFire >= 1f / attackSpeed)
+                if (timeUntilFire >= 1f / attackSpeed && shotFinished)
                 {
                     Shoot();
                 }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                target = null;
             }
         }
         
@@ -101,20 +105,13 @@ public class BallistaScript : MonoBehaviour
 
     private void Shoot()
     {
-
-        if (shotFinished)
-        {
-            StartCoroutine(ShotAnimation());
-            timeUntilFire = 0f;
-        }
-        else
-        {
-            return;
-        }
+        StartCoroutine(ShotAnimation());
+        timeUntilFire = 0f;
     }
 
     public IEnumerator ShotAnimation()
     {
+        shotFinished = false;
         timeUntilFireHalf = timeUntilFire / 2;
         GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
         BallistaArrowScript bulletScript = bulletObj.GetComponent<BallistaArrowScript>();
@@ -124,7 +121,6 @@ public class BallistaScript : MonoBehaviour
         damageDealt += damage;
         bulletScript.SetTarget(target);
         Debug.Log("Shoot");
-        shotFinished = false;
         spriteRenderer.sprite = UnloadedSprite;
         yield return new WaitForSeconds(timeUntilFireHalf);
         spriteRenderer.sprite = LoadedSprite;

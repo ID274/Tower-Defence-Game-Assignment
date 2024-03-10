@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 130
+  controlID: 117
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -426,7 +426,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -434,15 +434,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\OnlyOneUnlucky\source\repos\Tower-Defence-Game-Assignment
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: e8630000
-    m_LastClickedID: 25576
+    m_SelectedIDs: dc630000
+    m_LastClickedID: 25564
     m_ExpandedIDs: 00000000dc63000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -611,9 +611,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: d05e0000
-      m_LastClickedID: 24272
-      m_ExpandedIDs: 1afbffff
+      m_SelectedIDs: 8e5f0000
+      m_LastClickedID: 24462
+      m_ExpandedIDs: 1afbffff80600000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1019,9 +1019,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -1.2333, y: 1.9832412, z: -10.519171}
+    m_Target: {x: 970.97754, y: 544.67596, z: 42.903366}
     speed: 2
-    m_Value: {x: -1.2333, y: 1.9832412, z: -10.519171}
+    m_Value: {x: 970.97754, y: 544.67596, z: 42.903366}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1071,9 +1071,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 8.066927
+    m_Target: 786.2234
     speed: 2
-    m_Value: 8.066927
+    m_Value: 786.2234
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1138,7 +1138,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1920, y: 1080}
+  m_TargetSize: {x: 2436, y: 1125}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -1147,16 +1147,16 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 03000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 03000000000000000c00000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -960
-    m_HBaseRangeMax: 960
-    m_VBaseRangeMin: -540
-    m_VBaseRangeMax: 540
+    m_HBaseRangeMin: -1218
+    m_HBaseRangeMax: 1218
+    m_VBaseRangeMin: -562.5
+    m_VBaseRangeMax: 562.5
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1176,24 +1176,24 @@ MonoBehaviour:
       y: 21
       width: 1098
       height: 674
-    m_Scale: {x: 0.571875, y: 0.571875}
-    m_Translation: {x: 549, y: 336.99997}
+    m_Scale: {x: 0.4507389, y: 0.4507389}
+    m_Translation: {x: 549, y: 337}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -960.00006
-      y: -589.2896
-      width: 1920.0001
-      height: 1178.5792
+      x: -1218
+      y: -747.6612
+      width: 2436
+      height: 1495.3224
     m_MinimalGUI: 1
-  m_defaultScale: 0.571875
+  m_defaultScale: 0.4507389
   m_LastWindowPixelSize: {x: 1098, y: 695}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
-  m_LowResolutionForAspectRatios: 01000000000000000000
+  m_LowResolutionForAspectRatios: 01000100000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
 --- !u!114 &18

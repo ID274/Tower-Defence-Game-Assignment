@@ -27,6 +27,10 @@ public class BallistaArrowScript : MonoBehaviour
 
     public void Update()
     {
+        if (target == null)
+        {
+            Destroy(gameObject);
+        }
         //if (preModDamage * ModifierScript.Instance.damageMult != bulletDamage)
         //{
         //    ModDamage();
