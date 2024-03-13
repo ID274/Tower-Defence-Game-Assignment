@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class BallistaArrowScript : MonoBehaviour
@@ -27,9 +26,11 @@ public class BallistaArrowScript : MonoBehaviour
 
     public void Update()
     {
-        if (target == null)
+        if (!target)
         {
-            Destroy(gameObject);
+            Vector2 direction = transform.up;
+            rb.velocity = direction * bulletSpeed;
+            return;
         }
         //if (preModDamage * ModifierScript.Instance.damageMult != bulletDamage)
         //{
@@ -50,15 +51,13 @@ public class BallistaArrowScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!target) 
+        if (target) 
         {
-            rb.velocity = rb.velocity;
-            return;
-        }
-        Vector2 direction = (target.position - transform.position).normalized;
+            Vector2 direction = (target.position - transform.position).normalized;
 
-        rb.velocity = direction * bulletSpeed;
-        transform.up = target.position - transform.position;
+            rb.velocity = direction * bulletSpeed;
+            transform.up = target.position - transform.position;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

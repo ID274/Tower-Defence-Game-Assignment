@@ -43,6 +43,9 @@ public class BallistaScript : MonoBehaviour
     private float timeUntilFireHalf;
     public bool aerial;
 
+    public Quaternion towerPointingDirection;
+
+
 
     private void Start()
     {
@@ -54,6 +57,7 @@ public class BallistaScript : MonoBehaviour
 
     private void Update()
     {
+        towerPointingDirection = transform.rotation;
         upgradeCount = upgrade1Count + upgrade2Count;
         if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
         {
@@ -114,6 +118,7 @@ public class BallistaScript : MonoBehaviour
         shotFinished = false;
         timeUntilFireHalf = timeUntilFire / 2;
         GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
+        bulletObj.transform.parent = transform;
         BallistaArrowScript bulletScript = bulletObj.GetComponent<BallistaArrowScript>();
         bulletScript.bulletDamage = preModDamage;
         bulletScript.bulletDamage = damage;
@@ -128,16 +133,33 @@ public class BallistaScript : MonoBehaviour
         shotFinished = true;
     }
 
+    //private void FindTarget()
+    //{
+    //    RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
+    //    System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
+    //    System.Array.Sort(hits, (a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
+    //    if (hits.Length > 0)
+    //    {
+    //        target = hits[0].transform;
+    //    }
+
+    //}
+
     private void FindTarget()
     {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
-        System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
-        System.Array.Sort(hits, (a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, Vector2.zero, 0f, enemyMask);
+        System.Array.Sort(hits, (a, b) => {
+            int compareY = a.transform.position.y.CompareTo(b.transform.position.y);
+            if (compareY != 0) return compareY; // Sort by lower Y values first
+                                                // If Y values are the same, sort by higher X values
+            return b.transform.position.x.CompareTo(a.transform.position.x);
+        });
         if (hits.Length > 0)
         {
             target = hits[0].transform;
         }
     }
+
     private void FindTargetAerial()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, flyingEnemyMask);
@@ -161,11 +183,11 @@ public class BallistaScript : MonoBehaviour
         turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed);
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Handles.color = Color.cyan;
-        Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Handles.color = Color.cyan;
+    //    Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
+    //}
 
     public void ModAttackSpeed()
     {
