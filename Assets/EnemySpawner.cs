@@ -150,9 +150,9 @@ public class EnemySpawner : MonoBehaviour
     {
         waveEnded = false;
         currentWave++;
-        if (currentWave == 1 || currentWave == 10)
+        if (currentWave == 1)
         {
-            Debug.Log("current wave = 1 or 10");
+            Debug.Log("current wave = 1");
             LevelManager.main.Pause();
             Debug.Log(SettingsScript.main.tutorialsEnabled);
             if (SettingsScript.main.tutorialsEnabled)
