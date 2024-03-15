@@ -28,7 +28,7 @@ public class SpearMachineScript : MonoBehaviour
     [Header("Attributes")]
     public float damage = 3;
     public float targetingRange = 2f;
-    [SerializeField] private float rotationSpeed = 10f;
+    //[SerializeField] private float rotationSpeed = 10f;
     public float attackSpeed = 1f; //hits per second
     public int upgradePath = 0;
     public int upgrade1Count = 0;
@@ -103,16 +103,14 @@ public class SpearMachineScript : MonoBehaviour
 
     private void Shoot()
     {
-
         if (shotFinished)
         {
-            //StartCoroutine(ShotAnimation());
             StartCoroutine(AttackAnimation());
             timeUntilFire = 0f;
         }
         else
         {
-            return;
+            timeUntilFire = 0f;
         }
     }
 
@@ -172,12 +170,19 @@ public class SpearMachineScript : MonoBehaviour
         return Vector2.Distance(target.position, transform.position) <= targetingRange;
     }
 
+    //private void RotateTowardsTarget()
+    //{
+    //    float angle = Mathf.Atan2(target.position.y - transform.position.y, target.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
+
+    //    Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+    //    turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed);
+    //}
     private void RotateTowardsTarget()
     {
         float angle = Mathf.Atan2(target.position.y - transform.position.y, target.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
 
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-        turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed);
+        turretRotationPoint.rotation = targetRotation;
     }
 
     //private void OnDrawGizmosSelected()

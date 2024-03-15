@@ -29,7 +29,7 @@ public class BallistaScript : MonoBehaviour
     [Header("Attributes")]
     public float targetingRange = 5f;
     public float damage = 3;
-    [SerializeField] private float rotationSpeed = 10f;
+    //[SerializeField] private float rotationSpeed = 10f;
     public float attackSpeed = 1f; //bullets per second
     public int upgradePath = 0;
     public int upgrade1Count = 0;
@@ -119,8 +119,15 @@ public class BallistaScript : MonoBehaviour
 
     private void Shoot()
     {
-        StartCoroutine(ShotAnimation());
-        timeUntilFire = 0f;
+        if (shotFinished)
+        {
+            StartCoroutine(ShotAnimation());
+            timeUntilFire = 0f;
+        }
+        else
+        {
+            timeUntilFire = 0f;
+        }
     }
 
     public IEnumerator ShotAnimation()
@@ -186,12 +193,19 @@ public class BallistaScript : MonoBehaviour
         return Vector2.Distance(target.position, transform.position) <= targetingRange;
     }
 
+    //private void RotateTowardsTarget()
+    //{
+    //    float angle = Mathf.Atan2(target.position.y - transform.position.y, target.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
+
+    //    Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+    //    turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed);
+    //}
     private void RotateTowardsTarget()
     {
         float angle = Mathf.Atan2(target.position.y - transform.position.y, target.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
 
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-        turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed);
+        turretRotationPoint.rotation = targetRotation;
     }
 
     //private void OnDrawGizmosSelected()

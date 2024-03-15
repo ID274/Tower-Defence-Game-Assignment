@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -11,7 +12,8 @@ public class LevelManager : MonoBehaviour
     public Transform[] pathAerial;
     public Transform startPointAerial;
 
-
+    public int currentWave;
+    public int enemiesKilled;
     public int currency;
     public int startCurrency = 450;
     public int health;
@@ -19,6 +21,8 @@ public class LevelManager : MonoBehaviour
 
     [Header("Game Over")]
     public bool gameOver = false;
+    [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private TextMeshProUGUI diedOnWaveText, enemiesKilledText;
 
     [Header("Timescale References")]
     [SerializeField] private GameObject normalSpeedButton, doubleSpeedButton;
@@ -62,6 +66,9 @@ public class LevelManager : MonoBehaviour
         if (health <= 0)
         {
             gameOver = true;
+            gameOverScreen.SetActive(true);
+            diedOnWaveText.text = $"Survived until: Wave {currentWave}";
+            enemiesKilledText.text = $"Enemies killed: {enemiesKilled}";
         }
         if (Time.timeScale == 1f)
         {
@@ -99,5 +106,9 @@ public class LevelManager : MonoBehaviour
             Time.timeScale = 0f;
             Debug.Log(Time.timeScale);
         }
+    }
+    public void RetryLevel()
+    {
+        SceneManagerScript.main.ReloadScene();
     }
 }

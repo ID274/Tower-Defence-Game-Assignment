@@ -144,12 +144,14 @@ public class EnemySpawner : MonoBehaviour
     private void EnemyDestroyed()
     {
         enemiesAlive--;
+        LevelManager.main.enemiesKilled++;
     }
 
     private IEnumerator StartWave()
     {
         waveEnded = false;
         currentWave++;
+        LevelManager.main.currentWave = currentWave;
         if (currentWave == 1)
         {
             Debug.Log("current wave = 1");
