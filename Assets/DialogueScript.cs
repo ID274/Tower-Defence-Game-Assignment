@@ -17,8 +17,17 @@ public class DialogueScript : MonoBehaviour, IPointerDownHandler
     private bool coroutineStarted = false;
 
     // Start is called before the first frame update
+    
+    
+    
     void OnEnable()
     {
+        if (SettingsScript.main.tutorialsEnabled)
+        {
+            onTutorial = false;
+            SkipDialogue();
+            gameObject.SetActive(false);
+        }
         if (onTutorial)
         {
             Debug.Log("Tutorial dialogue length:" + tutorialDialogueContents.Length);

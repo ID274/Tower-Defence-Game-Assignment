@@ -154,7 +154,10 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.Log("current wave = 1 or 10");
             LevelManager.main.Pause();
-            tutorialMenu.SetActive(true);
+            if (SettingsScript.main.tutorialsEnabled)
+            {
+                tutorialMenu.SetActive(true);
+            }
             Debug.Log(Time.timeScale);
         }
         if (currentWave % 10 == 0 && bossPrefabs[bossIndex] != null)
