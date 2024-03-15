@@ -9,6 +9,8 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI currencyUI, healthUI;
     [SerializeField] TextMeshProUGUI[] multText;
 
+    public GameObject settingsMenu;
+
 
     private void OnGUI()
     {
@@ -23,4 +25,9 @@ public class ShopMenu : MonoBehaviour
         multText[2].text = ModifierScript.Instance.damageMult.ToString();
         multText[3].text = ModifierScript.Instance.attackSpeedMult.ToString();
     }
+    public void OpenSettings()
+    {
+        settingsMenu.SetActive(true);
+    }
 }
+

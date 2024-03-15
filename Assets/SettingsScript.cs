@@ -13,7 +13,6 @@ public class SettingsScript : MonoBehaviour
     public bool tutorialsEnabled;
     public bool sfxEnabled;
     public bool musicEnabled;
-    public bool fullscreenEnabled;
 
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private TextMeshProUGUI tutorialButton, fullscreenButton, sfxButton, musicButton;
@@ -22,10 +21,6 @@ public class SettingsScript : MonoBehaviour
     {
         main = this;
         DontDestroyOnLoad(this.gameObject);
-        if (!PlayerPrefs.HasKey("FullScreenEnabled"))
-        {
-            PlayerPrefs.SetFloat("FullScreenEnabled", 1);
-        }
         if (!PlayerPrefs.HasKey("MusicEnabled"))
         {
             PlayerPrefs.SetFloat("MusicEnabled", 1);
@@ -38,40 +33,33 @@ public class SettingsScript : MonoBehaviour
         {
             PlayerPrefs.SetFloat("TutorialsEnabled", 1);
         }
+        fullscreenButton.text = "Fullscreen";
         LoadPrefs();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (tutorialsEnabled)
+        if (tutorialsEnabled && tutorialButton != null)
         {
             tutorialButton.text = "Tutorials: ON";
         }
-        else
+        else if (tutorialButton != null)
         {
             tutorialButton.text = "Tutorials: OFF";
         }
-        if (fullscreenEnabled)
-        {
-            fullscreenButton.text = "Fullscreen: ON";
-        }
-        else
-        {
-            fullscreenButton.text = "Fullscreen: OFF";
-        }
-        if (sfxEnabled)
+        if (sfxEnabled && sfxButton != null)
         {
             sfxButton.text = "SFX: ON";
         }
-        else
+        else if (sfxButton != null)
         {
             sfxButton.text = "SFX: OFF";
         }
-        if (musicEnabled)
+        if (musicEnabled && musicButton != null)
         {
             musicButton.text = "Music: ON";
         }
-        else
+        else if (musicButton != null)
         {
             musicButton.text = "Music: OFF";
         }
@@ -89,14 +77,7 @@ public class SettingsScript : MonoBehaviour
     }
     public void ToggleFullScreen()
     {
-        if (fullscreenEnabled)
-        {
-            fullscreenEnabled = false;
-        }
-        else
-        {
-            fullscreenEnabled = true;
-        }
+        Screen.fullScreen = !Screen.fullScreen;
     }
     public void ToggleSFX()
     {
@@ -130,13 +111,12 @@ public class SettingsScript : MonoBehaviour
     {
         PlayerPrefs.SetInt("MusicEnabled", Convert.ToInt32(musicEnabled));
         PlayerPrefs.SetInt("SFXEnabled", Convert.ToInt32(sfxEnabled));
-        PlayerPrefs.SetInt("FullscreenEnabled", Convert.ToInt32(fullscreenEnabled));
         PlayerPrefs.SetInt("TutorialsEnabled", Convert.ToInt32(tutorialsEnabled));
     }
-    private void LoadFullscreenPrefs()
-    {
-        fullscreenEnabled = Convert.ToBoolean(PlayerPrefs.GetInt("FullscreenEnabled"));
-    }
+    //private void LoadFullscreenPrefs()
+    //{
+    //    fullscreenEnabled = Convert.ToBoolean(PlayerPrefs.GetInt("FullscreenEnabled"));
+    //}
     private void LoadMusicPrefs()
     {
         musicEnabled = Convert.ToBoolean(PlayerPrefs.GetInt("MusicEnabled"));
@@ -150,11 +130,11 @@ public class SettingsScript : MonoBehaviour
         tutorialsEnabled = Convert.ToBoolean(PlayerPrefs.GetInt("TutorialsEnabled"));
     }
 
-    private void LoadPrefs()
+    public void LoadPrefs()
     {
         LoadMusicPrefs();
         LoadSFXPrefs();
-        LoadFullscreenPrefs();
+        //LoadFullscreenPrefs();
         LoadTutorialPrefs();
     }
 }
