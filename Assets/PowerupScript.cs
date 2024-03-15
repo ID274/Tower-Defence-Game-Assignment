@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.TextCore.Text;
-using Unity.VisualScripting;
-using JetBrains.Annotations;
 
 public class PowerupScript : MonoBehaviour
 {
@@ -67,7 +64,7 @@ public class PowerupScript : MonoBehaviour
                 }
         }
 
-        if (tier <= 50)
+        if (tier <= 60)
         {
             tierName = "Common";
             textColor = tierColor[0];
@@ -75,7 +72,7 @@ public class PowerupScript : MonoBehaviour
             actualValue = 0.05f;
             this.GetComponent<Image>().color = tierColor[0];
         }
-        else if (tier > 50 && tier <= 80)
+        else if (tier > 60 && tier <= 85)
         {
             tierName = "Rare";
             textColor = tierColor[1];
@@ -83,7 +80,7 @@ public class PowerupScript : MonoBehaviour
             actualValue = 0.1f;
             this.GetComponent<Image>().color = tierColor[1];
         }
-        else if (tier > 80 && tier <= 95)
+        else if (tier > 85 && tier <= 97)
         {
             tierName = "Epic";
             textColor = tierColor[2];
@@ -91,7 +88,7 @@ public class PowerupScript : MonoBehaviour
             actualValue = 0.15f;
             this.GetComponent<Image>().color = tierColor[2];
         }
-        else if (tier > 95)
+        else if (tier > 97)
         {
             tierName = "Legendary";
             textColor = tierColor[3];

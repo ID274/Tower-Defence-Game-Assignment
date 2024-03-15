@@ -69,6 +69,14 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
         else
         {
+            if (UpgradeMenuScript.Instance.selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+            {
+                ballistaTowerValues.rangeIndicator.gameObject.SetActive(false);
+            }
+            else if (UpgradeMenuScript.Instance.selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
+            {
+                spearTowerValues.rangeIndicator.gameObject.SetActive(false);
+            }
             UpgradeMenuScript.Instance.selectedTower = tower;
         }
     }

@@ -39,6 +39,7 @@ public class SceneManagerScript : MonoBehaviour
             buildIndex = 0;
             SoundManager.main.StopMusic();
         }
+        SoundManager.main.StopMusic();
         SceneManager.LoadScene(buildIndex);
         currentScene = SceneManager.GetActiveScene();
         buildIndex = currentScene.buildIndex;

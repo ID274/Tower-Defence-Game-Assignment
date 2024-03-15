@@ -28,6 +28,7 @@ public class LevelManager : MonoBehaviour
     {
         main = this;
         Time.timeScale = 1f;
+        SoundManager.main.PlayGameMusic();
         Debug.Log("Start timescale" + "=" + Time.timeScale);
     }
     private void Start()

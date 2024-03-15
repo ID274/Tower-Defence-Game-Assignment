@@ -52,6 +52,7 @@ public class UpgradeMenuScript : MonoBehaviour
     {
         if (upgradeMenu.activeSelf)
         {
+
             SetStatsWindow();
             if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
             {
@@ -83,6 +84,7 @@ public class UpgradeMenuScript : MonoBehaviour
                 }
                 upgradeButton1.SetActive(true);
                 upgradeButton2.SetActive(true);
+                ballistaTowerValues.rangeIndicator.gameObject.SetActive(true);
                 //if (ballistaTowerValues.upgradePath == 0 && (!upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
                 //{
                 //    upgradeButton1.SetActive(true);
@@ -103,7 +105,7 @@ public class UpgradeMenuScript : MonoBehaviour
             {
                 upgrade1Cost = (spearTowerValues.upgrade1Count + 1) * 200;
                 upgrade2Cost = (spearTowerValues.upgrade2Count + 1) * 200;
-                towerGoldWorth = spearTowerValues.upgradeCount * 300 + 100;
+                towerGoldWorth = spearTowerValues.upgradeCount * 200 + 100;
                 sellButtonText.text = $"Sell for {towerGoldWorth} gold";
                 Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
                 Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
@@ -129,6 +131,7 @@ public class UpgradeMenuScript : MonoBehaviour
                 }
                 upgradeButton1.SetActive(true);
                 upgradeButton2.SetActive(true);
+                spearTowerValues.rangeIndicator.gameObject.SetActive(true);
                 //if (spearTowerValues.upgradePath == 0 && (!upgradeButton1.activeSelf || !upgradeButton2.activeSelf))
                 //{
                 //    upgradeButton1.SetActive(true);
@@ -239,6 +242,14 @@ public class UpgradeMenuScript : MonoBehaviour
 
     public void OnCloseButtonPress()
     {
+        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+        {
+            ballistaTowerValues.rangeIndicator.gameObject.SetActive(false);
+        }
+        if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
+        {
+            spearTowerValues.rangeIndicator.gameObject.SetActive(false);
+        }
         upgradeMenu.SetActive(false);
     }
 
@@ -249,12 +260,12 @@ public class UpgradeMenuScript : MonoBehaviour
             switch (upgradeType)
             {
                 case 1:
-                    ballistaTowerValues.preModAttackSpeed += 0.05f * (ballistaTowerValues.upgradeCount + 1);
-                    ballistaTowerValues.ModAttackSpeed();
+                    ballistaTowerValues.preModAttackSpeed += 0.05f * (ballistaTowerValues.upgrade1Count + 1);
+                    //ballistaTowerValues.ModAttackSpeed();
                     break;
                 case 3:
-                    ballistaTowerValues.preModDamage += 2f * (ballistaTowerValues.upgradeCount + 1);
-                    ballistaTowerValues.ModDamage();
+                    ballistaTowerValues.preModDamage += 2f * (ballistaTowerValues.upgrade2Count + 1);
+                    //ballistaTowerValues.ModDamage();
                     break;
             }
         }
@@ -263,12 +274,12 @@ public class UpgradeMenuScript : MonoBehaviour
             switch (upgradeType)
             {
                 case 1:
-                    spearTowerValues.preModAttackSpeed += 0.15f * (spearTowerValues.upgradeCount + 1);
-                    spearTowerValues.ModAttackSpeed();
+                    spearTowerValues.preModAttackSpeed += 0.15f * (spearTowerValues.upgrade1Count + 1);
+                    //spearTowerValues.ModAttackSpeed();
                     break;
                 case 3:
-                    spearTowerValues.preModDamage += 0.5f * (spearTowerValues.upgradeCount + 1);
-                    spearTowerValues.ModDamage();
+                    spearTowerValues.preModDamage += 0.5f * (spearTowerValues.upgrade2Count + 1);
+                    //spearTowerValues.ModDamage();
                     break;
             }
         }

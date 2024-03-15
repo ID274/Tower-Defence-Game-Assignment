@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEngine.UI;
 
 public class BallistaScript : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class BallistaScript : MonoBehaviour
     [SerializeField] private Transform firingPoint;
     [SerializeField] private SpriteRenderer towerBase;
     [SerializeField] private Sprite upgradedSprite;
+    [SerializeField] public SpriteRenderer rangeIndicator;
 
     [Header("Attributes for stats window")]
     public int attackCount;
@@ -57,6 +59,13 @@ public class BallistaScript : MonoBehaviour
 
     private void Update()
     {
+        if (rangeIndicator != null)
+        {
+            float spriteWidth = rangeIndicator.sprite.rect.width / rangeIndicator.sprite.pixelsPerUnit;
+            float spriteHeight = rangeIndicator.sprite.rect.height / rangeIndicator.sprite.pixelsPerUnit;
+            float scaleFactor = targetingRange / Mathf.Max(spriteWidth, spriteHeight);
+            rangeIndicator.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+        }
         towerPointingDirection = transform.rotation;
         upgradeCount = upgrade1Count + upgrade2Count;
         if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
@@ -92,6 +101,7 @@ public class BallistaScript : MonoBehaviour
                 timeUntilFire += Time.deltaTime;
                 if (timeUntilFire >= 1f / attackSpeed && shotFinished)
                 {
+                    timeUntilFireHalf = timeUntilFire / 2;
                     Shoot();
                 }
                 else
@@ -116,7 +126,6 @@ public class BallistaScript : MonoBehaviour
     public IEnumerator ShotAnimation()
     {
         shotFinished = false;
-        timeUntilFireHalf = timeUntilFire / 2;
         GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
         bulletObj.transform.parent = transform;
         BallistaArrowScript bulletScript = bulletObj.GetComponent<BallistaArrowScript>();
@@ -127,11 +136,13 @@ public class BallistaScript : MonoBehaviour
         bulletScript.SetTarget(target);
         Debug.Log("Shoot");
         spriteRenderer.sprite = UnloadedSprite;
+        shotFinished = true;
         yield return new WaitForSeconds(timeUntilFireHalf);
         spriteRenderer.sprite = LoadedSprite;
         yield return new WaitForSeconds(timeUntilFireHalf);
-        shotFinished = true;
     }
+
+
 
     //private void FindTarget()
     //{
@@ -201,17 +212,6 @@ public class BallistaScript : MonoBehaviour
     public void ModDamage()
     {
         damage = preModDamage * ModifierScript.Instance.damageMult;
-    }
-
-    private int YPositionComparison(GameObject a, GameObject b)
-    {
-        //null check, I consider nulls to be less than non-null
-        if (a == null) return (b == null) ? 0 : -1;
-        if (b == null) return 1;
-
-        var ya = a.transform.position.y;
-        var yb = b.transform.position.y;
-        return ya.CompareTo(yb); //here I use the default comparison of floats
     }
 }
 

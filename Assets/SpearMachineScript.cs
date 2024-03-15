@@ -17,6 +17,7 @@ public class SpearMachineScript : MonoBehaviour
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private SpriteRenderer towerBase;
     [SerializeField] private Sprite upgradedSprite;
+    [SerializeField] public SpriteRenderer rangeIndicator;
     //[SerializeField] private GameObject bulletPrefab;
     //[SerializeField] private Transform firingPoint;
 
@@ -53,6 +54,13 @@ public class SpearMachineScript : MonoBehaviour
 
     private void Update()
     {
+        if (rangeIndicator != null)
+        {
+            float spriteWidth = rangeIndicator.sprite.rect.width / rangeIndicator.sprite.pixelsPerUnit;
+            float spriteHeight = rangeIndicator.sprite.rect.height / rangeIndicator.sprite.pixelsPerUnit;
+            float scaleFactor = targetingRange / Mathf.Max(spriteWidth, spriteHeight);
+            rangeIndicator.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+        }
         upgradeCount = upgrade1Count + upgrade2Count;
         if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
         {
@@ -87,6 +95,7 @@ public class SpearMachineScript : MonoBehaviour
             timeUntilFire += Time.deltaTime;
             if (timeUntilFire >= 1f / attackSpeed)
             {
+                timeUntilFireQuarter = timeUntilFire / 4;
                 Shoot();
             }
         }
@@ -111,7 +120,6 @@ public class SpearMachineScript : MonoBehaviour
     public IEnumerator AttackAnimation()
     {
         shotFinished = false;
-        timeUntilFireQuarter = timeUntilFire / 4;
         spriteRenderer.sprite = sprite4;
         Attack();
         yield return new WaitForSeconds(timeUntilFireQuarter / 2);
