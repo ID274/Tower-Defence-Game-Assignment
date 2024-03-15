@@ -57,7 +57,7 @@ public class UpgradeMenuScript : MonoBehaviour
             {
                 upgrade1Cost = (ballistaTowerValues.upgrade1Count + 1) * 300;
                 upgrade2Cost = (ballistaTowerValues.upgrade2Count + 1) * 300;
-                towerGoldWorth = ballistaTowerValues.upgradeCount * 150 + 150;
+                towerGoldWorth = ballistaTowerValues.upgradeCount * 300 + 150;
                 sellButtonText.text = $"Sell for {towerGoldWorth} gold";
                 Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
                 Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
@@ -101,16 +101,16 @@ public class UpgradeMenuScript : MonoBehaviour
             }
             else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
             {
-                upgrade1Cost = (spearTowerValues.upgrade1Count + 1) * 300;
-                upgrade2Cost = (spearTowerValues.upgrade2Count + 1) * 300;
-                towerGoldWorth = spearTowerValues.upgradeCount * 150 + 100;
+                upgrade1Cost = (spearTowerValues.upgrade1Count + 1) * 200;
+                upgrade2Cost = (spearTowerValues.upgrade2Count + 1) * 200;
+                towerGoldWorth = spearTowerValues.upgradeCount * 300 + 100;
                 sellButtonText.text = $"Sell for {towerGoldWorth} gold";
                 Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
                 Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
                 upgradeButtonText1.text = $"Buy for {upgrade1Cost} gold";
                 upgradeButtonText2.text = $"Buy for {upgrade2Cost} gold";
-                upgradeText1.text = $"+{0.15f * (spearTowerValues.upgradeCount + 1)} attack speed";
-                upgradeText2.text = $"+{0.5f * (spearTowerValues.upgradeCount + 1)} damage";
+                upgradeText1.text = $"+{0.15f * (spearTowerValues.upgrade1Count + 1)} attack speed";
+                upgradeText2.text = $"+{0.5f * (spearTowerValues.upgrade2Count + 1)} damage";
                 if (LevelManager.main.currency < upgrade1Cost)
                 {
                     buttonToggle1.interactable = false;

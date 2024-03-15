@@ -154,9 +154,15 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.Log("current wave = 1 or 10");
             LevelManager.main.Pause();
+            Debug.Log(SettingsScript.main.tutorialsEnabled);
             if (SettingsScript.main.tutorialsEnabled)
             {
                 tutorialMenu.SetActive(true);
+                Debug.Log($"Tutorials enabled: {SettingsScript.main.tutorialsEnabled} (IF)");
+            }
+            else
+            {
+                Debug.Log($"Tutorials enabled: {SettingsScript.main.tutorialsEnabled} (ELSE)");
             }
             Debug.Log(Time.timeScale);
         }

@@ -295,13 +295,16 @@ MonoBehaviour:
   upgradedSprite: {fileID: 21300000, guid: 8941b4f0181ebd74795512228272bda8, type: 3}
   attackCount: 0
   damageDealt: 0
-  targetingRange: 6
+  targetingRange: 5
   damage: 5
   rotationSpeed: 300
   attackSpeed: 1
   upgradePath: 0
+  upgrade1Count: 0
+  upgrade2Count: 0
   upgradeCount: 0
   preModDamage: 0
   preModAttackSpeed: 0
   preModRange: 0
   aerial: 0
+  towerPointingDirection: {x: 0, y: 0, z: 0, w: 0}

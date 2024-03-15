@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &26284389
 RectTransform:
   m_ObjectHideFlags: 0
@@ -755,13 +755,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towers:
   - name: Ballista
-    cost: 350
+    cost: 400
     prefab: {fileID: 6837014949145639773, guid: 2742652415ef9cb4ab752cc4601389f4, type: 3}
   - name: SpearMachine
     cost: 150
     prefab: {fileID: 6837014949145639773, guid: e14e27cf53032084982d1c35fe2c28a4, type: 3}
   - name: SniperBallista
-    cost: 500
+    cost: 350
     prefab: {fileID: 6837014949145639773, guid: e2eaaeecaf7c58240a5fb4b3c4b422bd, type: 3}
   towersSelectedBackground:
   - {fileID: 495142515}
@@ -1255,7 +1255,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -335959109
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 8a9aedb3dc0be874ba30a75549e950e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4303,7 +4303,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -335959109
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 4b2e88901bf0b264097337355ef61471, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4522,7 +4522,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -335959109
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 8406d30c7f38a024ebf373742ffb89cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5178,7 +5178,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.19215684, g: 0.684813, b: 0.7921569, a: 1}
   m_FlipX: 0
@@ -8024,7 +8024,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -335959109
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12808,7 +12808,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7924528, g: 0.19063722, b: 0.19063722, a: 1}
   m_FlipX: 0
@@ -14838,9 +14838,9 @@ SceneRoots:
   - {fileID: 1674497878}
   - {fileID: 1010382073}
   - {fileID: 389259957}
-  - {fileID: 535516177}
   - {fileID: 1667166329}
   - {fileID: 820582820}
+  - {fileID: 535516177}
   - {fileID: 201393081}
   - {fileID: 576761477}
   - {fileID: 1207377210}
