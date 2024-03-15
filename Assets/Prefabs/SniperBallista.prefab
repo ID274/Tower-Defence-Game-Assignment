@@ -285,7 +285,7 @@ MonoBehaviour:
   turretRotationPoint: {fileID: 1007733279384400019}
   enemyMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   flyingEnemyMask:
     serializedVersion: 2
     m_Bits: 64
@@ -300,8 +300,11 @@ MonoBehaviour:
   rotationSpeed: 500
   attackSpeed: 0.3
   upgradePath: 0
+  upgrade1Count: 0
+  upgrade2Count: 0
   upgradeCount: 0
   preModDamage: 0
   preModAttackSpeed: 0
   preModRange: 0
   aerial: 1
+  towerPointingDirection: {x: 0, y: 0, z: 0, w: 0}

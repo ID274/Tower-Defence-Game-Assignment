@@ -27,10 +27,11 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         main = this;
+        Time.timeScale = 1f;
+        Debug.Log("Start timescale" + "=" + Time.timeScale);
     }
     private void Start()
     {
-        Time.timeScale = 1f;
         health = startHealth;
         currency = startCurrency;
     }
@@ -77,10 +78,12 @@ public class LevelManager : MonoBehaviour
     public void DoubleSpeed()
     {
         Time.timeScale = 2f;
+        Debug.Log(Time.timeScale);
     }
     public void NormalSpeed()
     {
         Time.timeScale = 1f;
+        Debug.Log(Time.timeScale);
     }
 
     public void Pause()
@@ -88,10 +91,12 @@ public class LevelManager : MonoBehaviour
         if (Time.timeScale == 0f)
         {
             Time.timeScale = 1f;
+            Debug.Log(Time.timeScale);
         }
         else
         {
             Time.timeScale = 0f;
+            Debug.Log(Time.timeScale);
         }
     }
 }

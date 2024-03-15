@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("References")]
     [SerializeField] private EnemyHealth[] enemyPrefabs;
     [SerializeField] private GameObject[] bossPrefabs;
-    [SerializeField] private GameObject powerupScreen;
+    [SerializeField] private GameObject powerupScreen, tutorialMenu;
     [SerializeField] private GameObject groundWarning, groundBossWarning, flyingWarning, flyingBossWarning;
 
     [Header("Attributes")]
@@ -33,6 +33,7 @@ public class EnemySpawner : MonoBehaviour
     private int bossIndex = 0;
     private bool bossSpawned = false;
     private bool waveEnded = false;
+    public bool checkingTimescale;
 
 
 
@@ -50,6 +51,10 @@ public class EnemySpawner : MonoBehaviour
     }
     private void Update()
     {
+        if (checkingTimescale)
+        {
+            CheckTimescale();
+        }
         if (!LevelManager.main.gameOver)
         {
             while (bossIndex > bossPrefabs.Length - 1)
@@ -63,7 +68,6 @@ public class EnemySpawner : MonoBehaviour
                 SpawnEnemy();
                 enemiesLeftToSpawn--;
                 timeSinceLastSpawn = 0f;
-                ;
             }
             if (enemiesAlive == 0 && enemiesLeftToSpawn == 0 && !powerupScreen.activeSelf && !waveEnded)
             {
@@ -146,6 +150,13 @@ public class EnemySpawner : MonoBehaviour
     {
         waveEnded = false;
         currentWave++;
+        if (currentWave == 1 || currentWave == 10)
+        {
+            Debug.Log("current wave = 1 or 10");
+            LevelManager.main.Pause();
+            tutorialMenu.SetActive(true);
+            Debug.Log(Time.timeScale);
+        }
         if (currentWave % 10 == 0 && bossPrefabs[bossIndex] != null)
         {
             groundBossWarning.SetActive(true);
@@ -181,5 +192,11 @@ public class EnemySpawner : MonoBehaviour
     private int EnemiesPerWave()
     {
         return Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
+    }
+
+    private void CheckTimescale()
+    {
+        Debug.Log(Time.timeScale);
+        checkingTimescale = false;
     }
 }

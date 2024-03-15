@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 2
-  currencyWorth: 10
+  currencyWorth: 50
   isBoss: 0
   damageToBase: 1
   isDestroyed: 0
