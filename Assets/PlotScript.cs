@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
@@ -36,8 +36,19 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         sr.color = startColor;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData pointerEventData)
     {
+        Debug.Log(pointerEventData);
+    }
+
+    public void OnPointerUp(PointerEventData pointerEventData)
+    {
+        if (sr.color != hoverColor && sr.color != menuColor)
+        {
+            Debug.Log(pointerEventData.pressPosition);
+            Debug.Log(pointerEventData.position);
+            return;
+        }
         if (tower != null)
         {
             OpenTowerMenu();
@@ -45,19 +56,18 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else
         {
             Tower towerToBuild = BuildManager.main.GetSelectedTower();
-
-            if (towerToBuild.cost != 0 && towerToBuild.cost > LevelManager.main.currency)
+            if (towerToBuild.cost > 0 && towerToBuild.cost > LevelManager.main.currency)
             {
-                Debug.Log("You can't afford this tower");
                 return;
             }
-
-            if (towerToBuild.cost != 0)
+            if (towerToBuild.cost > 0)
             {
                 LevelManager.main.SpendCurrency(towerToBuild.cost);
                 tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
             }
         }
+
+
 
         
 

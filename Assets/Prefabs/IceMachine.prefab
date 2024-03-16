@@ -1100,5 +1100,6 @@ MonoBehaviour:
   firingLeft: {fileID: 3126559809386086342}
   directionIndex: 1
   slowStrength: 1.2
+  slowLength: 3
   enemiesSlowed: 0
   towerPointingDirection: {x: 0, y: 0, z: 0, w: 0}

@@ -394,9 +394,9 @@ MonoBehaviour:
   rangeIndicator: {fileID: 5961112260052489997}
   attackCount: 0
   damageDealt: 0
-  targetingRange: 5
-  damage: 20
-  attackSpeed: 0.5
+  targetingRange: 4
+  damage: 10
+  attackSpeed: 0.4
   upgradePath: 0
   upgrade1Count: 0
   upgrade2Count: 0
@@ -406,4 +406,13 @@ MonoBehaviour:
   preModRange: 0
   aerial: 0
   cannon: 1
+  iceMachine: 0
+  firingTop: {fileID: 0}
+  firingRight: {fileID: 0}
+  firingBot: {fileID: 0}
+  firingLeft: {fileID: 0}
+  directionIndex: 1
+  slowStrength: 0
+  slowLength: 0
+  enemiesSlowed: 0
   towerPointingDirection: {x: 0, y: 0, z: 0, w: 0}

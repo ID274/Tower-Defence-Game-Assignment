@@ -366,6 +366,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3424988101720238974}
   LoadedSprite: {fileID: -443866893, guid: 056a3618451d9f1499e986c3337f1b6b, type: 3}
   UnloadedSprite: {fileID: 319491861, guid: 056a3618451d9f1499e986c3337f1b6b, type: 3}
+  cannonSprite: []
   shotFinished: 1
   turretRotationPoint: {fileID: 1007733279384400019}
   enemyMask:
@@ -382,9 +383,8 @@ MonoBehaviour:
   attackCount: 0
   damageDealt: 0
   targetingRange: 8
-  damage: 10
-  rotationSpeed: 500
-  attackSpeed: 0.2
+  damage: 8
+  attackSpeed: 0.4
   upgradePath: 0
   upgrade1Count: 0
   upgrade2Count: 0
@@ -393,4 +393,14 @@ MonoBehaviour:
   preModAttackSpeed: 0
   preModRange: 0
   aerial: 1
+  cannon: 0
+  iceMachine: 0
+  firingTop: {fileID: 0}
+  firingRight: {fileID: 0}
+  firingBot: {fileID: 0}
+  firingLeft: {fileID: 0}
+  directionIndex: 1
+  slowStrength: 0
+  slowLength: 0
+  enemiesSlowed: 0
   towerPointingDirection: {x: 0, y: 0, z: 0, w: 0}

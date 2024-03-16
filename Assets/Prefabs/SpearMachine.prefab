@@ -349,7 +349,6 @@ MonoBehaviour:
   damageDealt: 0
   damage: 3
   targetingRange: 2.5
-  rotationSpeed: 400
   attackSpeed: 2
   upgradePath: 0
   upgrade1Count: 0

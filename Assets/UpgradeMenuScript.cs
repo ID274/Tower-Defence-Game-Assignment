@@ -159,7 +159,7 @@ public class UpgradeMenuScript : MonoBehaviour
             {
                 iceMachineRotateButton.SetActive(true);
                 upgrade1Cost = (ballistaTowerValues.upgrade1Count + 1) * 500;
-                upgrade2Cost = (ballistaTowerValues.upgrade1Count + 1) * 500;
+                upgrade2Cost = (ballistaTowerValues.upgrade2Count + 1) * 500;
                 towerGoldWorth = ballistaTowerValues.upgradeCount * 400 + 500;
                 sellButtonText.text = $"Sell for {towerGoldWorth} gold";
                 Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
@@ -374,10 +374,10 @@ public class UpgradeMenuScript : MonoBehaviour
             else
             {
                 towerIconSlot.sprite = ballistaTowerValues.spriteRenderer.sprite;
-                attackCountText.text = $"Slow strength: {ballistaTowerValues.slowStrength.ToString("F2")}";
+                attackCountText.text = $"Slow strength is the value that enemy movement speed is divided by.";
                 attackSpeedText.text = $"Slow duration: {ballistaTowerValues.slowLength.ToString("F2")}";
                 rangeText.text = $"Enemies slowed: {ballistaTowerValues.enemiesSlowed}";
-                damageText.text = $"Slow strength is the value that enemy movement speed is divided by.";
+                damageText.text = $"Slow strength: {ballistaTowerValues.slowStrength.ToString("F2")}";
                 damageDealtText.text = $"";
             }
 
