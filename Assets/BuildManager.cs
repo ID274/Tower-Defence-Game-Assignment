@@ -11,7 +11,8 @@ public class BuildManager : MonoBehaviour
     [SerializeField] public Tower[] towers;
     [SerializeField] public GameObject[] towersSelectedBackground;
 
-    private int selectedTower = 5;
+    public int emptyTower;
+    private int selectedTower;
 
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class BuildManager : MonoBehaviour
         {
             GameObject.SetActive(false);
         }
+        selectedTower = emptyTower;
         //towersSelectedBackground[0].SetActive(true);
     }
 
@@ -51,6 +53,16 @@ public class BuildManager : MonoBehaviour
                 towersSelectedBackground[selectedTower].SetActive(true);
             }
         }
+    }
+
+    public void DeselectTower()
+    {
+        selectedTower = emptyTower;
+        foreach (var GameObject in towersSelectedBackground)
+        {
+            GameObject.SetActive(false);
+        }
+        towersSelectedBackground[selectedTower].SetActive(true);
     }
 
 }

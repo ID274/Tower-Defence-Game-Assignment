@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class IceScript : MonoBehaviour
@@ -12,23 +13,68 @@ public class IceScript : MonoBehaviour
     {
         StartCoroutine(Animation());
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if ((other.gameObject.layer == 3 || other.gameObject.layer == 6))
+        {
+            if (other.GetComponent<EnemyMovement>().slowed == false)
+            {
+                iceMachineScript.enemiesSlowed++;
+                Debug.Log("Ice collision");
+                EnemyMovement enemyMovementInstance = other.gameObject.GetComponent<EnemyMovement>();
+                SlowDuringCollision(enemyMovementInstance);
+            }
+            else if (other.GetComponent<EnemyMovement>() && other.GetComponent<EnemyMovement>().slowedByGameObject != gameObject)
+            {
+                EnemyMovement enemyMovementInstance = other.gameObject.GetComponent<EnemyMovement>();
+
+                if (enemyMovementInstance.moveSpeed > enemyMovementInstance.originalMoveSpeed / gameObject.transform.parent.transform.parent.GetComponent<BallistaScript>().slowStrength)
+                {
+                    UnSlowAfterCollision(enemyMovementInstance);
+                    SlowDuringCollision(enemyMovementInstance);
+                }
+            }
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.layer == 3 || other.gameObject.layer == 6)
         {
-            iceMachineScript.enemiesSlowed++;
-            Debug.Log("Ice collision");
-            EnemyMovement enemyMovementInstance = other.gameObject.GetComponent<EnemyMovement>();
-            StartCoroutine(Slow(enemyMovementInstance));
+            if (other.TryGetComponent(out EnemyMovement enemyMovementInstance))
+            {
+                if (enemyMovementInstance.slowedByGameObject == gameObject)
+                {
+                    enemyMovementInstance.moveSpeed = enemyMovementInstance.originalMoveSpeed;
+                    enemyMovementInstance.slowed = false;
+                    StartCoroutine(Slow(enemyMovementInstance));
+                }
+                else
+                {
+                    return;
+                }
+            }            
         }
     }
 
     private IEnumerator Slow(EnemyMovement enemy)
     {
-        float originalMoveSpeed = enemy.moveSpeed;
+        enemy.slowedByGameObject = gameObject;
+        enemy.slowed = true;
         enemy.moveSpeed /= iceMachineScript.slowStrength;
         yield return new WaitForSeconds(iceMachineScript.slowLength);
-        enemy.moveSpeed = originalMoveSpeed;
+        UnSlowAfterCollision(enemy);
+    }
+    private void SlowDuringCollision(EnemyMovement enemy)
+    {
+        enemy.slowedByGameObject = gameObject;
+        enemy.slowed = true;
+        enemy.moveSpeed /= iceMachineScript.slowStrength;
+    }
+    private void UnSlowAfterCollision(EnemyMovement enemy)
+    {
+        enemy.slowedByGameObject = null;
+        enemy.slowed = false;
+        enemy.moveSpeed = enemy.originalMoveSpeed;
     }
 
     private IEnumerator Animation()

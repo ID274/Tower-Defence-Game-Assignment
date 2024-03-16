@@ -96,6 +96,8 @@ public class EnemySpawner : MonoBehaviour
                 EnemyHealth prefabToSpawn = enemyPrefabs[0];
                 EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
                 prefabInstance.hitPoints = 2 * currentWave;
+                EnemyMovement prefabMovement = prefabInstance.GetComponent<EnemyMovement>();
+                prefabMovement.moveSpeed += 0.1f * currentWave;
                 enemiesAlive++;
 
 
@@ -106,6 +108,8 @@ public class EnemySpawner : MonoBehaviour
                 {
                     EnemyHealth flyingToSpawn = enemyPrefabs[1];
                     EnemyHealth flyingInstance = Instantiate(flyingToSpawn, LevelManager.main.startPointAerial.position, Quaternion.identity);
+                    EnemyMovement flyingMovement = flyingInstance.GetComponent<EnemyMovement>();
+                    flyingMovement.moveSpeed += 0.05f * currentWave;
                     flyingInstance.hitPoints = 2 * currentWave;
                     flyingEnemyAmount--;
                     enemiesAlive++;
@@ -113,6 +117,8 @@ public class EnemySpawner : MonoBehaviour
                 }
                 EnemyHealth prefabToSpawn = enemyPrefabs[0];
                 EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
+                EnemyMovement prefabMovement = prefabInstance.GetComponent<EnemyMovement>();
+                prefabMovement.moveSpeed += 0.1f * currentWave;
                 prefabInstance.hitPoints = 2 * currentWave;
                 enemiesAlive++;
             }
@@ -131,7 +137,8 @@ public class EnemySpawner : MonoBehaviour
         EnemyMovement bossMovement = bossInstance.GetComponent<EnemyMovement>();
         EnemyHealth bossHealth = bossInstance.GetComponent<EnemyHealth>();
 
-        bossMovement.moveSpeed /= 2;
+        bossMovement.moveSpeed += 0.1f * currentWave;
+        bossMovement.moveSpeed *= 0.8f;
         bossHealth.damageToBase *= 20;
         bossHealth.hitPoints *= 20 * currentWave;
         bossHealth.isBoss = true;
@@ -144,7 +151,6 @@ public class EnemySpawner : MonoBehaviour
     private void EnemyDestroyed()
     {
         enemiesAlive--;
-        LevelManager.main.enemiesKilled++;
     }
 
     private IEnumerator StartWave()

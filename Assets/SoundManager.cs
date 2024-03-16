@@ -66,7 +66,10 @@ public class SoundManager : MonoBehaviour
 
     public void Load()
     {
-        currentVolumeSlider.value = PlayerPrefs.GetFloat("soundVolume");
+        if (currentVolumeSlider != null)
+        {
+            currentVolumeSlider.value = PlayerPrefs.GetFloat("soundVolume");
+        }
     }
 
     private void Save()

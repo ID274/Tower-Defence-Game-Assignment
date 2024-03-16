@@ -12,11 +12,21 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Attributes")]
     [SerializeField] public float moveSpeed = 2f;
+    [SerializeField] public float originalMoveSpeed;
+    [SerializeField] public GameObject slowedByGameObject;
     public bool flyingEnemy;
     private Transform target;
     private int pathIndex = 0;
     private int pathIndexAerial = 0;
 
+
+
+
+    public bool slowed;
+    private void Awake()
+    {
+        originalMoveSpeed = moveSpeed;
+    }
     private void Start()
     {
         if (!flyingEnemy)

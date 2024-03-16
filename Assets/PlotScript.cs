@@ -65,6 +65,8 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 LevelManager.main.SpendCurrency(towerToBuild.cost);
                 tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
             }
+            BuildManager.main.DeselectTower();
+            towerToBuild = BuildManager.main.GetSelectedTower();
         }
 
 

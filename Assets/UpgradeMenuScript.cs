@@ -167,7 +167,7 @@ public class UpgradeMenuScript : MonoBehaviour
                 upgradeButtonText1.text = $"Buy for {upgrade1Cost} gold";
                 upgradeButtonText2.text = $"Buy for {upgrade2Cost} gold";
                 upgradeText1.text = $"+{0.05f * (ballistaTowerValues.upgrade1Count + 1)} slow strength";
-                upgradeText2.text = $"+{0.125f * (ballistaTowerValues.upgrade2Count + 1)}s slow duration";
+                upgradeText2.text = $"+{0.05f * (ballistaTowerValues.upgrade2Count + 1)}s slow duration";
                 if (LevelManager.main.currency < upgrade1Cost)
                 {
                     buttonToggle1.interactable = false;
@@ -323,7 +323,7 @@ public class UpgradeMenuScript : MonoBehaviour
                     ballistaTowerValues.slowStrength += 0.05f * (ballistaTowerValues.upgrade1Count + 1);
                     break;
                 case 5:
-                    ballistaTowerValues.slowLength += 0.125f * (ballistaTowerValues.upgrade2Count + 1);
+                    ballistaTowerValues.slowLength += 0.05f * (ballistaTowerValues.upgrade2Count + 1);
                     break;
             }
         }
@@ -375,9 +375,9 @@ public class UpgradeMenuScript : MonoBehaviour
             {
                 towerIconSlot.sprite = ballistaTowerValues.spriteRenderer.sprite;
                 attackCountText.text = $"Slow strength is the value that enemy movement speed is divided by.";
-                attackSpeedText.text = $"Slow duration: {ballistaTowerValues.slowLength.ToString("F2")}";
-                rangeText.text = $"Enemies slowed: {ballistaTowerValues.enemiesSlowed}";
-                damageText.text = $"Slow strength: {ballistaTowerValues.slowStrength.ToString("F2")}";
+                attackSpeedText.text = $"Slow duration: {ballistaTowerValues.slowLength.ToString("F2")}s";
+                rangeText.text = $"Slow strength: {ballistaTowerValues.slowStrength.ToString("F2")}";
+                damageText.text = $"Enemies slowed: {ballistaTowerValues.enemiesSlowed}";
                 damageDealtText.text = $"";
             }
 
