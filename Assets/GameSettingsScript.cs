@@ -11,6 +11,7 @@ public class GameSettingsScript : MonoBehaviour
 
     public Slider volumeSlider;
     public GameObject settingsMenu;
+    private float tempTimescale;
 
     private void Awake()
     {
@@ -20,7 +21,11 @@ public class GameSettingsScript : MonoBehaviour
     }
     private void Update()
     {
-        
+        if (settingsMenu.activeSelf)
+        {
+            tempTimescale = Time.timeScale;
+            Time.timeScale = 0f;
+        }
         if (SettingsScript.main.sfxEnabled)
         {
             sfxButton.text = "SFX: ON";
@@ -73,6 +78,7 @@ public class GameSettingsScript : MonoBehaviour
     public void DoneButton()
     {
         SettingsScript.main.SavePrefs();
+        Time.timeScale = tempTimescale;
         settingsMenu.SetActive(false);
     }
 

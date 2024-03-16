@@ -55,6 +55,7 @@ public class BallistaScript : MonoBehaviour
     [SerializeField] private GameObject firingTop, firingRight, firingBot, firingLeft;
     [SerializeField] public int directionIndex = 1;
     [SerializeField] public float slowStrength;
+    [SerializeField] public float slowLength;
     [SerializeField] public int enemiesSlowed;
 
     public Quaternion towerPointingDirection;

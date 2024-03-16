@@ -27,7 +27,7 @@ public class IceScript : MonoBehaviour
     {
         float originalMoveSpeed = enemy.moveSpeed;
         enemy.moveSpeed /= iceMachineScript.slowStrength;
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(iceMachineScript.slowLength);
         enemy.moveSpeed = originalMoveSpeed;
     }
 

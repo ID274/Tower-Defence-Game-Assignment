@@ -6,7 +6,7 @@ using TMPro;
 public class ShopMenu : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] TextMeshProUGUI currencyUI, healthUI;
+    [SerializeField] TextMeshProUGUI currencyUI, healthUI, waveUI;
     [SerializeField] TextMeshProUGUI[] multText;
 
     public GameObject settingsMenu;
@@ -16,6 +16,7 @@ public class ShopMenu : MonoBehaviour
     {
         currencyUI.text = LevelManager.main.currency.ToString();
         healthUI.text = LevelManager.main.health.ToString();
+        waveUI.text = LevelManager.main.currentWave.ToString();
     }
 
     private void Update()

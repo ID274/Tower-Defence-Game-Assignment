@@ -30,7 +30,7 @@ public class UpgradeMenuScript : MonoBehaviour
     public int upgrade1Cost;
     public int upgrade2Cost;
     public GameObject selectedTower;
-    public int upgradeType; // 1 = attack speed, 2 = range, 3 = damage, 4 = slow strength
+    public int upgradeType; // 1 = attack speed, 2 = range, 3 = damage, 4 = slow strength, 5 = slow length
 
     private void Awake()
     {
@@ -162,8 +162,11 @@ public class UpgradeMenuScript : MonoBehaviour
                 towerGoldWorth = ballistaTowerValues.upgradeCount * 300 + 500;
                 sellButtonText.text = $"Sell for {towerGoldWorth} gold";
                 Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
+                Button buttonToggle2 = upgradeButton2.GetComponent<Button>();
                 upgradeButtonText1.text = $"Buy for {upgrade1Cost} gold";
+                upgradeButtonText2.text = $"Buy for {upgrade2Cost} gold";
                 upgradeText1.text = $"+{0.05f * (ballistaTowerValues.upgrade1Count + 1)} slow strength";
+                upgradeText2.text = $"+{0.125f * (ballistaTowerValues.upgrade1Count + 1)}s slow duration";
                 if (LevelManager.main.currency < upgrade1Cost)
                 {
                     buttonToggle1.interactable = false;
@@ -172,8 +175,16 @@ public class UpgradeMenuScript : MonoBehaviour
                 {
                     buttonToggle1.interactable = true;
                 }
+                if (LevelManager.main.currency < upgrade2Cost)
+                {
+                    buttonToggle2.interactable = false;
+                }
+                else if (LevelManager.main.currency >= upgrade2Cost)
+                {
+                    buttonToggle2.interactable = true;
+                }
                 upgradeButton1.SetActive(true);
-                upgradeButton2.SetActive(false);
+                upgradeButton2.SetActive(true);
             }
         }
 
@@ -273,7 +284,10 @@ public class UpgradeMenuScript : MonoBehaviour
         }
         else if (ballistaTowerValues.iceMachine)
         {
-            return;
+            upgradeType = 5;
+            SetTowerUpgrades();
+            LevelManager.main.currency -= upgrade2Cost;
+            ballistaTowerValues.upgrade2Count++;
         }
     }
 
@@ -306,6 +320,9 @@ public class UpgradeMenuScript : MonoBehaviour
                     break;
                 case 4:
                     ballistaTowerValues.slowStrength += 0.05f * (ballistaTowerValues.upgrade1Count + 1);
+                    break;
+                case 5:
+                    ballistaTowerValues.slowLength += 0.125f * (ballistaTowerValues.upgrade2Count + 1);
                     break;
             }
         }
@@ -356,11 +373,11 @@ public class UpgradeMenuScript : MonoBehaviour
             else
             {
                 towerIconSlot.sprite = ballistaTowerValues.spriteRenderer.sprite;
-                attackCountText.text = $"Enemies slowed: {ballistaTowerValues.enemiesSlowed}";
-                attackSpeedText.text = $"";
-                rangeText.text = $"";
-                damageText.text = $"Slow strength: {ballistaTowerValues.slowStrength}";
-                damageDealtText.text = $"Slow strength is the value that enemy movement speed is divided by.";
+                attackCountText.text = $"Slow strength: {ballistaTowerValues.slowStrength.ToString("F2")}";
+                attackSpeedText.text = $"Slow duration: {ballistaTowerValues.slowLength.ToString("F2")}";
+                rangeText.text = $"Enemies slowed: {ballistaTowerValues.enemiesSlowed}";
+                damageText.text = $"Slow strength is the value that enemy movement speed is divided by.";
+                damageDealtText.text = $"";
             }
 
         }
