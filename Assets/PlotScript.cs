@@ -46,14 +46,17 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             Tower towerToBuild = BuildManager.main.GetSelectedTower();
 
-            if (towerToBuild.cost > LevelManager.main.currency)
+            if (towerToBuild.cost != 0 && towerToBuild.cost > LevelManager.main.currency)
             {
                 Debug.Log("You can't afford this tower");
                 return;
             }
 
-            LevelManager.main.SpendCurrency(towerToBuild.cost);
-            tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
+            if (towerToBuild.cost != 0)
+            {
+                LevelManager.main.SpendCurrency(towerToBuild.cost);
+                tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
+            }
         }
 
         

@@ -159,7 +159,8 @@ public class UpgradeMenuScript : MonoBehaviour
             {
                 iceMachineRotateButton.SetActive(true);
                 upgrade1Cost = (ballistaTowerValues.upgrade1Count + 1) * 500;
-                towerGoldWorth = ballistaTowerValues.upgradeCount * 300 + 500;
+                upgrade2Cost = (ballistaTowerValues.upgrade1Count + 1) * 500;
+                towerGoldWorth = ballistaTowerValues.upgradeCount * 400 + 500;
                 sellButtonText.text = $"Sell for {towerGoldWorth} gold";
                 Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
                 Button buttonToggle2 = upgradeButton2.GetComponent<Button>();

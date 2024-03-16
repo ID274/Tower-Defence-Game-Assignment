@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
@@ -10,7 +11,7 @@ public class BuildManager : MonoBehaviour
     [SerializeField] public Tower[] towers;
     [SerializeField] public GameObject[] towersSelectedBackground;
 
-    private int selectedTower = 0;
+    private int selectedTower = 5;
 
     private void Awake()
     {
@@ -19,7 +20,7 @@ public class BuildManager : MonoBehaviour
         {
             GameObject.SetActive(false);
         }
-        towersSelectedBackground[0].SetActive(true);
+        //towersSelectedBackground[0].SetActive(true);
     }
 
     public Tower GetSelectedTower()
@@ -31,12 +32,24 @@ public class BuildManager : MonoBehaviour
     {
         if (!LevelManager.main.gameOver)
         {
-            selectedTower = _selectedTower;
-            foreach (var GameObject in towersSelectedBackground)
+            if (selectedTower == _selectedTower)
             {
-                GameObject.SetActive(false);
+                selectedTower = 5;
+                foreach (var GameObject in towersSelectedBackground)
+                {
+                    GameObject.SetActive(false);
+                }
+                towersSelectedBackground[selectedTower].SetActive(true);
             }
-            towersSelectedBackground[selectedTower].SetActive(true);
+            else
+            {
+                selectedTower = _selectedTower;
+                foreach (var GameObject in towersSelectedBackground)
+                {
+                    GameObject.SetActive(false);
+                }
+                towersSelectedBackground[selectedTower].SetActive(true);
+            }
         }
     }
 
