@@ -10,6 +10,9 @@ public class BallistaScript : MonoBehaviour
     //Animation
     public SpriteRenderer spriteRenderer;
     public Sprite LoadedSprite, UnloadedSprite;
+
+    public Sprite[] cannonSprite;
+
     [SerializeField] private bool shotFinished = true;
 
     [Header("References")]
@@ -43,7 +46,16 @@ public class BallistaScript : MonoBehaviour
     private Transform target;
     private float timeUntilFire;
     private float timeUntilFireHalf;
+    private float timeUntilFireTwelth;
     public bool aerial;
+    public bool cannon;
+
+    [Header("Ice Machine")]
+    public bool iceMachine;
+    [SerializeField] private GameObject firingTop, firingRight, firingBot, firingLeft;
+    [SerializeField] public int directionIndex = 1;
+    [SerializeField] public float slowStrength;
+    [SerializeField] public int enemiesSlowed;
 
     public Quaternion towerPointingDirection;
 
@@ -59,59 +71,98 @@ public class BallistaScript : MonoBehaviour
 
     private void Update()
     {
-        if (rangeIndicator != null)
+        if (iceMachine)
         {
-            float spriteWidth = rangeIndicator.sprite.rect.width / rangeIndicator.sprite.pixelsPerUnit;
-            float spriteHeight = rangeIndicator.sprite.rect.height / rangeIndicator.sprite.pixelsPerUnit;
-            float scaleFactor = targetingRange / Mathf.Max(spriteWidth, spriteHeight);
-            rangeIndicator.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
-        }
-        towerPointingDirection = transform.rotation;
-        upgradeCount = upgrade1Count + upgrade2Count;
-        if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
-        {
-            towerBase.sprite = upgradedSprite;
-        }
-        if (preModAttackSpeed * ModifierScript.Instance.attackSpeedMult != attackSpeed)
-        {
-            ModAttackSpeed();
-        }
-        if (preModRange * ModifierScript.Instance.rangeMult != targetingRange)
-        {
-            ModRange();
-        }
-        if (preModDamage * ModifierScript.Instance.damageMult != damage)
-        {
-            ModDamage();
-        }
-        if (!LevelManager.main.gameOver)
-        {
-            if (target == null)
+            upgradeCount = upgrade1Count;
+            if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
             {
-                FindTargetAerial();
+                towerBase.sprite = upgradedSprite;
+            }
+            switch (directionIndex)
+            {
+                case 1:
+                    firingTop.SetActive(true);
+                    firingRight.SetActive(false);
+                    firingBot.SetActive(false);
+                    firingLeft.SetActive(false);
+                    break;
+                case 2:
+                    firingTop.SetActive(false);
+                    firingRight.SetActive(true);
+                    firingBot.SetActive(false);
+                    firingLeft.SetActive(false);
+                    break;
+                case 3:
+                    firingTop.SetActive(false);
+                    firingRight.SetActive(false);
+                    firingBot.SetActive(true);
+                    firingLeft.SetActive(false);
+                    break;
+                case 4:
+                    firingTop.SetActive(false);
+                    firingRight.SetActive(false);
+                    firingBot.SetActive(false);
+                    firingLeft.SetActive(true);
+                    break;
+            }
+        }
+        else
+        {
+            if (rangeIndicator != null)
+            {
+                float spriteWidth = rangeIndicator.sprite.rect.width / rangeIndicator.sprite.pixelsPerUnit;
+                float spriteHeight = rangeIndicator.sprite.rect.height / rangeIndicator.sprite.pixelsPerUnit;
+                float scaleFactor = targetingRange / Mathf.Max(spriteWidth, spriteHeight);
+                rangeIndicator.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+            }
+            towerPointingDirection = transform.rotation;
+            upgradeCount = upgrade1Count + upgrade2Count;
+            if (upgradeCount > 0 && towerBase.sprite != upgradedSprite)
+            {
+                towerBase.sprite = upgradedSprite;
+            }
+            if (preModAttackSpeed * ModifierScript.Instance.attackSpeedMult != attackSpeed)
+            {
+                ModAttackSpeed();
+            }
+            if (preModRange * ModifierScript.Instance.rangeMult != targetingRange)
+            {
+                ModRange();
+            }
+            if (preModDamage * ModifierScript.Instance.damageMult != damage)
+            {
+                ModDamage();
+            }
+            if (!LevelManager.main.gameOver)
+            {
                 if (target == null)
                 {
-                    FindTarget();
+                    FindTargetAerial();
+                    if (target == null)
+                    {
+                        FindTarget();
+                    }
+                    return;
                 }
-                return;
-            }
-            if (CheckTargetIsInRange())
-            {
-                RotateTowardsTarget();
-                timeUntilFire += Time.deltaTime;
-                if (timeUntilFire >= 1f / attackSpeed && shotFinished)
+                if (CheckTargetIsInRange())
                 {
-                    timeUntilFireHalf = timeUntilFire / 2;
-                    Shoot();
+                    RotateTowardsTarget();
+                    timeUntilFire += Time.deltaTime;
+                    if (timeUntilFire >= 1f / attackSpeed && shotFinished)
+                    {
+                        timeUntilFireHalf = timeUntilFire / 2;
+                        timeUntilFireTwelth = timeUntilFire / 12;
+                        Shoot();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
-                    return;
+                    target = null;
                 }
-            }
-            else
-            {
-                target = null;
             }
         }
         
@@ -121,7 +172,14 @@ public class BallistaScript : MonoBehaviour
     {
         if (shotFinished)
         {
-            StartCoroutine(ShotAnimation());
+            if (cannon)
+            {
+                StartCoroutine(CannonAnimation());
+            }
+            else
+            {
+                StartCoroutine(ShotAnimation());
+            }
             timeUntilFire = 0f;
         }
         else
@@ -147,6 +205,46 @@ public class BallistaScript : MonoBehaviour
         yield return new WaitForSeconds(timeUntilFireHalf);
         spriteRenderer.sprite = LoadedSprite;
         yield return new WaitForSeconds(timeUntilFireHalf);
+    }
+
+    public IEnumerator CannonAnimation()
+    {
+        shotFinished = false;
+        spriteRenderer.sprite = cannonSprite[0];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[1];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[2];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[3];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[4];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[5];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[6];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[7];
+        GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
+        bulletObj.transform.parent = transform;
+        BallistaArrowScript bulletScript = bulletObj.GetComponent<BallistaArrowScript>();
+        bulletScript.bulletDamage = preModDamage;
+        bulletScript.bulletDamage = damage;
+        attackCount++;
+        damageDealt += damage;
+        bulletScript.SetTarget(target);
+        Debug.Log("Shoot");
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[8];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[9];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[10];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[11];
+        yield return new WaitForSeconds(timeUntilFireTwelth);
+        spriteRenderer.sprite = cannonSprite[0];
+        shotFinished = true;
     }
 
 

@@ -11,6 +11,11 @@ public class BallistaArrowScript : MonoBehaviour
     [SerializeField] private float bulletSpeed = 20f;
     [SerializeField] public float bulletDamage;
     [SerializeField] private bool aerialBullet;
+    [SerializeField] private bool cannonBall;
+    [SerializeField] private GameObject explosion;
+    [SerializeField] private GameObject cannonBullet;
+    [SerializeField] private GameObject turretRotationPoint;
+    private bool exploding = false;
 
     //public float preModDamage;
 
@@ -20,6 +25,7 @@ public class BallistaArrowScript : MonoBehaviour
 
     public void Start()
     {
+        turretRotationPoint = transform.parent.Find("RotatePoint").gameObject;
         //preModDamage = bulletDamage;
         Destroy(gameObject, 5f);
     }
@@ -28,9 +34,16 @@ public class BallistaArrowScript : MonoBehaviour
     {
         if (!target)
         {
-            Vector2 direction = transform.up;
-            rb.velocity = direction * bulletSpeed;
-            return;
+            if (exploding)
+            {
+                rb.velocity = new Vector2(0f, 0f);
+            }
+            else
+            {
+                Vector2 direction = turretRotationPoint.transform.up; ;
+                rb.velocity = direction * bulletSpeed;
+                return;
+            }
         }
         //if (preModDamage * ModifierScript.Instance.damageMult != bulletDamage)
         //{
@@ -53,10 +66,17 @@ public class BallistaArrowScript : MonoBehaviour
     {
         if (target) 
         {
-            Vector2 direction = (target.position - transform.position).normalized;
+            if (exploding)
+            {
+                rb.velocity = new Vector2(0f, 0f);
+            }
+            else
+            {
+                Vector2 direction = (target.position - transform.position).normalized;
 
-            rb.velocity = direction * bulletSpeed;
-            transform.up = target.position - transform.position;
+                rb.velocity = direction * bulletSpeed;
+                transform.up = target.position - transform.position;
+            }
         }
     }
 
@@ -64,10 +84,23 @@ public class BallistaArrowScript : MonoBehaviour
     {
         if (other.gameObject.layer == 3)
         {
-            if (other.gameObject.GetComponent<EnemyHealth>().isDestroyed == false)
+            if (!cannonBall)
             {
-                other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
+                if (other.gameObject.GetComponent<EnemyHealth>().isDestroyed == false)
+                {
+                    other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
+                }
+                Destroy(gameObject);
             }
+            else
+            {
+                cannonBullet.SetActive(false);
+                if (!exploding)
+                {
+                    StartCoroutine(Explode());
+                }
+            }
+
         }
         if (other.gameObject.layer == 6 && aerialBullet)
         {
@@ -75,9 +108,34 @@ public class BallistaArrowScript : MonoBehaviour
             {
                 other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
             }
+            Destroy(gameObject);
         }
         Debug.Log("Collision");
         //Take health from an enemy
+        
+    }
+
+    private IEnumerator Explode()
+    {
+        exploding = true;
+        explosion.SetActive(true);
+        explosion.transform.localScale = new Vector2(0.5f, 0.5f);
+        SpriteRenderer explosionSprite = explosion.GetComponent<SpriteRenderer>();
+        yield return new WaitForSeconds(0.1f);
+        explosion.transform.localScale = new Vector2(0.7f, 0.7f);
+        explosionSprite.color = new Color(explosionSprite.color.g, explosionSprite.color.b, explosionSprite.color.a, 1f);
+        yield return new WaitForSeconds(0.1f);
+        explosion.transform.localScale = new Vector2(0.9f, 0.9f);
+        explosionSprite.color = new Color(explosionSprite.color.g, explosionSprite.color.b, explosionSprite.color.a, 0.8f);
+        yield return new WaitForSeconds(0.1f);
+        explosion.transform.localScale = new Vector2(1.1f, 1.1f);
+        explosionSprite.color = new Color(explosionSprite.color.g, explosionSprite.color.b, explosionSprite.color.a, 0.6f);
+        yield return new WaitForSeconds(0.1f);
+        explosion.transform.localScale = new Vector2(1.3f, 1.3f);
+        explosionSprite.color = new Color(explosionSprite.color.g, explosionSprite.color.b, explosionSprite.color.a, 0.4f);
+        yield return new WaitForSeconds(0.1f);
+        explosion.transform.localScale = new Vector2(1.5f, 1.5f);
+        explosionSprite.color = new Color(explosionSprite.color.g, explosionSprite.color.b, explosionSprite.color.a, 0.2f);
         Destroy(gameObject);
     }
 

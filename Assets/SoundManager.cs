@@ -39,8 +39,6 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"{musicSource}");
-        Debug.Log($"{SettingsScript.main.musicEnabled}");
         if (SettingsScript.main.musicEnabled && !musicSource.isActiveAndEnabled)
         {
             musicSource.enabled = true;

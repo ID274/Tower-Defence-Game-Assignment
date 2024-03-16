@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class UpgradeMenuScript : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class UpgradeMenuScript : MonoBehaviour
     public GameObject upgradeButton1;
     public GameObject upgradeButton2;
     public TextMeshProUGUI sellButtonText;
+    public GameObject iceMachineRotateButton;
 
     [Header("References for stat window")]
     [SerializeField] private Image towerIconSlot;
@@ -28,7 +30,7 @@ public class UpgradeMenuScript : MonoBehaviour
     public int upgrade1Cost;
     public int upgrade2Cost;
     public GameObject selectedTower;
-    public int upgradeType; // 1 = attack speed, 2 = range, 3 = damage
+    public int upgradeType; // 1 = attack speed, 2 = range, 3 = damage, 4 = slow strength
 
     private void Awake()
     {
@@ -54,8 +56,9 @@ public class UpgradeMenuScript : MonoBehaviour
         {
 
             SetStatsWindow();
-            if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+            if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues) && !ballistaTowerValues.iceMachine)
             {
+                iceMachineRotateButton.SetActive(false);
                 upgrade1Cost = (ballistaTowerValues.upgrade1Count + 1) * 300;
                 upgrade2Cost = (ballistaTowerValues.upgrade2Count + 1) * 300;
                 towerGoldWorth = ballistaTowerValues.upgradeCount * 300 + 150;
@@ -101,8 +104,10 @@ public class UpgradeMenuScript : MonoBehaviour
                 //    upgradeButton2.SetActive(true);
                 //}
             }
+
             else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
             {
+                iceMachineRotateButton.SetActive(false);
                 upgrade1Cost = (spearTowerValues.upgrade1Count + 1) * 200;
                 upgrade2Cost = (spearTowerValues.upgrade2Count + 1) * 200;
                 towerGoldWorth = spearTowerValues.upgradeCount * 200 + 100;
@@ -149,6 +154,27 @@ public class UpgradeMenuScript : MonoBehaviour
                 //    upgradeButton2.SetActive(true);
                 //}
             }
+
+            else if (ballistaTowerValues.iceMachine)
+            {
+                iceMachineRotateButton.SetActive(true);
+                upgrade1Cost = (ballistaTowerValues.upgrade1Count + 1) * 500;
+                towerGoldWorth = ballistaTowerValues.upgradeCount * 300 + 500;
+                sellButtonText.text = $"Sell for {towerGoldWorth} gold";
+                Button buttonToggle1 = upgradeButton1.GetComponent<Button>();
+                upgradeButtonText1.text = $"Buy for {upgrade1Cost} gold";
+                upgradeText1.text = $"+{0.05f * (ballistaTowerValues.upgrade1Count + 1)} slow strength";
+                if (LevelManager.main.currency < upgrade1Cost)
+                {
+                    buttonToggle1.interactable = false;
+                }
+                else if (LevelManager.main.currency >= upgrade1Cost)
+                {
+                    buttonToggle1.interactable = true;
+                }
+                upgradeButton1.SetActive(true);
+                upgradeButton2.SetActive(false);
+            }
         }
 
         
@@ -157,7 +183,7 @@ public class UpgradeMenuScript : MonoBehaviour
 
     public void OnButton1Press()
     {
-        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues) && !ballistaTowerValues.iceMachine)
         {
             upgradeType = 1;
             SetTowerUpgrades();
@@ -197,10 +223,17 @@ public class UpgradeMenuScript : MonoBehaviour
             //    }
             //}
         }
+        else if (ballistaTowerValues.iceMachine)
+        {
+            upgradeType = 4;
+            SetTowerUpgrades();
+            LevelManager.main.currency -= upgrade1Cost;
+            ballistaTowerValues.upgrade1Count++;
+        }
     }
     public void OnButton2Press()
     {
-        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues) && !ballistaTowerValues.iceMachine)
         {
             upgradeType = 3;
             SetTowerUpgrades();
@@ -238,11 +271,15 @@ public class UpgradeMenuScript : MonoBehaviour
             //    }
             //}
         }
+        else if (ballistaTowerValues.iceMachine)
+        {
+            return;
+        }
     }
 
     public void OnCloseButtonPress()
     {
-        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues) && !ballistaTowerValues.iceMachine)
         {
             ballistaTowerValues.rangeIndicator.gameObject.SetActive(false);
         }
@@ -267,6 +304,9 @@ public class UpgradeMenuScript : MonoBehaviour
                     ballistaTowerValues.preModDamage += 2f * (ballistaTowerValues.upgrade2Count + 1);
                     //ballistaTowerValues.ModDamage();
                     break;
+                case 4:
+                    ballistaTowerValues.slowStrength += 0.05f * (ballistaTowerValues.upgrade1Count + 1);
+                    break;
             }
         }
         else if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
@@ -289,8 +329,15 @@ public class UpgradeMenuScript : MonoBehaviour
     {
         if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
         {
-            towerIconSlot.sprite = ballistaTowerValues.LoadedSprite;
-            if (ballistaTowerValues.aerial == true)
+            if (!ballistaTowerValues.cannon && !ballistaTowerValues.iceMachine)
+            {
+                towerIconSlot.sprite = ballistaTowerValues.LoadedSprite;
+            }
+            else if (!ballistaTowerValues.iceMachine)
+            {
+                towerIconSlot.sprite = ballistaTowerValues.cannonSprite[0];
+            }
+            if (ballistaTowerValues.aerial && !ballistaTowerValues.iceMachine)
             {
                 towerIconSlot.color = new Color32(66, 191, 255, 255);
             }
@@ -298,11 +345,23 @@ public class UpgradeMenuScript : MonoBehaviour
             {
                 towerIconSlot.color = Color.white;
             }
-            attackCountText.text = $"Attacked: {ballistaTowerValues.attackCount} times";
-            attackSpeedText.text = $"Attack speed: {ballistaTowerValues.attackSpeed.ToString("F2")}/s";
-            rangeText.text = $"Range: {ballistaTowerValues.targetingRange.ToString("F2")} units";
-            damageText.text = $"Damage: {ballistaTowerValues.damage.ToString("F2")}";
-            damageDealtText.text = $"Damage dealt: {ballistaTowerValues.damageDealt.ToString("F2")}";
+            if (!ballistaTowerValues.iceMachine)
+            {
+                attackCountText.text = $"Attacked: {ballistaTowerValues.attackCount} times";
+                attackSpeedText.text = $"Attack speed: {ballistaTowerValues.attackSpeed.ToString("F2")}/s";
+                rangeText.text = $"Range: {ballistaTowerValues.targetingRange.ToString("F2")} units";
+                damageText.text = $"Damage: {ballistaTowerValues.damage.ToString("F2")}";
+                damageDealtText.text = $"Damage dealt: {ballistaTowerValues.damageDealt.ToString("F2")}";
+            }
+            else
+            {
+                towerIconSlot.sprite = ballistaTowerValues.spriteRenderer.sprite;
+                attackCountText.text = $"Enemies slowed: {ballistaTowerValues.enemiesSlowed}";
+                attackSpeedText.text = $"";
+                rangeText.text = $"";
+                damageText.text = $"Slow strength: {ballistaTowerValues.slowStrength}";
+                damageDealtText.text = $"Slow strength is the value that enemy movement speed is divided by.";
+            }
 
         }
         if (selectedTower.TryGetComponent(out SpearMachineScript spearTowerValues))
@@ -324,5 +383,20 @@ public class UpgradeMenuScript : MonoBehaviour
         LevelManager.main.currency += towerGoldWorth;
         upgradeMenu.SetActive(false);
         
+    }
+
+    public void RotateIceMachine()
+    {
+        if (selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues) && ballistaTowerValues.iceMachine)
+        {
+            if (ballistaTowerValues.directionIndex < 4)
+            {
+                ballistaTowerValues.directionIndex++;
+            }
+            else
+            {
+                ballistaTowerValues.directionIndex = 1;
+            }
+        }
     }
 }

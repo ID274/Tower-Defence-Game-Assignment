@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -977765993
   m_SortingLayer: 2
-  m_SortingOrder: 7
+  m_SortingOrder: 20
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0, g: 0.7696705, b: 1, a: 1}
   m_FlipX: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   hitPoints: 2
   currencyWorth: 20
   isBoss: 0
-  damageToBase: 1
+  damageToBase: 2
   isDestroyed: 0
 --- !u!114 &6357321868850446446
 MonoBehaviour:

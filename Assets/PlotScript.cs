@@ -64,12 +64,12 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (!UpgradeMenuScript.Instance.upgradeMenu.activeSelf)
         {
-            UpgradeMenuScript.Instance.upgradeMenu.SetActive(true);
             UpgradeMenuScript.Instance.selectedTower = tower;
+            UpgradeMenuScript.Instance.upgradeMenu.SetActive(true);
         }
         else
         {
-            if (UpgradeMenuScript.Instance.selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues))
+            if (UpgradeMenuScript.Instance.selectedTower.TryGetComponent(out BallistaScript ballistaTowerValues) && !ballistaTowerValues.iceMachine)
             {
                 ballistaTowerValues.rangeIndicator.gameObject.SetActive(false);
             }
