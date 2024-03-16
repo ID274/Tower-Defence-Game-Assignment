@@ -167,7 +167,7 @@ public class UpgradeMenuScript : MonoBehaviour
                 upgradeButtonText1.text = $"Buy for {upgrade1Cost} gold";
                 upgradeButtonText2.text = $"Buy for {upgrade2Cost} gold";
                 upgradeText1.text = $"+{0.05f * (ballistaTowerValues.upgrade1Count + 1)} slow strength";
-                upgradeText2.text = $"+{0.125f * (ballistaTowerValues.upgrade1Count + 1)}s slow duration";
+                upgradeText2.text = $"+{0.125f * (ballistaTowerValues.upgrade2Count + 1)}s slow duration";
                 if (LevelManager.main.currency < upgrade1Cost)
                 {
                     buttonToggle1.interactable = false;
