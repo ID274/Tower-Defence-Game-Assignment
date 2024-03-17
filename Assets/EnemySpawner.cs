@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public static EnemySpawner Instance { get; private set; }
+
     [Header("References")]
     [SerializeField] private EnemyHealth[] enemyPrefabs;
     [SerializeField] private GameObject[] bossPrefabs;
@@ -17,9 +19,12 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float enemiesPerSecond = 0.5f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
-    [SerializeField] private int currentWave = 0;
+    [SerializeField] public int currentWave = 0;
+    [SerializeField] private int orderInLayerCount = 10;
     public int flyingEnemyAmount;
     public int toSpawnCount;
+
+    private int previousWave;
 
 
 
@@ -39,6 +44,14 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
         onEnemyDestroy.AddListener(EnemyDestroyed);
     }
 
@@ -55,7 +68,7 @@ public class EnemySpawner : MonoBehaviour
         {
             CheckTimescale();
         }
-        if (!LevelManager.main.gameOver)
+        if (!LevelManager.Instance.gameOver)
         {
             while (bossIndex > bossPrefabs.Length - 1)
             {
@@ -69,10 +82,13 @@ public class EnemySpawner : MonoBehaviour
                 enemiesLeftToSpawn--;
                 timeSinceLastSpawn = 0f;
             }
-            if (enemiesAlive == 0 && enemiesLeftToSpawn == 0 && !powerupScreen.activeSelf && !waveEnded)
+            if (enemiesAlive == 0 && enemiesLeftToSpawn == 0 && !waveEnded)
             {
-                powerupScreen.SetActive(true);
                 waveEnded = true;
+                if (!powerupScreen.activeSelf && currentWave % 5 == 0)
+                {
+                    powerupScreen.SetActive(true);
+                }
             }
 
             if (waveEnded && !powerupScreen.activeSelf)
@@ -94,10 +110,11 @@ public class EnemySpawner : MonoBehaviour
             if (currentWave < 5)
             {
                 EnemyHealth prefabToSpawn = enemyPrefabs[0];
-                EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
-                prefabInstance.hitPoints = 2 * currentWave;
-                EnemyMovement prefabMovement = prefabInstance.GetComponent<EnemyMovement>();
-                prefabMovement.moveSpeed += 0.1f * currentWave;
+                EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.Instance.startPoint.position, Quaternion.identity);
+                prefabInstance.hitPoints = (2 * currentWave) / 1.2f;
+                SpriteRenderer prefabSprite = prefabInstance.GetComponent<SpriteRenderer>();
+                prefabSprite.sortingOrder = orderInLayerCount;
+                orderInLayerCount++;
                 enemiesAlive++;
 
 
@@ -107,19 +124,21 @@ public class EnemySpawner : MonoBehaviour
                 if (flyingEnemyAmount > 0)
                 {
                     EnemyHealth flyingToSpawn = enemyPrefabs[1];
-                    EnemyHealth flyingInstance = Instantiate(flyingToSpawn, LevelManager.main.startPointAerial.position, Quaternion.identity);
-                    EnemyMovement flyingMovement = flyingInstance.GetComponent<EnemyMovement>();
-                    flyingMovement.moveSpeed += 0.05f * currentWave;
-                    flyingInstance.hitPoints = 2 * currentWave;
+                    EnemyHealth flyingInstance = Instantiate(flyingToSpawn, LevelManager.Instance.startPointAerial.position, Quaternion.identity);
+                    SpriteRenderer flyingSprite = flyingInstance.GetComponent<SpriteRenderer>();
+                    flyingSprite.sortingOrder = orderInLayerCount * 5;
+                    orderInLayerCount++;
+                    flyingInstance.hitPoints = (2 * currentWave) / 1.2f;
                     flyingEnemyAmount--;
                     enemiesAlive++;
 
                 }
                 EnemyHealth prefabToSpawn = enemyPrefabs[0];
-                EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
-                EnemyMovement prefabMovement = prefabInstance.GetComponent<EnemyMovement>();
-                prefabMovement.moveSpeed += 0.1f * currentWave;
-                prefabInstance.hitPoints = 2 * currentWave;
+                EnemyHealth prefabInstance = Instantiate(prefabToSpawn, LevelManager.Instance.startPoint.position, Quaternion.identity);
+                SpriteRenderer prefabSprite = prefabInstance.GetComponent<SpriteRenderer>();
+                prefabSprite.sortingOrder = orderInLayerCount;
+                orderInLayerCount++;
+                prefabInstance.hitPoints = (2 * currentWave) / 1.2f;
                 enemiesAlive++;
             }
 
@@ -133,14 +152,12 @@ public class EnemySpawner : MonoBehaviour
 
 
         GameObject bossToSpawn = bossPrefabs[bossIndex];
-        GameObject bossInstance = Instantiate(bossToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
-        EnemyMovement bossMovement = bossInstance.GetComponent<EnemyMovement>();
+        GameObject bossInstance = Instantiate(bossToSpawn, LevelManager.Instance.startPoint.position, Quaternion.identity);
         EnemyHealth bossHealth = bossInstance.GetComponent<EnemyHealth>();
+        SpriteRenderer bossSprite = bossInstance.GetComponent<SpriteRenderer>();
+        bossSprite.sortingOrder = orderInLayerCount * 10;
 
-        bossMovement.moveSpeed += 0.1f * currentWave;
-        bossMovement.moveSpeed *= 0.8f;
-        bossHealth.damageToBase *= 20;
-        bossHealth.hitPoints *= 20 * currentWave;
+        bossHealth.hitPoints = 30 * currentWave;
         bossHealth.isBoss = true;
         bossHealth.currencyWorth *= currentWave;
         enemiesAlive++;
@@ -157,20 +174,21 @@ public class EnemySpawner : MonoBehaviour
     {
         waveEnded = false;
         currentWave++;
-        LevelManager.main.currentWave = currentWave;
+        orderInLayerCount = 10;
+        LevelManager.Instance.currentWave = currentWave;
         if (currentWave == 1)
         {
             Debug.Log("current wave = 1");
-            LevelManager.main.Pause();
-            Debug.Log(SettingsScript.main.tutorialsEnabled);
-            if (SettingsScript.main.tutorialsEnabled)
+            LevelManager.Instance.Pause();
+            Debug.Log(SettingsScript.Instance.tutorialsEnabled);
+            if (SettingsScript.Instance.tutorialsEnabled)
             {
                 tutorialMenu.SetActive(true);
-                Debug.Log($"Tutorials enabled: {SettingsScript.main.tutorialsEnabled} (IF)");
+                Debug.Log($"Tutorials enabled: {SettingsScript.Instance.tutorialsEnabled} (IF)");
             }
             else
             {
-                Debug.Log($"Tutorials enabled: {SettingsScript.main.tutorialsEnabled} (ELSE)");
+                Debug.Log($"Tutorials enabled: {SettingsScript.Instance.tutorialsEnabled} (ELSE)");
             }
             Debug.Log(Time.timeScale);
         }
@@ -200,7 +218,7 @@ public class EnemySpawner : MonoBehaviour
     {
         isSpawning = false;
         timeSinceLastSpawn = 0f;
-        LevelManager.main.currency += currentWave * 100 / 2;
+        LevelManager.Instance.currency += currentWave * 100 / 2;
         bossSpawned = false;
         StartCoroutine(StartWave());
 

@@ -8,18 +8,23 @@ using System.Security.Cryptography;
 
 public class SettingsScript : MonoBehaviour
 {
-    public static SettingsScript main;
+    public static SettingsScript Instance { get; private set; }
 
     public bool tutorialsEnabled;
     public bool sfxEnabled;
     public bool musicEnabled;
 
-    [SerializeField] private GameObject settingsMenu;
-    [SerializeField] private TextMeshProUGUI tutorialButton, fullscreenButton, sfxButton, musicButton;
-
     void Awake()
     {
-        main = this;
+        Screen.fullScreen = !Screen.fullScreen;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
         DontDestroyOnLoad(this.gameObject);
         if (!PlayerPrefs.HasKey("MusicEnabled"))
         {
@@ -33,78 +38,7 @@ public class SettingsScript : MonoBehaviour
         {
             PlayerPrefs.SetFloat("TutorialsEnabled", 1);
         }
-        fullscreenButton.text = "Fullscreen";
         LoadPrefs();
-    }
-
-    private void Update()
-    {
-        if (tutorialsEnabled && tutorialButton != null)
-        {
-            tutorialButton.text = "Tutorials: ON";
-        }
-        else if (tutorialButton != null)
-        {
-            tutorialButton.text = "Tutorials: OFF";
-        }
-        if (sfxEnabled && sfxButton != null)
-        {
-            sfxButton.text = "SFX: ON";
-        }
-        else if (sfxButton != null)
-        {
-            sfxButton.text = "SFX: OFF";
-        }
-        if (musicEnabled && musicButton != null)
-        {
-            musicButton.text = "Music: ON";
-        }
-        else if (musicButton != null)
-        {
-            musicButton.text = "Music: OFF";
-        }
-    }
-    public void ToggleTutorials()
-    {
-        if (tutorialsEnabled)
-        {
-            tutorialsEnabled = false;
-        }
-        else
-        {
-            tutorialsEnabled = true;
-        }
-    }
-    public void ToggleFullScreen()
-    {
-        Screen.fullScreen = !Screen.fullScreen;
-    }
-    public void ToggleSFX()
-    {
-        if (sfxEnabled)
-        {
-            sfxEnabled = false;
-        }
-        else
-        {
-            sfxEnabled = true;
-        }
-    }
-    public void ToggleMusic()
-    {
-        if (musicEnabled)
-        {
-            musicEnabled = false;
-        }
-        else
-        {
-            musicEnabled = true;
-        }
-    }
-    public void DoneButton()
-    {
-        SavePrefs();
-        settingsMenu.SetActive(false);
     }
 
     public void SavePrefs()

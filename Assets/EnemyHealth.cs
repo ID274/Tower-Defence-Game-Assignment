@@ -26,8 +26,8 @@ public class EnemyHealth : MonoBehaviour
         if (hitPoints <= 0 && !isDestroyed)
         {
             EnemySpawner.onEnemyDestroy.Invoke();
-            LevelManager.main.enemiesKilled++;
-            LevelManager.main.IncreaseCurrency(currencyWorth);
+            LevelManager.Instance.enemiesKilled++;
+            LevelManager.Instance.IncreaseCurrency(currencyWorth);
             isDestroyed = true;
             Destroy(gameObject);
         }
@@ -40,7 +40,7 @@ public class EnemyHealth : MonoBehaviour
         {
             ModMoney();
         }
-        if (LevelManager.main.gameOver)
+        if (LevelManager.Instance.gameOver)
         {
             currencyWorth = 0;
             Destroy(gameObject);

@@ -4,18 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameSettingsScript : MonoBehaviour
+public class MainMenuSettings : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI fullscreenButton, sfxButton, musicButton;
+    [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private TextMeshProUGUI tutorialButton, fullscreenButton, sfxButton, musicButton;
     [SerializeField] private Slider musicVolumeSlider, sfxVolumeSlider;
 
-
-    public GameObject settingsMenu;
-    private float tempTimescale;
-
-    private void Awake()
+    void Start()
     {
-        SettingsScript.Instance.LoadPrefs();
         fullscreenButton.text = "Fullscreen";
         SoundManager.Instance.musicVolumeSlider = musicVolumeSlider;
         SoundManager.Instance.currentMusicVolumeSlider = musicVolumeSlider;
@@ -23,33 +19,63 @@ public class GameSettingsScript : MonoBehaviour
         SoundManager.Instance.currentSFXVolumeSlider = sfxVolumeSlider;
         SoundManager.Instance.Load();
     }
-    private void Update()
+
+
+    void Update()
     {
-        if (settingsMenu.activeSelf)
+        if (SettingsScript.Instance.tutorialsEnabled && tutorialButton != null)
         {
-            tempTimescale = Time.timeScale;
-            Time.timeScale = 0f;
+            tutorialButton.text = "Tutorials: ON";
         }
-        if (SettingsScript.Instance.sfxEnabled)
+        else if (tutorialButton != null)
+        {
+            tutorialButton.text = "Tutorials: OFF";
+        }
+        if (SettingsScript.Instance.sfxEnabled && sfxButton != null)
         {
             sfxButton.text = "SFX: ON";
         }
-        else
+        else if (sfxButton != null)
         {
             sfxButton.text = "SFX: OFF";
         }
-        if (SettingsScript.Instance.musicEnabled)
+        if (SettingsScript.Instance.musicEnabled && musicButton != null)
         {
             musicButton.text = "Music: ON";
         }
-        else
+        else if (musicButton != null)
         {
             musicButton.text = "Music: OFF";
         }
     }
+
+    public void ToggleTutorials()
+    {
+        if (SettingsScript.Instance.tutorialsEnabled)
+        {
+            SettingsScript.Instance.tutorialsEnabled = false;
+        }
+        else
+        {
+            SettingsScript.Instance.tutorialsEnabled = true;
+        }
+        SettingsScript.Instance.SavePrefs();
+        SettingsScript.Instance.LoadPrefs();
+    }
     public void ToggleFullScreen()
     {
         Screen.fullScreen = !Screen.fullScreen;
+    }
+    public void ToggleSFX()
+    {
+        if (SettingsScript.Instance.sfxEnabled)
+        {
+            SettingsScript.Instance.sfxEnabled = false;
+        }
+        else
+        {
+            SettingsScript.Instance.sfxEnabled = true;
+        }
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
     }
@@ -66,41 +92,12 @@ public class GameSettingsScript : MonoBehaviour
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
     }
-    public void ToggleSFX()
-    {
-        if (SettingsScript.Instance.sfxEnabled)
-        {
-            SettingsScript.Instance.sfxEnabled = false;
-        }
-        else
-        {
-            SettingsScript.Instance.sfxEnabled = true;
-        }
-        SettingsScript.Instance.SavePrefs();
-        SettingsScript.Instance.LoadPrefs();
-    }
     public void DoneButton()
     {
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
-        Time.timeScale = tempTimescale;
         settingsMenu.SetActive(false);
     }
-
-    public void QuitButton()
-    {
-        SettingsScript.Instance.SavePrefs();
-        Application.Quit();
-    }
-    public void QuitToMainMenu()
-    {
-        SettingsScript.Instance.SavePrefs();
-        SettingsScript.Instance.LoadPrefs();
-        Debug.Log(SceneManagerScript.Instance.buildIndex + "build index");
-        SceneManagerScript.Instance.ChangeScenes();
-        Debug.Log(SceneManagerScript.Instance.buildIndex + "build index");
-    }
-
     public void ChangeMusicVolume()
     {
         SoundManager.Instance.ChangeMusicVolume();
@@ -109,5 +106,4 @@ public class GameSettingsScript : MonoBehaviour
     {
         SoundManager.Instance.ChangeSFXVolume();
     }
-
 }

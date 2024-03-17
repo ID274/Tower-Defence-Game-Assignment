@@ -164,8 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 2
   currencyWorth: 50
-  isBoss: 0
-  damageToBase: 1
+  isBoss: 1
+  damageToBase: 20
   isDestroyed: 0
 --- !u!114 &6357321868850446446
 MonoBehaviour:
@@ -179,6 +179,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f46b61e4a69294a975f9f22282d69f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 5754839592900510634}
+  enemySprite: {fileID: 0}
+  animSprites: []
   rb: {fileID: 7063625666299836647}
   moveSpeed: 2
+  originalMoveSpeed: 2
+  slowedByGameObject: {fileID: 0}
   flyingEnemy: 0
+  slowed: 0
+  boss: 1

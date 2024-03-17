@@ -382,7 +382,7 @@ MonoBehaviour:
   rangeIndicator: {fileID: 5815831461573234081}
   attackCount: 0
   damageDealt: 0
-  targetingRange: 8
+  targetingRange: 6
   damage: 8
   attackSpeed: 0.4
   upgradePath: 0

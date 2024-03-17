@@ -14,9 +14,9 @@ public class ShopMenu : MonoBehaviour
 
     private void OnGUI()
     {
-        currencyUI.text = LevelManager.main.currency.ToString();
-        healthUI.text = LevelManager.main.health.ToString();
-        waveUI.text = LevelManager.main.currentWave.ToString();
+        currencyUI.text = LevelManager.Instance.currency.ToString();
+        healthUI.text = LevelManager.Instance.health.ToString();
+        waveUI.text = LevelManager.Instance.currentWave.ToString();
     }
 
     private void Update()

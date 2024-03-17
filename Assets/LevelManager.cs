@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public static LevelManager main;
+    public static LevelManager Instance { get; private set; }
 
     public Transform[] path;
     public Transform startPoint;
     public Transform[] pathAerial;
     public Transform startPointAerial;
+
+    public Transform beforePath;
+    public Transform beforePathAerial;
 
     public int currentWave;
     public int enemiesKilled;
@@ -30,9 +33,16 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        main = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
         Time.timeScale = 1f;
-        SoundManager.main.PlayGameMusic();
+        SoundManager.Instance.PlayGameMusic();
         Debug.Log("Start timescale" + "=" + Time.timeScale);
     }
     private void Start()
@@ -109,6 +119,6 @@ public class LevelManager : MonoBehaviour
     }
     public void RetryLevel()
     {
-        SceneManagerScript.main.ReloadScene();
+        SceneManagerScript.Instance.ReloadScene();
     }
 }

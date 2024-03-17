@@ -55,18 +55,18 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
         else
         {
-            Tower towerToBuild = BuildManager.main.GetSelectedTower();
-            if (towerToBuild.cost > 0 && towerToBuild.cost > LevelManager.main.currency)
+            Tower towerToBuild = BuildManager.Instance.GetSelectedTower();
+            if (towerToBuild.cost > 0 && towerToBuild.cost > LevelManager.Instance.currency)
             {
                 return;
             }
             if (towerToBuild.cost > 0)
             {
-                LevelManager.main.SpendCurrency(towerToBuild.cost);
+                LevelManager.Instance.SpendCurrency(towerToBuild.cost);
                 tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
             }
-            BuildManager.main.DeselectTower();
-            towerToBuild = BuildManager.main.GetSelectedTower();
+            BuildManager.Instance.DeselectTower();
+            towerToBuild = BuildManager.Instance.GetSelectedTower();
         }
 
 

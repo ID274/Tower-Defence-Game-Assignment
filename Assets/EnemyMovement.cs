@@ -5,6 +5,9 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite enemySprite;
+    [SerializeField] private Sprite[] animSprites;
     [SerializeField] private Rigidbody2D rb;
 
     private EnemyHealth enemyHealthScript;
@@ -16,62 +19,83 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] public GameObject slowedByGameObject;
     public bool flyingEnemy;
     private Transform target;
+    private Transform lastTarget;
     private int pathIndex = 0;
     private int pathIndexAerial = 0;
 
-
-
-
     public bool slowed;
+    public bool boss;
+
     private void Awake()
     {
+        if (boss)
+        {
+            moveSpeed += 0.05f * EnemySpawner.Instance.currentWave;
+            moveSpeed = moveSpeed / 2;
+        }
+        else
+        {
+            moveSpeed += 0.05f * EnemySpawner.Instance.currentWave;
+        }
         originalMoveSpeed = moveSpeed;
+        if (animSprites.Length != 0)
+        {
+            spriteRenderer.color = Color.white;
+            StartCoroutine(MovementAnimation());
+        }
+        
     }
     private void Start()
     {
         if (!flyingEnemy)
         {
             enemyHealthScript = this.GetComponent<EnemyHealth>();
-            target = LevelManager.main.path[pathIndex];
+            target = LevelManager.Instance.path[pathIndex];
+            lastTarget = LevelManager.Instance.beforePath;
         }
         else
         {
             enemyHealthScript = this.GetComponent<EnemyHealth>();
-            target = LevelManager.main.pathAerial[pathIndexAerial];
+            target = LevelManager.Instance.pathAerial[pathIndexAerial];
+            lastTarget = LevelManager.Instance.beforePathAerial;
         }
+        Debug.LogWarning(lastTarget);
+        ChangeRotation();
     }
     private void Update()
     {
-        if (Vector2.Distance(target.position, transform.position) <= 0.1f && !LevelManager.main.gameOver && !flyingEnemy)
+        if (Vector2.Distance(target.position, transform.position) <= 0.1f && !LevelManager.Instance.gameOver && !flyingEnemy)
         {
             pathIndex++;
 
-            if (pathIndex == LevelManager.main.path.Length)
+            if (pathIndex == LevelManager.Instance.path.Length)
             {
                 EnemySpawner.onEnemyDestroy.Invoke();
                 Destroy(gameObject);
-                LevelManager.main.health -= enemyHealthScript.damageToBase;
+                LevelManager.Instance.health -= enemyHealthScript.damageToBase;
                 return;
             }
             else
             {
-                target = LevelManager.main.path[pathIndex];
+                lastTarget = target;
+                target = LevelManager.Instance.path[pathIndex];
+                ChangeRotation();
             }
         }
-        else if (Vector2.Distance(target.position, transform.position) <= 0.1f && !LevelManager.main.gameOver && flyingEnemy)
+        else if (Vector2.Distance(target.position, transform.position) <= 0.1f && !LevelManager.Instance.gameOver && flyingEnemy)
         {
             pathIndexAerial++;
 
-            if (pathIndexAerial == LevelManager.main.pathAerial.Length)
+            if (pathIndexAerial == LevelManager.Instance.pathAerial.Length)
             {
                 EnemySpawner.onEnemyDestroy.Invoke();
                 Destroy(gameObject);
-                LevelManager.main.health -= enemyHealthScript.damageToBase;
+                LevelManager.Instance.health -= enemyHealthScript.damageToBase;
                 return;
             }
             else
             {
-                target = LevelManager.main.pathAerial[pathIndexAerial];
+                target = LevelManager.Instance.pathAerial[pathIndexAerial];
             }
         }
     }
@@ -79,5 +103,35 @@ public class EnemyMovement : MonoBehaviour
     {
         Vector2 direction = (target.position - transform.position).normalized;
         rb.velocity = direction * moveSpeed;
+    }
+
+    private IEnumerator MovementAnimation()
+    {
+        foreach (Sprite sprite in animSprites)
+        {
+            spriteRenderer.sprite = sprite;
+            yield return new WaitForSeconds(0.3f / moveSpeed);
+        }
+        StartCoroutine(MovementAnimation());
+    }
+
+    public void ChangeRotation()
+    {
+        if (target.position.x > lastTarget.position.x)
+        {
+            transform.eulerAngles = new Vector3(transform.rotation.x, transform.rotation.y, -90);
+        }
+        else if (target.position.x < lastTarget.position.x)
+        {
+            transform.eulerAngles = new Vector3(transform.rotation.x, transform.rotation.y, 90);
+        }
+        if (target.position.y > lastTarget.position.y)
+        {
+            transform.eulerAngles = new Vector3(transform.rotation.x, transform.rotation.y, 0);
+        }
+        else if (target.position.y < lastTarget.position.y)
+        {
+            transform.eulerAngles = new Vector3(transform.rotation.x, transform.rotation.y, 180);
+        }
     }
 }

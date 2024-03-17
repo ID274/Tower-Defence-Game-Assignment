@@ -22,7 +22,7 @@ public class DialogueScript : MonoBehaviour, IPointerDownHandler
     
     void OnEnable()
     {
-        if (!SettingsScript.main.tutorialsEnabled)
+        if (!SettingsScript.Instance.tutorialsEnabled)
         {
             onTutorial = false;
             SkipDialogue();

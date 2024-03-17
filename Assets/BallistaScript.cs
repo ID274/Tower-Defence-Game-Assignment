@@ -49,6 +49,7 @@ public class BallistaScript : MonoBehaviour
     private float timeUntilFireTwelth;
     public bool aerial;
     public bool cannon;
+    private bool firstAttack = true;
 
     [Header("Ice Machine")]
     public bool iceMachine;
@@ -134,35 +135,36 @@ public class BallistaScript : MonoBehaviour
             {
                 ModDamage();
             }
-            if (!LevelManager.main.gameOver)
+            if (!LevelManager.Instance.gameOver)
             {
-                if (target == null)
+                if (target == null || !CheckTargetIsInRange())
                 {
                     FindTargetAerial();
-                    if (target == null)
+                    if (target == null || !CheckTargetIsInRange())
                     {
                         FindTarget();
                     }
                     return;
                 }
-                if (CheckTargetIsInRange())
+                else
                 {
-                    RotateTowardsTarget();
-                    timeUntilFire += Time.deltaTime;
-                    if (timeUntilFire >= 1f / attackSpeed && shotFinished)
+                    if (firstAttack)
                     {
-                        timeUntilFireHalf = timeUntilFire / 2;
-                        timeUntilFireTwelth = timeUntilFire / 12;
+                        firstAttack = false;
+                        RotateTowardsTarget();
                         Shoot();
                     }
                     else
                     {
-                        return;
+                        RotateTowardsTarget();
+                        timeUntilFire += Time.deltaTime;
+                        if (timeUntilFire >= 1f / attackSpeed && shotFinished)
+                        {
+                            timeUntilFireHalf = timeUntilFire / 2;
+                            timeUntilFireTwelth = timeUntilFire / 12;
+                            Shoot();
+                        }
                     }
-                }
-                else
-                {
-                    target = null;
                 }
             }
         }
@@ -199,7 +201,10 @@ public class BallistaScript : MonoBehaviour
         bulletScript.bulletDamage = damage;
         attackCount++;
         damageDealt += damage;
-        bulletScript.SetTarget(target);
+        if (target != null)
+        {
+            bulletScript.SetTarget(target);
+        }
         Debug.Log("Shoot");
         spriteRenderer.sprite = UnloadedSprite;
         shotFinished = true;
@@ -247,21 +252,6 @@ public class BallistaScript : MonoBehaviour
         spriteRenderer.sprite = cannonSprite[0];
         shotFinished = true;
     }
-
-
-
-    //private void FindTarget()
-    //{
-    //    RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
-    //    System.Array.Sort(hits, (a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
-    //    System.Array.Sort(hits, (a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
-    //    if (hits.Length > 0)
-    //    {
-    //        target = hits[0].transform;
-    //    }
-
-    //}
-
     private void FindTarget()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, Vector2.zero, 0f, enemyMask);
@@ -289,16 +279,9 @@ public class BallistaScript : MonoBehaviour
 
     private bool CheckTargetIsInRange()
     {
-        return Vector2.Distance(target.position, transform.position) <= targetingRange;
+        return target != null && Vector2.Distance(target.position, transform.position) <= targetingRange;
     }
 
-    //private void RotateTowardsTarget()
-    //{
-    //    float angle = Mathf.Atan2(target.position.y - transform.position.y, target.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
-
-    //    Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-    //    turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed);
-    //}
     private void RotateTowardsTarget()
     {
         float angle = Mathf.Atan2(target.position.y - transform.position.y, target.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
@@ -306,13 +289,6 @@ public class BallistaScript : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
         turretRotationPoint.rotation = targetRotation;
     }
-
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Handles.color = Color.cyan;
-    //    Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
-    //}
-
     public void ModAttackSpeed()
     {
         attackSpeed = preModAttackSpeed * ModifierScript.Instance.attackSpeedMult;

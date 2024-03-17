@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class MainMenuScript : MonoBehaviour
 {
-    public static MainMenuScript main;
-
     [SerializeField] private GameObject settingsMenu;
 
     void Awake()
     {
-        main = this;
+
     }
 
     public void QuitButton()
@@ -20,5 +18,10 @@ public class MainMenuScript : MonoBehaviour
     public void SettingsButton()
     {
         settingsMenu.SetActive(true);
+    }
+
+    public void PlayButton()
+    {
+        SceneManagerScript.Instance.ChangeScenes();
     }
 }

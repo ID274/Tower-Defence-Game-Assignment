@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
-    public static BuildManager main;
+    public static BuildManager Instance { get; private set; }
 
     [Header("References")]
     [SerializeField] public Tower[] towers;
@@ -16,7 +16,14 @@ public class BuildManager : MonoBehaviour
 
     private void Awake()
     {
-        main = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
         foreach (var GameObject in towersSelectedBackground)
         {
             GameObject.SetActive(false);
@@ -32,7 +39,7 @@ public class BuildManager : MonoBehaviour
 
     public void SetSelectedTower(int _selectedTower)
     {
-        if (!LevelManager.main.gameOver)
+        if (!LevelManager.Instance.gameOver)
         {
             if (selectedTower == _selectedTower)
             {
