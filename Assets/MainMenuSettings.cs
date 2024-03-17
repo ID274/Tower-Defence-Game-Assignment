@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenuSettings : MonoBehaviour
 {
-    [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject settingsMenu, keybindsMenu;
     [SerializeField] private TextMeshProUGUI tutorialButton, fullscreenButton, sfxButton, musicButton;
     [SerializeField] private Slider musicVolumeSlider, sfxVolumeSlider;
 
@@ -23,6 +23,22 @@ public class MainMenuSettings : MonoBehaviour
 
     void Update()
     {
+        if (ControlsScript.Instance.toggleSettingsPressed)
+        {
+            switch (settingsMenu.activeSelf)
+            {
+                case true:
+                    SettingsScript.Instance.SavePrefs();
+                    SettingsScript.Instance.LoadPrefs();
+                    keybindsMenu.SetActive(false);
+                    settingsMenu.SetActive(false);
+                    break;
+                case false:
+                    settingsMenu.SetActive(true);
+                    break;
+            }
+        }
+
         if (SettingsScript.Instance.tutorialsEnabled && tutorialButton != null)
         {
             tutorialButton.text = "Tutorials: ON";
@@ -98,6 +114,21 @@ public class MainMenuSettings : MonoBehaviour
         SettingsScript.Instance.LoadPrefs();
         settingsMenu.SetActive(false);
     }
+
+    public void KeyBindsButton()
+    {
+        switch (keybindsMenu.activeSelf)
+        {
+            case true:
+                keybindsMenu.SetActive(false);
+                break;
+            case false:
+                keybindsMenu.SetActive(true);
+                break;
+        }
+    }
+
+
     public void ChangeMusicVolume()
     {
         SoundManager.Instance.ChangeMusicVolume();

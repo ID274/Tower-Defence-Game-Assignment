@@ -6,11 +6,6 @@ public class MainMenuScript : MonoBehaviour
 {
     [SerializeField] private GameObject settingsMenu;
 
-    void Awake()
-    {
-
-    }
-
     public void QuitButton()
     {
         Application.Quit();

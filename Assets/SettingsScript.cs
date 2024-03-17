@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using System.Security.Cryptography;
+using UnityEngine.InputSystem;
 
 public class SettingsScript : MonoBehaviour
 {
@@ -14,9 +14,13 @@ public class SettingsScript : MonoBehaviour
     public bool sfxEnabled;
     public bool musicEnabled;
 
+
+
+    public bool isMobile;
+
     void Awake()
     {
-        Screen.fullScreen = !Screen.fullScreen;
+        isMobile = IsMobilePlatform();
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -47,10 +51,6 @@ public class SettingsScript : MonoBehaviour
         PlayerPrefs.SetInt("SFXEnabled", Convert.ToInt32(sfxEnabled));
         PlayerPrefs.SetInt("TutorialsEnabled", Convert.ToInt32(tutorialsEnabled));
     }
-    //private void LoadFullscreenPrefs()
-    //{
-    //    fullscreenEnabled = Convert.ToBoolean(PlayerPrefs.GetInt("FullscreenEnabled"));
-    //}
     private void LoadMusicPrefs()
     {
         musicEnabled = Convert.ToBoolean(PlayerPrefs.GetInt("MusicEnabled"));
@@ -70,5 +70,9 @@ public class SettingsScript : MonoBehaviour
         LoadSFXPrefs();
         //LoadFullscreenPrefs();
         LoadTutorialPrefs();
+    }
+    public bool IsMobilePlatform()
+    {
+        return Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer;
     }
 }

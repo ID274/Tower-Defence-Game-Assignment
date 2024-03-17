@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -13,6 +14,7 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private GameObject tower;
     private Color startColor;
+
 
     private void Start()
     {
@@ -65,8 +67,12 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 LevelManager.Instance.SpendCurrency(towerToBuild.cost);
                 tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
             }
-            BuildManager.Instance.DeselectTower();
-            towerToBuild = BuildManager.Instance.GetSelectedTower();
+            if (!ControlsScript.Instance.placeMoreTowersHeld)
+            {
+                BuildManager.Instance.DeselectTower();
+                towerToBuild = BuildManager.Instance.GetSelectedTower();
+            }
+            
         }
 
 

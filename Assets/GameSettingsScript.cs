@@ -10,7 +10,7 @@ public class GameSettingsScript : MonoBehaviour
     [SerializeField] private Slider musicVolumeSlider, sfxVolumeSlider;
 
 
-    public GameObject settingsMenu;
+    public GameObject settingsMenu, keybindsMenu;
     private float tempTimescale;
 
     private void Awake()
@@ -25,6 +25,21 @@ public class GameSettingsScript : MonoBehaviour
     }
     private void Update()
     {
+        if (ControlsScript.Instance.toggleSettingsPressed)
+        {
+            switch (settingsMenu.activeSelf)
+            {
+                case true:
+                    SettingsScript.Instance.SavePrefs();
+                    SettingsScript.Instance.LoadPrefs();
+                    keybindsMenu.SetActive(false);
+                    settingsMenu.SetActive(false);
+                    break;
+                case false:
+                    settingsMenu.SetActive(true);
+                    break;
+            }
+        }
         if (settingsMenu.activeSelf)
         {
             tempTimescale = Time.timeScale;
@@ -108,6 +123,19 @@ public class GameSettingsScript : MonoBehaviour
     public void ChangeSFXVolume()
     {
         SoundManager.Instance.ChangeSFXVolume();
+    }
+
+    public void KeyBindsButton()
+    {
+        switch (keybindsMenu.activeSelf)
+        {
+            case true:
+                keybindsMenu.SetActive(false);
+                break;
+            case false:
+                keybindsMenu.SetActive(true);
+                break;
+        }
     }
 
 }
