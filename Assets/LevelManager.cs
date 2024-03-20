@@ -17,6 +17,8 @@ public class LevelManager : MonoBehaviour
 
     public int currentWave;
     public int enemiesKilled;
+    public int bossesKilled;
+    public int score;
     public int currency;
     public int startCurrency = 450;
     public int health;
@@ -25,7 +27,7 @@ public class LevelManager : MonoBehaviour
     [Header("Game Over")]
     public bool gameOver = false;
     [SerializeField] private GameObject gameOverScreen;
-    [SerializeField] private TextMeshProUGUI diedOnWaveText, enemiesKilledText;
+    [SerializeField] private TextMeshProUGUI diedOnWaveText, enemiesKilledText, scoreText, bossKilledText;
 
     [Header("Timescale References")]
     [SerializeField] private GameObject normalSpeedButton, doubleSpeedButton;
@@ -73,12 +75,14 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (health <= 0)
+        if (health <= 0 && gameOver == false)
         {
             gameOver = true;
             gameOverScreen.SetActive(true);
             diedOnWaveText.text = $"Survived until: Wave {currentWave}";
-            enemiesKilledText.text = $"Enemies killed: {enemiesKilled}";
+            enemiesKilledText.text = $"Enemies vanquished: {enemiesKilled}";
+            bossKilledText.text = $"Bosses vanquished: {bossesKilled}";
+            scoreText.text = $"Score: {score}";
         }
         if (Time.timeScale == 1f)
         {
@@ -120,5 +124,10 @@ public class LevelManager : MonoBehaviour
     public void RetryLevel()
     {
         SceneManagerScript.Instance.ReloadScene();
+    }
+
+    public void CalculateScore()
+    {
+        score = enemiesKilled * (bossesKilled + 1) * currentWave;
     }
 }

@@ -12,7 +12,7 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] private Color hoverColor;
     [SerializeField] private Color menuColor;
 
-    private GameObject tower;
+    [SerializeField] private GameObject tower;
     private Color startColor;
 
 
@@ -30,12 +30,37 @@ public class PlotScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         else
         {
             sr.color = menuColor;
+            if (tower.TryGetComponent(out BallistaScript ballistaTowerValues))
+            {
+                if (ballistaTowerValues.rangeIndicator != null)
+                {
+                    ballistaTowerValues.rangeIndicator.gameObject.SetActive(true);
+                }
+            }
+            else if (tower.TryGetComponent(out SpearMachineScript spearTowerValues))
+            {
+                spearTowerValues.rangeIndicator.gameObject.SetActive(true);
+            }
         }
     }
 
     public void OnPointerExit(PointerEventData pointerEventData)
     {
         sr.color = startColor;
+        if (tower != null)
+        {
+            if (tower.TryGetComponent(out BallistaScript ballistaTowerValues))
+            {
+                if (ballistaTowerValues.rangeIndicator != null)
+                {
+                    ballistaTowerValues.rangeIndicator.gameObject.SetActive(false);
+                }
+            }
+            else if (tower.TryGetComponent(out SpearMachineScript spearTowerValues))
+            {
+                spearTowerValues.rangeIndicator.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void OnPointerDown(PointerEventData pointerEventData)

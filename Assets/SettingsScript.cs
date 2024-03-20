@@ -21,6 +21,11 @@ public class SettingsScript : MonoBehaviour
     void Awake()
     {
         isMobile = IsMobilePlatform();
+        if (!isMobile)
+        {
+            QualitySettings.vSyncCount = 0;  // VSync must be disabled
+            Application.targetFrameRate = 144;
+        }
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);

@@ -27,8 +27,13 @@ public class EnemyHealth : MonoBehaviour
         {
             EnemySpawner.onEnemyDestroy.Invoke();
             LevelManager.Instance.enemiesKilled++;
+            if (isBoss)
+            {
+                LevelManager.Instance.bossesKilled++;
+            }
             LevelManager.Instance.IncreaseCurrency(currencyWorth);
             isDestroyed = true;
+            LevelManager.Instance.CalculateScore();
             Destroy(gameObject);
         }
         
