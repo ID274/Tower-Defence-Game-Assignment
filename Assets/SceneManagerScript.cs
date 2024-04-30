@@ -34,22 +34,22 @@ public class SceneManagerScript : MonoBehaviour
 
     public void ChangeScenes()
     {
+        SoundManager.Instance.Save();
         currentScene = SceneManager.GetActiveScene();
         buildIndex = currentScene.buildIndex;
         if (buildIndex == 0)
         {
             buildIndex = 1;
             SoundManager.Instance.StopMusic();
-            SoundManager.Instance.PlayGameMusic();
         }
         else if (buildIndex == 1)
         {
             buildIndex = 0;
             SoundManager.Instance.StopMusic();
         }
-        SoundManager.Instance.SceneChanged();
         SceneManager.LoadScene(buildIndex);
         currentScene = SceneManager.GetActiveScene();
         buildIndex = currentScene.buildIndex;
+        SoundManager.Instance.SceneChanged();
     }
 }

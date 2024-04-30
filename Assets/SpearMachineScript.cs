@@ -134,6 +134,7 @@ public class SpearMachineScript : MonoBehaviour
     public void Attack()
     {
         target.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.spearSFX);
         attackCount++;
         damageDealt += damage;
     }

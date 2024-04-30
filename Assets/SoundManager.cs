@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
@@ -22,6 +23,13 @@ public class SoundManager : MonoBehaviour
     [Header("Audio Clips")]
     public AudioClip mainMenuMusic, gameMusic; //bossMusic;
 
+    [Header("Sound Effects")]
+    public AudioClip arrowImpactSFX, spearSFX, cannonExplosionSFX, gameOverSFX, buttonClickSFX, leftClickSFX;
+
+    [Header("Debug")]
+    [SerializeField] float sfxSlider;
+    [SerializeField] float musicSlider;
+
 
     void Awake()
     {
@@ -37,11 +45,20 @@ public class SoundManager : MonoBehaviour
     }
     void Start()
     {
-        SceneChanged();
+        Load();
+        PlayMusic(mainMenuMusic);
     }
 
     private void Update()
     {
+        if (currentMusicVolumeSlider != null)
+        {
+            musicSlider = currentMusicVolumeSlider.value;
+        }
+        if (currentSFXVolumeSlider != null)
+        {
+            sfxSlider = currentSFXVolumeSlider.value;
+        }
         if (SettingsScript.Instance.musicEnabled && !musicSource.isActiveAndEnabled)
         {
             musicSource.enabled = true;
@@ -65,12 +82,14 @@ public class SoundManager : MonoBehaviour
     {
         musicSource.volume = musicVolumeSlider.value;
         Save();
+        Load();
     }
 
     public void ChangeSFXVolume()
     {
         sfxSource.volume = sfxVolumeSlider.value;
         Save();
+        Load();
     }
 
     public void Load()
@@ -85,33 +104,28 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void Save()
+    public void Save()
     {
         PlayerPrefs.SetFloat("musicVolume", musicVolumeSlider.value);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolumeSlider.value);
     }
-
-    public void PlayMenuMusic()
+    public void PlayMusic(AudioClip music)
     {
-        musicSource.clip = mainMenuMusic;
-        musicSource.Play();
+        musicSource.PlayOneShot(music);
     }
-    public void PlayGameMusic()
+    public void PlaySFX(AudioClip sfx)
     {
-        musicSource.clip = gameMusic;
-        musicSource.Play();
+        sfxSource.PlayOneShot(sfx);
     }
 
     public void StopMusic()
     {
         musicSource.Stop();
     }
-    //public void PlayBossMusic()
-    //{
-    //    musicSource.clip = bossMusic;
-    //    musicSource.Play();
-    //}
-
+    public void StopSFX()
+    {
+        sfxSource.Stop();
+    }
     public void SceneChanged()
     {
         currentMusicVolumeSlider = musicVolumeSlider;
@@ -124,8 +138,20 @@ public class SoundManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("sfxVolume", 0.3f);
         }
-        Load();
-        StopMusic();
-        PlayMenuMusic();
+        StopSFX();
+        if (SceneManager.GetSceneByBuildIndex(1).isLoaded)
+        {
+            StopMusic();
+            Debug.Log("Main Menu - scene loaded, loaded scenes: " + SceneManager.loadedSceneCount);
+            Load();
+            PlayMusic(mainMenuMusic);
+        }
+        else if (SceneManager.GetSceneByBuildIndex(0).isLoaded)
+        {
+            StopMusic();
+            Debug.Log("Endless Map 1 - scene loaded, loaded scenes: " + SceneManager.loadedSceneCount);
+            Load();
+            PlayMusic(gameMusic);
+        }
     }
 }

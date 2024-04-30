@@ -22,7 +22,13 @@ public class BallistaArrowScript : MonoBehaviour
     public Transform target;
     public Vector3 target2D;
 
-
+    private void Awake()
+    {
+        if (cannonBall)
+        {
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.cannonExplosionSFX);
+        }
+    }
     public void Start()
     {
         turretRotationPoint = transform.parent.Find("RotatePoint").gameObject;
@@ -90,6 +96,7 @@ public class BallistaArrowScript : MonoBehaviour
                 {
                     other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
                 }
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.arrowImpactSFX);
                 Destroy(gameObject);
             }
             else

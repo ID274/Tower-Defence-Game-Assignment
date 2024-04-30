@@ -17,6 +17,11 @@ public class MainMenuSettings : MonoBehaviour
         SoundManager.Instance.currentMusicVolumeSlider = musicVolumeSlider;
         SoundManager.Instance.sfxVolumeSlider = sfxVolumeSlider;
         SoundManager.Instance.currentSFXVolumeSlider = sfxVolumeSlider;
+        if (PlayerPrefs.HasKey("musicVolume") && PlayerPrefs.HasKey("sfxVolume"))
+        {
+            sfxVolumeSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+            musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        }
         SoundManager.Instance.Load();
     }
 
@@ -67,6 +72,7 @@ public class MainMenuSettings : MonoBehaviour
 
     public void ToggleTutorials()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         if (SettingsScript.Instance.tutorialsEnabled)
         {
             SettingsScript.Instance.tutorialsEnabled = false;
@@ -80,10 +86,12 @@ public class MainMenuSettings : MonoBehaviour
     }
     public void ToggleFullScreen()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         Screen.fullScreen = !Screen.fullScreen;
     }
     public void ToggleSFX()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         if (SettingsScript.Instance.sfxEnabled)
         {
             SettingsScript.Instance.sfxEnabled = false;
@@ -97,6 +105,7 @@ public class MainMenuSettings : MonoBehaviour
     }
     public void ToggleMusic()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         if (SettingsScript.Instance.musicEnabled)
         {
             SettingsScript.Instance.musicEnabled = false;
@@ -104,12 +113,14 @@ public class MainMenuSettings : MonoBehaviour
         else
         {
             SettingsScript.Instance.musicEnabled = true;
+            SoundManager.Instance.PlayMusic(SoundManager.Instance.mainMenuMusic);
         }
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
     }
     public void DoneButton()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
         settingsMenu.SetActive(false);
@@ -117,6 +128,7 @@ public class MainMenuSettings : MonoBehaviour
 
     public void KeyBindsButton()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         switch (keybindsMenu.activeSelf)
         {
             case true:

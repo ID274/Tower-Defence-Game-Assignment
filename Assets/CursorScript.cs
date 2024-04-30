@@ -31,6 +31,7 @@ public class CursorScript : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0))
         {
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.leftClickSFX);
             icon.sprite = idleSprite;
         }
     }

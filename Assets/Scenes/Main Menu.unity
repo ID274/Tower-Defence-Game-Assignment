@@ -4779,6 +4779,12 @@ MonoBehaviour:
   sfxSource: {fileID: 859734733}
   mainMenuMusic: {fileID: 8300000, guid: 55013508df9f0104fab868d387007e84, type: 3}
   gameMusic: {fileID: 8300000, guid: 32f808275bc2d1d4582e6b8a331fd850, type: 3}
+  arrowImpactSFX: {fileID: 8300000, guid: 5c7d259609aa0f44e859affd85b5c746, type: 3}
+  spearSFX: {fileID: 8300000, guid: 30aae7088262cff4a96b776aec49d83f, type: 3}
+  cannonExplosionSFX: {fileID: 8300000, guid: 9f80cc714bb61174484d4c4d724ec0c7, type: 3}
+  gameOverSFX: {fileID: 8300000, guid: a70adcba03d42c44d89c1420c441b31a, type: 3}
+  buttonClickSFX: {fileID: 8300000, guid: d55ca5ccdcb2afe43901825293dae4f6, type: 3}
+  leftClickSFX: {fileID: 8300000, guid: 1b4ea345b2a425f48a8de62f5ea0eac1, type: 3}
 --- !u!4 &1554270226
 Transform:
   m_ObjectHideFlags: 0

@@ -42,7 +42,6 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
         Time.timeScale = 1f;
-        SoundManager.Instance.PlayGameMusic();
         Debug.Log("Start timescale" + "=" + Time.timeScale);
     }
     private void Start()

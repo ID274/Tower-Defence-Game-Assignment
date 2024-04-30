@@ -1,0 +1,4 @@
+Known Bugs:
+
+1. Music won't play against after turning toggling music to off
+2. Settings don't save the sound effect volume for music - the slider works fine but the code doesn't seem to take the sound volume from player prefs? 

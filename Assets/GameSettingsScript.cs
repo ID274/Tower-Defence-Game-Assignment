@@ -15,6 +15,8 @@ public class GameSettingsScript : MonoBehaviour
 
     private void Awake()
     {
+        sfxVolumeSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
         SettingsScript.Instance.LoadPrefs();
         fullscreenButton.text = "Fullscreen";
         SoundManager.Instance.musicVolumeSlider = musicVolumeSlider;
@@ -64,12 +66,14 @@ public class GameSettingsScript : MonoBehaviour
     }
     public void ToggleFullScreen()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         Screen.fullScreen = !Screen.fullScreen;
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
     }
     public void ToggleMusic()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         if (SettingsScript.Instance.musicEnabled)
         {
             SettingsScript.Instance.musicEnabled = false;
@@ -77,12 +81,14 @@ public class GameSettingsScript : MonoBehaviour
         else
         {
             SettingsScript.Instance.musicEnabled = true;
+            SoundManager.Instance.PlayMusic(SoundManager.Instance.gameMusic);
         }
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
     }
     public void ToggleSFX()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         if (SettingsScript.Instance.sfxEnabled)
         {
             SettingsScript.Instance.sfxEnabled = false;
@@ -96,6 +102,7 @@ public class GameSettingsScript : MonoBehaviour
     }
     public void DoneButton()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
         Time.timeScale = tempTimescale;
@@ -104,11 +111,13 @@ public class GameSettingsScript : MonoBehaviour
 
     public void QuitButton()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         SettingsScript.Instance.SavePrefs();
         Application.Quit();
     }
     public void QuitToMainMenu()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.buttonClickSFX);
         SettingsScript.Instance.SavePrefs();
         SettingsScript.Instance.LoadPrefs();
         Debug.Log(SceneManagerScript.Instance.buildIndex + "build index");
