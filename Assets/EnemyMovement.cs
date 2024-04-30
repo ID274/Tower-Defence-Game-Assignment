@@ -77,9 +77,7 @@ public class EnemyMovement : MonoBehaviour
             }
             else
             {
-                lastTarget = target;
                 target = LevelManager.Instance.path[pathIndex];
-                ChangeRotation();
             }
         }
         else if (Vector2.Distance(target.position, transform.position) <= 0.1f && !LevelManager.Instance.gameOver && flyingEnemy)
